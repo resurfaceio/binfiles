@@ -56,6 +56,7 @@ public class BinaryHttpMessageTest {
                     expect(m.size_category).toBeNull();
                     expect(m.size_request).toEqual(0);
                     expect(m.size_response).toEqual(0);
+                    expect(m.length()).toEqual(24);
                 }
             }
         }
@@ -123,6 +124,7 @@ public class BinaryHttpMessageTest {
                     expect(new String(m.size_category)).toEqual("size_category");
                     expect(m.size_request).toEqual(23);
                     expect(m.size_response).toEqual(45);
+                    expect(m.length()).toEqual(278);
                 }
             }
         }

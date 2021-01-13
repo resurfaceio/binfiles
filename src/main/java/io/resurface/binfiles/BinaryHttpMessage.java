@@ -36,6 +36,44 @@ public class BinaryHttpMessage {
     public int size_response;
 
     /**
+     * Returns the length of the current message in bytes.
+     */
+    public int length() {
+        int result = 0;
+        result += length(id);
+        result += length(agent_category);
+        result += length(agent_device);
+        result += length(agent_name);
+        result += length(host);
+        result += length(interval_category);
+        result += length(interval_clique);
+        result += 8; // interval_millis
+        result += length(request_body);
+        result += length(request_content_type);
+        result += length(request_headers);
+        result += length(request_method);
+        result += length(request_params);
+        result += length(request_url);
+        result += length(request_user_agent);
+        result += length(response_body);
+        result += length(response_code);
+        result += length(response_content_type);
+        result += length(response_headers);
+        result += 8; // response_time_millis
+        result += length(size_category);
+        result += 4; // size_request
+        result += 4; // size_response
+        return result;
+    }
+
+    /**
+     * Returns the length of this byte array.
+     */
+    private int length(byte[] b) {
+        return b == null ? 0 : b.length;
+    }
+
+    /**
      * Reads all message fields from input stream.
      */
     public void read(ObjectInput in) throws IOException {
@@ -65,6 +103,20 @@ public class BinaryHttpMessage {
     }
 
     /**
+     * Reads byte array from input stream.
+     */
+    private byte[] readBytes(ObjectInput in) throws IOException {
+        int len = in.readInt();
+        if (len == 0) {
+            return null;
+        } else {
+            byte[] bytes = new byte[len];
+            in.readFully(bytes);
+            return bytes;
+        }
+    }
+
+    /**
      * Writes all message fields to output stream.
      */
     public void write(ObjectOutput out) throws IOException {
@@ -91,20 +143,6 @@ public class BinaryHttpMessage {
         writeBytes(out, size_category);
         out.writeInt(size_request);
         out.writeInt(size_response);
-    }
-
-    /**
-     * Reads byte array from input stream.
-     */
-    private byte[] readBytes(ObjectInput in) throws IOException {
-        int len = in.readInt();
-        if (len == 0) {
-            return null;
-        } else {
-            byte[] bytes = new byte[len];
-            in.readFully(bytes);
-            return bytes;
-        }
     }
 
     /**
