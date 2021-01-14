@@ -31,13 +31,13 @@
         <dependency>
             <groupId>com.mscharhag.oleaster</groupId>
             <artifactId>oleaster-matcher</artifactId>
-            <version>RELEASE</version>
+            <version>0.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>RELEASE</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

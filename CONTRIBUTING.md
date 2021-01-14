@@ -30,6 +30,12 @@ git pull --rebase                         (avoid merge bubbles)
 git push origin master
 ```
 
+Check if any newer dependencies are available:
+
+```
+mvn versions:display-dependency-updates
+```
+
 ## Release Process
 
 Push this new version to CloudSmith:
