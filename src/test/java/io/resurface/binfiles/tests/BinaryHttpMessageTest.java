@@ -54,8 +54,8 @@ public class BinaryHttpMessageTest {
                     expect(m.response_headers).toBeNull();
                     expect(m.response_time_millis).toEqual(0);
                     expect(m.size_category).toBeNull();
-                    expect(m.size_request).toEqual(0);
-                    expect(m.size_response).toEqual(0);
+                    expect(m.size_request_bytes).toEqual(0);
+                    expect(m.size_response_bytes).toEqual(0);
                     expect(m.length()).toEqual(24);
                 }
             }
@@ -89,8 +89,8 @@ public class BinaryHttpMessageTest {
                     m.response_headers = "response_headers".getBytes(StandardCharsets.UTF_8);
                     m.response_time_millis = 1234;
                     m.size_category = "size_category".getBytes(StandardCharsets.UTF_8);
-                    m.size_request = 23;
-                    m.size_response = 45;
+                    m.size_request_bytes = 23;
+                    m.size_response_bytes = 45;
                     m.write(so);
                 }
             }
@@ -122,8 +122,8 @@ public class BinaryHttpMessageTest {
                     expect(new String(m.response_headers)).toEqual("response_headers");
                     expect(m.response_time_millis).toEqual(1234);
                     expect(new String(m.size_category)).toEqual("size_category");
-                    expect(m.size_request).toEqual(23);
-                    expect(m.size_response).toEqual(45);
+                    expect(m.size_request_bytes).toEqual(23);
+                    expect(m.size_response_bytes).toEqual(45);
                     expect(m.length()).toEqual(278);
                 }
             }
@@ -161,8 +161,8 @@ public class BinaryHttpMessageTest {
                         m.response_headers = "response_headers".getBytes(StandardCharsets.UTF_8);
                         m.response_time_millis = 1234;
                         m.size_category = "size_category".getBytes(StandardCharsets.UTF_8);
-                        m.size_request = 23;
-                        m.size_response = 45;
+                        m.size_request_bytes = 23;
+                        m.size_response_bytes = 45;
                         m.write(so);
                     }
                 }

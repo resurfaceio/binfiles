@@ -32,8 +32,8 @@ public class BinaryHttpMessage {
     public byte[] response_headers;
     public long response_time_millis;
     public byte[] size_category;
-    public int size_request;
-    public int size_response;
+    public int size_request_bytes;
+    public int size_response_bytes;
 
     /**
      * Returns the length of the current message in bytes.
@@ -61,8 +61,8 @@ public class BinaryHttpMessage {
         result += length(response_headers);
         result += 8; // response_time_millis
         result += length(size_category);
-        result += 4; // size_request
-        result += 4; // size_response
+        result += 4; // size_request_bytes
+        result += 4; // size_response_bytes
         return result;
     }
 
@@ -98,8 +98,8 @@ public class BinaryHttpMessage {
         response_headers = readBytes(in);
         response_time_millis = in.readLong();
         size_category = readBytes(in);
-        size_request = in.readInt();
-        size_response = in.readInt();
+        size_request_bytes = in.readInt();
+        size_response_bytes = in.readInt();
     }
 
     /**
@@ -141,8 +141,8 @@ public class BinaryHttpMessage {
         writeBytes(out, response_headers);
         out.writeLong(response_time_millis);
         writeBytes(out, size_category);
-        out.writeInt(size_request);
-        out.writeInt(size_response);
+        out.writeInt(size_request_bytes);
+        out.writeInt(size_response_bytes);
     }
 
     /**
