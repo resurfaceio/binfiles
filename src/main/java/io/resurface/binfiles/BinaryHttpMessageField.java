@@ -12,21 +12,25 @@ import java.nio.charset.StandardCharsets;
  */
 public class BinaryHttpMessageField {
 
-    public byte[] buffer = new byte[1024 * 1024];
+    public byte[] buffer;
     public int len;
 
     public void read(ObjectInput in) throws IOException {
         len = in.readInt();
-        if (len > 0) in.readFully(buffer, 0, len);  // todo could overflow buffer
+        if (len > 0) {
+            if (buffer == null || buffer.length < len) buffer = new byte[len];
+            in.readFully(buffer, 0, len);
+        }
     }
 
     public void set(String s) {
         if (s == null) {
             len = 0;
         } else {
-            byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
-            len = bytes.length;
-            System.arraycopy(bytes, 0, buffer, 0, bytes.length);
+            byte[] b = s.getBytes(StandardCharsets.UTF_8);
+            len = b.length;
+            if (buffer == null || buffer.length < len) buffer = new byte[len];
+            System.arraycopy(b, 0, buffer, 0, len);
         }
     }
 
