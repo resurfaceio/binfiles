@@ -21,9 +21,13 @@ public class BinaryHttpMessageField {
     }
 
     public void set(String s) {
-        byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
-        len = bytes.length;
-        System.arraycopy(bytes, 0, buffer, 0, bytes.length);
+        if (s == null) {
+            len = 0;
+        } else {
+            byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+            len = bytes.length;
+            System.arraycopy(bytes, 0, buffer, 0, bytes.length);
+        }
     }
 
     public String toString() {
