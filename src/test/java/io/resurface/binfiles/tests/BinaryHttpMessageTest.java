@@ -6,7 +6,6 @@ import io.resurface.binfiles.BinaryHttpMessage;
 import org.junit.Test;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 import static com.mscharhag.oleaster.matcher.Matchers.expect;
 
@@ -33,27 +32,27 @@ public class BinaryHttpMessageTest {
                 try (ObjectInputStream si = new ObjectInputStream(bis)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
                     m.read(si);
-                    expect(m.id).toBeNull();
-                    expect(m.agent_category).toBeNull();
-                    expect(m.agent_device).toBeNull();
-                    expect(m.agent_name).toBeNull();
-                    expect(m.host).toBeNull();
-                    expect(m.interval_category).toBeNull();
-                    expect(m.interval_clique).toBeNull();
+                    expect(m.id.toString()).toBeNull();
+                    expect(m.agent_category.toString()).toBeNull();
+                    expect(m.agent_device.toString()).toBeNull();
+                    expect(m.agent_name.toString()).toBeNull();
+                    expect(m.host.toString()).toBeNull();
+                    expect(m.interval_category.toString()).toBeNull();
+                    expect(m.interval_clique.toString()).toBeNull();
                     expect(m.interval_millis).toEqual(0);
-                    expect(m.request_body).toBeNull();
-                    expect(m.request_content_type).toBeNull();
-                    expect(m.request_headers).toBeNull();
-                    expect(m.request_method).toBeNull();
-                    expect(m.request_params).toBeNull();
-                    expect(m.request_url).toBeNull();
-                    expect(m.request_user_agent).toBeNull();
-                    expect(m.response_body).toBeNull();
-                    expect(m.response_code).toBeNull();
-                    expect(m.response_content_type).toBeNull();
-                    expect(m.response_headers).toBeNull();
+                    expect(m.request_body.toString()).toBeNull();
+                    expect(m.request_content_type.toString()).toBeNull();
+                    expect(m.request_headers.toString()).toBeNull();
+                    expect(m.request_method.toString()).toBeNull();
+                    expect(m.request_params.toString()).toBeNull();
+                    expect(m.request_url.toString()).toBeNull();
+                    expect(m.request_user_agent.toString()).toBeNull();
+                    expect(m.response_body.toString()).toBeNull();
+                    expect(m.response_code.toString()).toBeNull();
+                    expect(m.response_content_type.toString()).toBeNull();
+                    expect(m.response_headers.toString()).toBeNull();
                     expect(m.response_time_millis).toEqual(0);
-                    expect(m.size_category).toBeNull();
+                    expect(m.size_category.toString()).toBeNull();
                     expect(m.size_request_bytes).toEqual(0);
                     expect(m.size_response_bytes).toEqual(0);
                     expect(m.length()).toEqual(24);
@@ -68,27 +67,27 @@ public class BinaryHttpMessageTest {
             try (BufferedOutputStream bos = new BufferedOutputStream(fo)) {
                 try (ObjectOutputStream so = new ObjectOutputStream(bos)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
-                    m.id = "id".getBytes(StandardCharsets.UTF_8);
-                    m.agent_category = "agent_category".getBytes(StandardCharsets.UTF_8);
-                    m.agent_device = "agent_device".getBytes(StandardCharsets.UTF_8);
-                    m.agent_name = "agent_name".getBytes(StandardCharsets.UTF_8);
-                    m.host = "host".getBytes(StandardCharsets.UTF_8);
-                    m.interval_category = "interval_category".getBytes(StandardCharsets.UTF_8);
-                    m.interval_clique = "interval_clique".getBytes(StandardCharsets.UTF_8);
+                    m.id.set("id");
+                    m.agent_category.set("agent_category");
+                    m.agent_device.set("agent_device");
+                    m.agent_name.set("agent_name");
+                    m.host.set("host");
+                    m.interval_category.set("interval_category");
+                    m.interval_clique.set("interval_clique");
                     m.interval_millis = 123456;
-                    m.request_body = "request_body".getBytes(StandardCharsets.UTF_8);
-                    m.request_content_type = "request_content_type".getBytes(StandardCharsets.UTF_8);
-                    m.request_headers = "request_headers".getBytes(StandardCharsets.UTF_8);
-                    m.request_method = "request_method".getBytes(StandardCharsets.UTF_8);
-                    m.request_params = "request_params".getBytes(StandardCharsets.UTF_8);
-                    m.request_url = "request_url".getBytes(StandardCharsets.UTF_8);
-                    m.request_user_agent = "request_user_agent".getBytes(StandardCharsets.UTF_8);
-                    m.response_body = "response_body".getBytes(StandardCharsets.UTF_8);
-                    m.response_code = "response_code".getBytes(StandardCharsets.UTF_8);
-                    m.response_content_type = "response_content_type".getBytes(StandardCharsets.UTF_8);
-                    m.response_headers = "response_headers".getBytes(StandardCharsets.UTF_8);
+                    m.request_body.set("request_body");
+                    m.request_content_type.set("request_content_type");
+                    m.request_headers.set("request_headers");
+                    m.request_method.set("request_method");
+                    m.request_params.set("request_params");
+                    m.request_url.set("request_url");
+                    m.request_user_agent.set("request_user_agent");
+                    m.response_body.set("response_body");
+                    m.response_code.set("response_code");
+                    m.response_content_type.set("response_content_type");
+                    m.response_headers.set("response_headers");
                     m.response_time_millis = 1234;
-                    m.size_category = "size_category".getBytes(StandardCharsets.UTF_8);
+                    m.size_category.set("size_category");
                     m.size_request_bytes = 23;
                     m.size_response_bytes = 45;
                     m.write(so);
@@ -101,90 +100,33 @@ public class BinaryHttpMessageTest {
                 try (ObjectInputStream si = new ObjectInputStream(bis)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
                     m.read(si);
-                    expect(new String(m.id)).toEqual("id");
-                    expect(new String(m.agent_category)).toEqual("agent_category");
-                    expect(new String(m.agent_device)).toEqual("agent_device");
-                    expect(new String(m.agent_name)).toEqual("agent_name");
-                    expect(new String(m.host)).toEqual("host");
-                    expect(new String(m.interval_category)).toEqual("interval_category");
-                    expect(new String(m.interval_clique)).toEqual("interval_clique");
+                    expect(m.id.toString()).toEqual("id");
+                    expect(m.agent_category.toString()).toEqual("agent_category");
+                    expect(m.agent_device.toString()).toEqual("agent_device");
+                    expect(m.agent_name.toString()).toEqual("agent_name");
+                    expect(m.host.toString()).toEqual("host");
+                    expect(m.interval_category.toString()).toEqual("interval_category");
+                    expect(m.interval_clique.toString()).toEqual("interval_clique");
                     expect(m.interval_millis).toEqual(123456);
-                    expect(new String(m.request_body)).toEqual("request_body");
-                    expect(new String(m.request_content_type)).toEqual("request_content_type");
-                    expect(new String(m.request_headers)).toEqual("request_headers");
-                    expect(new String(m.request_method)).toEqual("request_method");
-                    expect(new String(m.request_params)).toEqual("request_params");
-                    expect(new String(m.request_url)).toEqual("request_url");
-                    expect(new String(m.request_user_agent)).toEqual("request_user_agent");
-                    expect(new String(m.response_body)).toEqual("response_body");
-                    expect(new String(m.response_code)).toEqual("response_code");
-                    expect(new String(m.response_content_type)).toEqual("response_content_type");
-                    expect(new String(m.response_headers)).toEqual("response_headers");
+                    expect(m.request_body.toString()).toEqual("request_body");
+                    expect(m.request_content_type.toString()).toEqual("request_content_type");
+                    expect(m.request_headers.toString()).toEqual("request_headers");
+                    expect(m.request_method.toString()).toEqual("request_method");
+                    expect(m.request_params.toString()).toEqual("request_params");
+                    expect(m.request_url.toString()).toEqual("request_url");
+                    expect(m.request_user_agent.toString()).toEqual("request_user_agent");
+                    expect(m.response_body.toString()).toEqual("response_body");
+                    expect(m.response_code.toString()).toEqual("response_code");
+                    expect(m.response_content_type.toString()).toEqual("response_content_type");
+                    expect(m.response_headers.toString()).toEqual("response_headers");
                     expect(m.response_time_millis).toEqual(1234);
-                    expect(new String(m.size_category)).toEqual("size_category");
+                    expect(m.size_category.toString()).toEqual("size_category");
                     expect(m.size_request_bytes).toEqual(23);
                     expect(m.size_response_bytes).toEqual(45);
                     expect(m.length()).toEqual(278);
                 }
             }
         }
-    }
-
-    @Test
-    public void performanceTest() throws Exception {
-        int iterations = 100000;
-
-        long start = System.currentTimeMillis();
-        try (FileOutputStream fo = new FileOutputStream(FILE)) {
-            try (BufferedOutputStream bos = new BufferedOutputStream(fo, 4096 * 64)) {
-                try (ObjectOutputStream so = new ObjectOutputStream(bos)) {
-                    for (int i = 0; i < iterations; i++) {
-                        BinaryHttpMessage m = new BinaryHttpMessage();
-                        m.id = "id".getBytes(StandardCharsets.UTF_8);
-                        m.agent_category = "agent_category".getBytes(StandardCharsets.UTF_8);
-                        m.agent_device = "agent_device".getBytes(StandardCharsets.UTF_8);
-                        m.agent_name = "agent_name".getBytes(StandardCharsets.UTF_8);
-                        m.host = "host".getBytes(StandardCharsets.UTF_8);
-                        m.interval_category = "interval_category".getBytes(StandardCharsets.UTF_8);
-                        m.interval_clique = "interval_clique".getBytes(StandardCharsets.UTF_8);
-                        m.interval_millis = 123456;
-                        m.request_body = "request_body".getBytes(StandardCharsets.UTF_8);
-                        m.request_content_type = "request_content_type".getBytes(StandardCharsets.UTF_8);
-                        m.request_headers = "request_headers".getBytes(StandardCharsets.UTF_8);
-                        m.request_method = "request_method".getBytes(StandardCharsets.UTF_8);
-                        m.request_params = "request_params".getBytes(StandardCharsets.UTF_8);
-                        m.request_url = "request_url".getBytes(StandardCharsets.UTF_8);
-                        m.request_user_agent = "request_user_agent".getBytes(StandardCharsets.UTF_8);
-                        m.response_body = "response_body".getBytes(StandardCharsets.UTF_8);
-                        m.response_code = "response_code".getBytes(StandardCharsets.UTF_8);
-                        m.response_content_type = "response_content_type".getBytes(StandardCharsets.UTF_8);
-                        m.response_headers = "response_headers".getBytes(StandardCharsets.UTF_8);
-                        m.response_time_millis = 1234;
-                        m.size_category = "size_category".getBytes(StandardCharsets.UTF_8);
-                        m.size_request_bytes = 23;
-                        m.size_response_bytes = 45;
-                        m.write(so);
-                    }
-                }
-            }
-        }
-        System.out.println("Written in " + (System.currentTimeMillis() - start) + " millis");
-
-        start = System.currentTimeMillis();
-        try (FileInputStream fi = new FileInputStream(FILE)) {
-            try (BufferedInputStream bis = new BufferedInputStream(fi, 4096 * 64)) {
-                try (ObjectInputStream si = new ObjectInputStream(bis)) {
-                    int count = 0;
-                    BinaryHttpMessage m = new BinaryHttpMessage();
-                    for (int i = 0; i < iterations; i++) {
-                        m.read(si);
-                        count++;
-                    }
-                    expect(count).toEqual(iterations);
-                }
-            }
-        }
-        System.out.println("Read in " + (System.currentTimeMillis() - start) + " millis");
     }
 
 }

@@ -11,27 +11,27 @@ import java.io.ObjectOutput;
  */
 public class BinaryHttpMessage {
 
-    public byte[] id;
-    public byte[] agent_category;
-    public byte[] agent_device;
-    public byte[] agent_name;
-    public byte[] host;
-    public byte[] interval_category;
-    public byte[] interval_clique;
+    public final BinaryHttpMessageField id = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField agent_category = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField agent_device = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField agent_name = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField host = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField interval_category = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField interval_clique = new BinaryHttpMessageField();
     public long interval_millis;
-    public byte[] request_body;
-    public byte[] request_content_type;
-    public byte[] request_headers;
-    public byte[] request_method;
-    public byte[] request_params;
-    public byte[] request_url;
-    public byte[] request_user_agent;
-    public byte[] response_body;
-    public byte[] response_code;
-    public byte[] response_content_type;
-    public byte[] response_headers;
+    public final BinaryHttpMessageField request_body = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField request_content_type = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField request_headers = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField request_method = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField request_params = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField request_url = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField request_user_agent = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField response_body = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField response_code = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField response_content_type = new BinaryHttpMessageField();
+    public final BinaryHttpMessageField response_headers = new BinaryHttpMessageField();
     public long response_time_millis;
-    public byte[] size_category;
+    public final BinaryHttpMessageField size_category = new BinaryHttpMessageField();
     public int size_request_bytes;
     public int size_response_bytes;
 
@@ -40,121 +40,88 @@ public class BinaryHttpMessage {
      */
     public int length() {
         int result = 0;
-        result += length(id);
-        result += length(agent_category);
-        result += length(agent_device);
-        result += length(agent_name);
-        result += length(host);
-        result += length(interval_category);
-        result += length(interval_clique);
+        result += id.len;
+        result += agent_category.len;
+        result += agent_device.len;
+        result += agent_name.len;
+        result += host.len;
+        result += interval_category.len;
+        result += interval_clique.len;
         result += 8; // interval_millis
-        result += length(request_body);
-        result += length(request_content_type);
-        result += length(request_headers);
-        result += length(request_method);
-        result += length(request_params);
-        result += length(request_url);
-        result += length(request_user_agent);
-        result += length(response_body);
-        result += length(response_code);
-        result += length(response_content_type);
-        result += length(response_headers);
+        result += request_body.len;
+        result += request_content_type.len;
+        result += request_headers.len;
+        result += request_method.len;
+        result += request_params.len;
+        result += request_url.len;
+        result += request_user_agent.len;
+        result += response_body.len;
+        result += response_code.len;
+        result += response_content_type.len;
+        result += response_headers.len;
         result += 8; // response_time_millis
-        result += length(size_category);
+        result += size_category.len;
         result += 4; // size_request_bytes
         result += 4; // size_response_bytes
         return result;
     }
 
     /**
-     * Returns the length of this byte array.
-     */
-    private int length(byte[] b) {
-        return b == null ? 0 : b.length;
-    }
-
-    /**
      * Reads all message fields from input stream.
      */
     public void read(ObjectInput in) throws IOException {
-        id = readBytes(in);
-        agent_category = readBytes(in);
-        agent_device = readBytes(in);
-        agent_name = readBytes(in);
-        host = readBytes(in);
-        interval_category = readBytes(in);
-        interval_clique = readBytes(in);
+        id.read(in);
+        agent_category.read(in);
+        agent_device.read(in);
+        agent_name.read(in);
+        host.read(in);
+        interval_category.read(in);
+        interval_clique.read(in);
         interval_millis = in.readLong();
-        request_body = readBytes(in);
-        request_content_type = readBytes(in);
-        request_headers = readBytes(in);
-        request_method = readBytes(in);
-        request_params = readBytes(in);
-        request_url = readBytes(in);
-        request_user_agent = readBytes(in);
-        response_body = readBytes(in);
-        response_code = readBytes(in);
-        response_content_type = readBytes(in);
-        response_headers = readBytes(in);
+        request_body.read(in);
+        request_content_type.read(in);
+        request_headers.read(in);
+        request_method.read(in);
+        request_params.read(in);
+        request_url.read(in);
+        request_user_agent.read(in);
+        response_body.read(in);
+        response_code.read(in);
+        response_content_type.read(in);
+        response_headers.read(in);
         response_time_millis = in.readLong();
-        size_category = readBytes(in);
+        size_category.read(in);
         size_request_bytes = in.readInt();
         size_response_bytes = in.readInt();
-    }
-
-    /**
-     * Reads byte array from input stream.
-     */
-    private byte[] readBytes(ObjectInput in) throws IOException {
-        int len = in.readInt();
-        if (len == 0) {
-            return null;
-        } else {
-            byte[] bytes = new byte[len];
-            in.readFully(bytes);
-            return bytes;
-        }
     }
 
     /**
      * Writes all message fields to output stream.
      */
     public void write(ObjectOutput out) throws IOException {
-        writeBytes(out, id);
-        writeBytes(out, agent_category);
-        writeBytes(out, agent_device);
-        writeBytes(out, agent_name);
-        writeBytes(out, host);
-        writeBytes(out, interval_category);
-        writeBytes(out, interval_clique);
+        id.write(out);
+        agent_category.write(out);
+        agent_device.write(out);
+        agent_name.write(out);
+        host.write(out);
+        interval_category.write(out);
+        interval_clique.write(out);
         out.writeLong(interval_millis);
-        writeBytes(out, request_body);
-        writeBytes(out, request_content_type);
-        writeBytes(out, request_headers);
-        writeBytes(out, request_method);
-        writeBytes(out, request_params);
-        writeBytes(out, request_url);
-        writeBytes(out, request_user_agent);
-        writeBytes(out, response_body);
-        writeBytes(out, response_code);
-        writeBytes(out, response_content_type);
-        writeBytes(out, response_headers);
+        request_body.write(out);
+        request_content_type.write(out);
+        request_headers.write(out);
+        request_method.write(out);
+        request_params.write(out);
+        request_url.write(out);
+        request_user_agent.write(out);
+        response_body.write(out);
+        response_code.write(out);
+        response_content_type.write(out);
+        response_headers.write(out);
         out.writeLong(response_time_millis);
-        writeBytes(out, size_category);
+        size_category.write(out);
         out.writeInt(size_request_bytes);
         out.writeInt(size_response_bytes);
-    }
-
-    /**
-     * Writes byte array to output stream.
-     */
-    private void writeBytes(ObjectOutput out, byte[] b) throws IOException {
-        if (b == null) {
-            out.writeInt(0);
-        } else {
-            out.writeInt(b.length);
-            out.write(b);
-        }
     }
 
 }
