@@ -9,60 +9,59 @@ import java.io.ObjectOutput;
 /**
  * Binary format for HTTP messages.
  */
-public class BinaryHttpMessage {
+public final class BinaryHttpMessage {
 
-    public final BinaryHttpMessageField id = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField agent_category = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField agent_device = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField agent_name = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField host = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField interval_category = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField interval_clique = new BinaryHttpMessageField();
-    public long interval_millis;
-    public final BinaryHttpMessageField request_body = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField request_content_type = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField request_headers = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField request_method = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField request_params = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField request_url = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField request_user_agent = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField response_body = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField response_code = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField response_content_type = new BinaryHttpMessageField();
-    public final BinaryHttpMessageField response_headers = new BinaryHttpMessageField();
-    public long response_time_millis;
-    public final BinaryHttpMessageField size_category = new BinaryHttpMessageField();
-    public int size_request_bytes;
-    public int size_response_bytes;
+    public final BinaryHttpMessageString id = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString agent_category = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString agent_device = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString agent_name = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString host = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString interval_category = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString interval_clique = new BinaryHttpMessageString();
+    public final BinaryHttpMessageLong interval_millis = new BinaryHttpMessageLong();
+    public final BinaryHttpMessageString request_body = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString request_content_type = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString request_headers = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString request_method = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString request_params = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString request_url = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString request_user_agent = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString response_body = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString response_code = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString response_content_type = new BinaryHttpMessageString();
+    public final BinaryHttpMessageString response_headers = new BinaryHttpMessageString();
+    public final BinaryHttpMessageLong response_time_millis = new BinaryHttpMessageLong();
+    public final BinaryHttpMessageString size_category = new BinaryHttpMessageString();
+    public final BinaryHttpMessageInteger size_request_bytes = new BinaryHttpMessageInteger();
+    public final BinaryHttpMessageInteger size_response_bytes = new BinaryHttpMessageInteger();
 
     /**
-     * Returns the length of the current message in bytes.
+     * Returns the length of this message in bytes.
      */
     public int length() {
-        int result = 0;
-        result += id.len;
-        result += agent_category.len;
-        result += agent_device.len;
-        result += agent_name.len;
-        result += host.len;
-        result += interval_category.len;
-        result += interval_clique.len;
-        result += 8; // interval_millis
-        result += request_body.len;
-        result += request_content_type.len;
-        result += request_headers.len;
-        result += request_method.len;
-        result += request_params.len;
-        result += request_url.len;
-        result += request_user_agent.len;
-        result += response_body.len;
-        result += response_code.len;
-        result += response_content_type.len;
-        result += response_headers.len;
-        result += 8; // response_time_millis
-        result += size_category.len;
-        result += 4; // size_request_bytes
-        result += 4; // size_response_bytes
+        int result = id.length();
+        result += agent_category.length();
+        result += agent_device.length();
+        result += agent_name.length();
+        result += host.length();
+        result += interval_category.length();
+        result += interval_clique.length();
+        result += interval_millis.length();
+        result += request_body.length();
+        result += request_content_type.length();
+        result += request_headers.length();
+        result += request_method.length();
+        result += request_params.length();
+        result += request_url.length();
+        result += request_user_agent.length();
+        result += response_body.length();
+        result += response_code.length();
+        result += response_content_type.length();
+        result += response_headers.length();
+        result += response_time_millis.length();
+        result += size_category.length();
+        result += size_request_bytes.length();
+        result += size_response_bytes.length();
         return result;
     }
 
@@ -77,7 +76,7 @@ public class BinaryHttpMessage {
         host.read(in);
         interval_category.read(in);
         interval_clique.read(in);
-        interval_millis = in.readLong();
+        interval_millis.read(in);
         request_body.read(in);
         request_content_type.read(in);
         request_headers.read(in);
@@ -89,10 +88,10 @@ public class BinaryHttpMessage {
         response_code.read(in);
         response_content_type.read(in);
         response_headers.read(in);
-        response_time_millis = in.readLong();
+        response_time_millis.read(in);
         size_category.read(in);
-        size_request_bytes = in.readInt();
-        size_response_bytes = in.readInt();
+        size_request_bytes.read(in);
+        size_response_bytes.read(in);
     }
 
     /**
@@ -106,7 +105,7 @@ public class BinaryHttpMessage {
         host.write(out);
         interval_category.write(out);
         interval_clique.write(out);
-        out.writeLong(interval_millis);
+        interval_millis.write(out);
         request_body.write(out);
         request_content_type.write(out);
         request_headers.write(out);
@@ -118,10 +117,10 @@ public class BinaryHttpMessage {
         response_code.write(out);
         response_content_type.write(out);
         response_headers.write(out);
-        out.writeLong(response_time_millis);
+        response_time_millis.write(out);
         size_category.write(out);
-        out.writeInt(size_request_bytes);
-        out.writeInt(size_response_bytes);
+        size_request_bytes.write(out);
+        size_response_bytes.write(out);
     }
 
 }
