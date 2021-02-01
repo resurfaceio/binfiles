@@ -32,29 +32,29 @@ public class BinaryHttpMessageTest {
                 try (ObjectInputStream si = new ObjectInputStream(bis)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
                     m.read(si);
-                    expect(m.id.value()).toBeNull();
-                    expect(m.agent_category.value()).toBeNull();
-                    expect(m.agent_device.value()).toBeNull();
-                    expect(m.agent_name.value()).toBeNull();
-                    expect(m.host.value()).toBeNull();
-                    expect(m.interval_category.value()).toBeNull();
-                    expect(m.interval_clique.value()).toBeNull();
-                    expect(m.interval_millis.value()).toEqual(0);
-                    expect(m.request_body.value()).toBeNull();
-                    expect(m.request_content_type.value()).toBeNull();
-                    expect(m.request_headers.value()).toBeNull();
-                    expect(m.request_method.value()).toBeNull();
-                    expect(m.request_params.value()).toBeNull();
-                    expect(m.request_url.value()).toBeNull();
-                    expect(m.request_user_agent.value()).toBeNull();
-                    expect(m.response_body.value()).toBeNull();
-                    expect(m.response_code.value()).toBeNull();
-                    expect(m.response_content_type.value()).toBeNull();
-                    expect(m.response_headers.value()).toBeNull();
-                    expect(m.response_time_millis.value()).toEqual(0);
-                    expect(m.size_category.value()).toBeNull();
-                    expect(m.size_request_bytes.value()).toEqual(0);
-                    expect(m.size_response_bytes.value()).toEqual(0);
+                    expect(m.id.value()).toBeNull();                     // 0
+                    expect(m.agent_category.value()).toBeNull();         // 1
+                    expect(m.agent_device.value()).toBeNull();           // 2
+                    expect(m.agent_name.value()).toBeNull();             // 3
+                    expect(m.host.value()).toBeNull();                   // 4
+                    expect(m.interval_category.value()).toBeNull();      // 5
+                    expect(m.interval_clique.value()).toBeNull();        // 6
+                    expect(m.interval_millis.value()).toEqual(0);        // 7
+                    expect(m.request_body.value()).toBeNull();           // 8
+                    expect(m.request_content_type.value()).toBeNull();   // 9
+                    expect(m.request_headers.value()).toBeNull();        // 10
+                    expect(m.request_method.value()).toBeNull();         // 11
+                    expect(m.request_params.value()).toBeNull();         // 12
+                    expect(m.request_url.value()).toBeNull();            // 13
+                    expect(m.request_user_agent.value()).toBeNull();     // 14
+                    expect(m.response_body.value()).toBeNull();          // 15
+                    expect(m.response_code.value()).toBeNull();          // 16
+                    expect(m.response_content_type.value()).toBeNull();  // 17
+                    expect(m.response_headers.value()).toBeNull();       // 18
+                    expect(m.response_time_millis.value()).toEqual(0);   // 19
+                    expect(m.size_category.value()).toBeNull();          // 20
+                    expect(m.size_request_bytes.value()).toEqual(0);     // 21
+                    expect(m.size_response_bytes.value()).toEqual(0);    // 22
                     expect(m.length()).toEqual(24);
                 }
             }
@@ -67,29 +67,29 @@ public class BinaryHttpMessageTest {
             try (BufferedOutputStream bos = new BufferedOutputStream(fo)) {
                 try (ObjectOutputStream so = new ObjectOutputStream(bos)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
-                    m.id.read("id");
-                    m.agent_category.read("agent_category");
-                    m.agent_device.read("agent_device");
-                    m.agent_name.read("agent_name");
-                    m.host.read("host");
-                    m.interval_category.read("interval_category");
-                    m.interval_clique.read("interval_clique");
-                    m.interval_millis.read(123456);
-                    m.request_body.read("request_body");
-                    m.request_content_type.read("request_content_type");
-                    m.request_headers.read("request_headers");
-                    m.request_method.read("request_method");
-                    m.request_params.read("request_params");
-                    m.request_url.read("request_url");
-                    m.request_user_agent.read("request_user_agent");
-                    m.response_body.read("response_body");
-                    m.response_code.read("response_code");
-                    m.response_content_type.read("response_content_type");
-                    m.response_headers.read("response_headers");
-                    m.response_time_millis.read(1234);
-                    m.size_category.read("size_category");
-                    m.size_request_bytes.read(23);
-                    m.size_response_bytes.read(45);
+                    m.id.read("id");                                        // 0
+                    m.agent_category.read("agent_category");                // 1
+                    m.agent_device.read("agent_device");                    // 2
+                    m.agent_name.read("agent_name");                        // 3
+                    m.host.read("host");                                    // 4
+                    m.interval_category.read("interval_category");          // 5
+                    m.interval_clique.read("interval_clique");              // 6
+                    m.interval_millis.read(123456);                         // 7
+                    m.request_body.read("request_body");                    // 8
+                    m.request_content_type.read("request_content_type");    // 9
+                    m.request_headers.read("request_headers");              // 10
+                    m.request_method.read("request_method");                // 11
+                    m.request_params.read("request_params");                // 12
+                    m.request_url.read("request_url");                      // 13
+                    m.request_user_agent.read("request_user_agent");        // 14
+                    m.response_body.read("response_body");                  // 15
+                    m.response_code.read("response_code");                  // 16
+                    m.response_content_type.read("response_content_type");  // 17
+                    m.response_headers.read("response_headers");            // 18
+                    m.response_time_millis.read(1234);                      // 19
+                    m.size_category.read("size_category");                  // 20
+                    m.size_request_bytes.read(23);                          // 21
+                    m.size_response_bytes.read(45);                         // 22
                     m.write(so);
                 }
             }
@@ -100,29 +100,29 @@ public class BinaryHttpMessageTest {
                 try (ObjectInputStream si = new ObjectInputStream(bis)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
                     m.read(si);
-                    expect(m.id.value()).toEqual("id");
-                    expect(m.agent_category.value()).toEqual("agent_category");
-                    expect(m.agent_device.value()).toEqual("agent_device");
-                    expect(m.agent_name.value()).toEqual("agent_name");
-                    expect(m.host.value()).toEqual("host");
-                    expect(m.interval_category.value()).toEqual("interval_category");
-                    expect(m.interval_clique.value()).toEqual("interval_clique");
-                    expect(m.interval_millis.value()).toEqual(123456);
-                    expect(m.request_body.value()).toEqual("request_body");
-                    expect(m.request_content_type.value()).toEqual("request_content_type");
-                    expect(m.request_headers.value()).toEqual("request_headers");
-                    expect(m.request_method.value()).toEqual("request_method");
-                    expect(m.request_params.value()).toEqual("request_params");
-                    expect(m.request_url.value()).toEqual("request_url");
-                    expect(m.request_user_agent.value()).toEqual("request_user_agent");
-                    expect(m.response_body.value()).toEqual("response_body");
-                    expect(m.response_code.value()).toEqual("response_code");
-                    expect(m.response_content_type.value()).toEqual("response_content_type");
-                    expect(m.response_headers.value()).toEqual("response_headers");
-                    expect(m.response_time_millis.value()).toEqual(1234);
-                    expect(m.size_category.value()).toEqual("size_category");
-                    expect(m.size_request_bytes.value()).toEqual(23);
-                    expect(m.size_response_bytes.value()).toEqual(45);
+                    expect(m.id.value()).toEqual("id");                                        // 0
+                    expect(m.agent_category.value()).toEqual("agent_category");                // 1
+                    expect(m.agent_device.value()).toEqual("agent_device");                    // 2
+                    expect(m.agent_name.value()).toEqual("agent_name");                        // 3
+                    expect(m.host.value()).toEqual("host");                                    // 4
+                    expect(m.interval_category.value()).toEqual("interval_category");          // 5
+                    expect(m.interval_clique.value()).toEqual("interval_clique");              // 6
+                    expect(m.interval_millis.value()).toEqual(123456);                         // 7
+                    expect(m.request_body.value()).toEqual("request_body");                    // 8
+                    expect(m.request_content_type.value()).toEqual("request_content_type");    // 9
+                    expect(m.request_headers.value()).toEqual("request_headers");              // 10
+                    expect(m.request_method.value()).toEqual("request_method");                // 11
+                    expect(m.request_params.value()).toEqual("request_params");                // 12
+                    expect(m.request_url.value()).toEqual("request_url");                      // 13
+                    expect(m.request_user_agent.value()).toEqual("request_user_agent");        // 14
+                    expect(m.response_body.value()).toEqual("response_body");                  // 15
+                    expect(m.response_code.value()).toEqual("response_code");                  // 16
+                    expect(m.response_content_type.value()).toEqual("response_content_type");  // 17
+                    expect(m.response_headers.value()).toEqual("response_headers");            // 18
+                    expect(m.response_time_millis.value()).toEqual(1234);                      // 19
+                    expect(m.size_category.value()).toEqual("size_category");                  // 20
+                    expect(m.size_request_bytes.value()).toEqual(23);                          // 21
+                    expect(m.size_response_bytes.value()).toEqual(45);                         // 22
                     expect(m.length()).toEqual(278);
                 }
             }
