@@ -14,7 +14,7 @@ import static com.mscharhag.oleaster.matcher.Matchers.expect;
  */
 public class BinaryHttpMessageTest {
 
-    public final String FILE = "./target/http-messages.bin";
+    public final String FILE = "./target/messages.bin";
 
     @Test
     public void allNullsTest() throws Exception {
