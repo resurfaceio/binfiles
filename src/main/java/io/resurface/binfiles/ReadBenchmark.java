@@ -26,7 +26,7 @@ public class ReadBenchmark {
      */
     public ReadBenchmark() throws Exception {
         // read configuration
-        String file_in = System.getenv("FILE_IN");
+        String file_in = System.getProperty("FILE_IN");
         if (file_in == null) throw new IllegalArgumentException("Missing FILE_IN");
         System.out.println("FILE_IN=" + file_in);
 
