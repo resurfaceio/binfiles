@@ -11,6 +11,7 @@ import java.io.ObjectOutput;
  */
 public final class BinaryHttpMessage {
 
+    public final BinaryHttpMessageInteger delimiter = new BinaryHttpMessageInteger();
     public final BinaryHttpMessageString id = new BinaryHttpMessageString();                     // 0
     public final BinaryHttpMessageString agent_category = new BinaryHttpMessageString();         // 1
     public final BinaryHttpMessageString agent_device = new BinaryHttpMessageString();           // 2
@@ -39,7 +40,8 @@ public final class BinaryHttpMessage {
      * Returns the length of this message in bytes.
      */
     public int length() {
-        int result = id.length();                  // 0
+        int result = delimiter.length();
+        result += id.length();                     // 0
         result += agent_category.length();         // 1
         result += agent_device.length();           // 2
         result += agent_name.length();             // 3
@@ -69,35 +71,40 @@ public final class BinaryHttpMessage {
      * Reads all message fields from input stream.
      */
     public void read(ObjectInput in) throws IOException {
-        id.read(in);                     // 0
-        agent_category.read(in);         // 1
-        agent_device.read(in);           // 2
-        agent_name.read(in);             // 3
-        host.read(in);                   // 4
-        interval_category.read(in);      // 5
-        interval_clique.read(in);        // 6
-        interval_millis.read(in);        // 7
-        request_body.read(in);           // 8
-        request_content_type.read(in);   // 9
-        request_headers.read(in);        // 10
-        request_method.read(in);         // 11
-        request_params.read(in);         // 12
-        request_url.read(in);            // 13
-        request_user_agent.read(in);     // 14
-        response_body.read(in);          // 15
-        response_code.read(in);          // 16
-        response_content_type.read(in);  // 17
-        response_headers.read(in);       // 18
-        response_time_millis.read(in);   // 19
-        size_category.read(in);          // 20
-        size_request_bytes.read(in);     // 21
-        size_response_bytes.read(in);    // 22
+        delimiter.read(in);
+        if (delimiter.value() == 21) {
+            id.read(in);                     // 0
+            agent_category.read(in);         // 1
+            agent_device.read(in);           // 2
+            agent_name.read(in);             // 3
+            host.read(in);                   // 4
+            interval_category.read(in);      // 5
+            interval_clique.read(in);        // 6
+            interval_millis.read(in);        // 7
+            request_body.read(in);           // 8
+            request_content_type.read(in);   // 9
+            request_headers.read(in);        // 10
+            request_method.read(in);         // 11
+            request_params.read(in);         // 12
+            request_url.read(in);            // 13
+            request_user_agent.read(in);     // 14
+            response_body.read(in);          // 15
+            response_code.read(in);          // 16
+            response_content_type.read(in);  // 17
+            response_headers.read(in);       // 18
+            response_time_millis.read(in);   // 19
+            size_category.read(in);          // 20
+            size_request_bytes.read(in);     // 21
+            size_response_bytes.read(in);    // 22
+        } else throw new RuntimeException("Invalid record delimiter");
     }
 
     /**
      * Writes all message fields to output stream.
      */
     public void write(ObjectOutput out) throws IOException {
+        delimiter.read(21);
+        delimiter.write(out);
         id.write(out);                     // 0
         agent_category.write(out);         // 1
         agent_device.write(out);           // 2

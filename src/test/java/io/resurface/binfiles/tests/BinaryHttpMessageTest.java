@@ -55,7 +55,7 @@ public class BinaryHttpMessageTest {
                     expect(m.size_category.value()).toBeNull();          // 20
                     expect(m.size_request_bytes.value()).toEqual(0);     // 21
                     expect(m.size_response_bytes.value()).toEqual(0);    // 22
-                    expect(m.length()).toEqual(24);
+                    expect(m.length()).toEqual(28);
                 }
             }
         }
@@ -123,7 +123,7 @@ public class BinaryHttpMessageTest {
                     expect(m.size_category.value()).toEqual("size_category");                  // 20
                     expect(m.size_request_bytes.value()).toEqual(23);                          // 21
                     expect(m.size_response_bytes.value()).toEqual(45);                         // 22
-                    expect(m.length()).toEqual(278);
+                    expect(m.length()).toEqual(282);
                 }
             }
         }
