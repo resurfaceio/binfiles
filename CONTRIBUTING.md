@@ -47,7 +47,7 @@ mvn deploy
 Tag release version:
 
 ```
-git tag v3.0.x
+git tag v3.0.(BUILD_NUMBER)
 git push origin v3.0.x --tags
 ```
 
