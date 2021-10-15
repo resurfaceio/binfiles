@@ -56,6 +56,9 @@ public class BinaryHttpMessageTest {
                     expect(m.response_time_millis.value()).toEqual(0);                                            // 21
                     expect(m.size_request_bytes.value()).toEqual(0);                                              // 22
                     expect(m.size_response_bytes.value()).toEqual(0);                                             // 23
+                    expect(m.custom_fields.value()).toBeNull();                                                   // 24 (v3)
+                    expect(m.request_address.value()).toBeNull();                                                 // 25 (v3)
+                    expect(m.session_fields.value()).toBeNull();                                                  // 26 (v3)
                     expect(m.length()).toEqual(28);
                 }
             }
@@ -92,6 +95,9 @@ public class BinaryHttpMessageTest {
                     m.response_time_millis.read(1234);                                                            // 21
                     m.size_request_bytes.read(23);                                                                // 22
                     m.size_response_bytes.read(45);                                                               // 23
+                    m.custom_fields.read("custom_fields");                                                        // 24 (v3)
+                    m.request_address.read("request_address");                                                    // 25 (v3)
+                    m.session_fields.read("session_fields");                                                      // 26 (v3)
                     m.write(so);
                 }
             }
@@ -126,7 +132,10 @@ public class BinaryHttpMessageTest {
                     expect(m.response_time_millis.value()).toEqual(1234);                                         // 21
                     expect(m.size_request_bytes.value()).toEqual(23);                                             // 22
                     expect(m.size_response_bytes.value()).toEqual(45);                                            // 23
-                    expect(m.length()).toEqual(311);
+                    expect(m.custom_fields.value()).toEqual("custom_fields");                                     // 24 (v3)
+                    expect(m.request_address.value()).toEqual("request_address");                                 // 25 (v3)
+                    expect(m.session_fields.value()).toEqual("session_fields");                                   // 26 (v3)
+                    expect(m.length()).toEqual(353);
                 }
             }
         }

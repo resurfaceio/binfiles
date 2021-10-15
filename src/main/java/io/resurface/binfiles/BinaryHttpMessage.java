@@ -36,6 +36,9 @@ public final class BinaryHttpMessage {
     public final BinaryHttpMessageLong response_time_millis = new BinaryHttpMessageLong();                   // 21
     public final BinaryHttpMessageInteger size_request_bytes = new BinaryHttpMessageInteger();               // 22
     public final BinaryHttpMessageInteger size_response_bytes = new BinaryHttpMessageInteger();              // 23
+    public final BinaryHttpMessageString custom_fields = new BinaryHttpMessageString();                      // 24 (v3)
+    public final BinaryHttpMessageString request_address = new BinaryHttpMessageString();                    // 25 (v3)
+    public final BinaryHttpMessageString session_fields = new BinaryHttpMessageString();                     // 26 (v3)
 
     /**
      * Returns the length of this message in bytes.
@@ -66,6 +69,9 @@ public final class BinaryHttpMessage {
         result += response_time_millis.length();           // 21
         result += size_request_bytes.length();             // 22
         result += size_response_bytes.length();            // 23
+        result += custom_fields.length();                  // 24 (v3)
+        result += request_address.length();                // 25 (v3)
+        result += session_fields.length();                 // 26 (v3)
         return result;
     }
 
@@ -123,6 +129,34 @@ public final class BinaryHttpMessage {
             response_time_millis.read(in);                 // 21
             size_request_bytes.read(in);                   // 22
             size_response_bytes.read(in);                  // 23
+        } else if (delimiter.value() == 30) {
+            id.read(in);                                   // 0
+            agent_category.read(in);                       // 1
+            agent_device.read(in);                         // 2
+            agent_name.read(in);                           // 3
+            graphql_operation.read(in);                    // 4
+            graphql_operation_name.read(in);               // 5
+            host.read(in);                                 // 6
+            interval_millis.read(in);                      // 7
+            request_body.read(in);                         // 8
+            request_content_type.read(in);                 // 9
+            request_headers.read(in);                      // 10
+            request_json_type.read(in);                    // 11
+            request_method.read(in);                       // 12
+            request_params.read(in);                       // 13
+            request_url.read(in);                          // 14
+            request_user_agent.read(in);                   // 15
+            response_body.read(in);                        // 16
+            response_code.read(in);                        // 17
+            response_content_type.read(in);                // 18
+            response_headers.read(in);                     // 19
+            response_json_type.read(in);                   // 20
+            response_time_millis.read(in);                 // 21
+            size_request_bytes.read(in);                   // 22
+            size_response_bytes.read(in);                  // 23
+            custom_fields.read(in);                        // 24 (v3)
+            request_address.read(in);                      // 25 (v3)
+            session_fields.read(in);                       // 26 (v3)
         } else throw new RuntimeException("Invalid record delimiter");
     }
 
@@ -130,7 +164,7 @@ public final class BinaryHttpMessage {
      * Writes all message fields to output stream.
      */
     public void write(ObjectOutput out) throws IOException {
-        delimiter.read(22);
+        delimiter.read(30);
         delimiter.write(out);
         id.write(out);                                     // 0
         agent_category.write(out);                         // 1
@@ -156,6 +190,9 @@ public final class BinaryHttpMessage {
         response_time_millis.write(out);                   // 21
         size_request_bytes.write(out);                     // 22
         size_response_bytes.write(out);                    // 23
+        custom_fields.write(out);                          // 24 (v3)
+        request_address.write(out);                        // 25 (v3)
+        session_fields.write(out);                         // 26 (v3)
     }
 
 }
