@@ -47,8 +47,8 @@ mvn deploy
 Tag release version:
 
 ```
-git tag v2.x.x
-git push origin master --tags
+git tag v3.0.x
+git push origin v3.0.x --tags
 ```
 
 Start the next version by incrementing the version number. (located in pom.xml)
