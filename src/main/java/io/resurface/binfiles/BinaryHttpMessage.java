@@ -16,8 +16,8 @@ public final class BinaryHttpMessage {
     public final BinaryHttpMessageString agent_category = new BinaryHttpMessageString();                     // 1
     public final BinaryHttpMessageString agent_device = new BinaryHttpMessageString();                       // 2
     public final BinaryHttpMessageString agent_name = new BinaryHttpMessageString();                         // 3
-    public final BinaryHttpMessageString graphql_operation = new BinaryHttpMessageString();                  // 4
-    public final BinaryHttpMessageString graphql_operation_name = new BinaryHttpMessageString();             // 5
+    public final BinaryHttpMessageString graphql_operations = new BinaryHttpMessageString();                 // 4 (v3)
+    public final BinaryHttpMessageInteger graphql_operations_count = new BinaryHttpMessageInteger();         // 5 (v3)
     public final BinaryHttpMessageString host = new BinaryHttpMessageString();                               // 6
     public final BinaryHttpMessageLong interval_millis = new BinaryHttpMessageLong();                        // 7
     public final BinaryHttpMessageString request_body = new BinaryHttpMessageString();                       // 8
@@ -49,8 +49,8 @@ public final class BinaryHttpMessage {
         result += agent_category.length();                 // 1
         result += agent_device.length();                   // 2
         result += agent_name.length();                     // 3
-        result += graphql_operation.length();              // 4
-        result += graphql_operation_name.length();         // 5
+        result += graphql_operations.length();             // 4 (v3)
+        result += graphql_operations_count.length();       // 5 (v3)
         result += host.length();                           // 6
         result += interval_millis.length();                // 7
         result += request_body.length();                   // 8
@@ -80,62 +80,13 @@ public final class BinaryHttpMessage {
      */
     public void read(ObjectInput in) throws IOException {
         delimiter.read(in);
-        if (delimiter.value() == 21) {
+        if (delimiter.value() == 30) {
             id.read(in);                                   // 0
             agent_category.read(in);                       // 1
             agent_device.read(in);                         // 2
             agent_name.read(in);                           // 3
-            host.read(in);                                 // 4
-            in.skipBytes(in.readInt());                    // 5, skip interval_category
-            in.skipBytes(in.readInt());                    // 6, skip interval_clique
-            interval_millis.read(in);                      // 7
-            request_body.read(in);                         // 8
-            request_content_type.read(in);                 // 9
-            request_headers.read(in);                      // 10
-            request_method.read(in);                       // 11
-            request_params.read(in);                       // 12
-            request_url.read(in);                          // 13
-            request_user_agent.read(in);                   // 14
-            response_body.read(in);                        // 15
-            response_code.read(in);                        // 16
-            response_content_type.read(in);                // 17
-            response_headers.read(in);                     // 18
-            response_time_millis.read(in);                 // 19
-            in.skipBytes(in.readInt());                    // 20, skip size_category
-            size_request_bytes.read(in);                   // 21
-            size_response_bytes.read(in);                  // 22
-        } else if (delimiter.value() == 22) {
-            id.read(in);                                   // 0
-            agent_category.read(in);                       // 1
-            agent_device.read(in);                         // 2
-            agent_name.read(in);                           // 3
-            graphql_operation.read(in);                    // 4
-            graphql_operation_name.read(in);               // 5
-            host.read(in);                                 // 6
-            interval_millis.read(in);                      // 7
-            request_body.read(in);                         // 8
-            request_content_type.read(in);                 // 9
-            request_headers.read(in);                      // 10
-            request_json_type.read(in);                    // 11
-            request_method.read(in);                       // 12
-            request_params.read(in);                       // 13
-            request_url.read(in);                          // 14
-            request_user_agent.read(in);                   // 15
-            response_body.read(in);                        // 16
-            response_code.read(in);                        // 17
-            response_content_type.read(in);                // 18
-            response_headers.read(in);                     // 19
-            response_json_type.read(in);                   // 20
-            response_time_millis.read(in);                 // 21
-            size_request_bytes.read(in);                   // 22
-            size_response_bytes.read(in);                  // 23
-        } else if (delimiter.value() == 30) {
-            id.read(in);                                   // 0
-            agent_category.read(in);                       // 1
-            agent_device.read(in);                         // 2
-            agent_name.read(in);                           // 3
-            graphql_operation.read(in);                    // 4
-            graphql_operation_name.read(in);               // 5
+            graphql_operations.read(in);                   // 4 (v3)
+            graphql_operations_count.read(in);             // 5 (v3)
             host.read(in);                                 // 6
             interval_millis.read(in);                      // 7
             request_body.read(in);                         // 8
@@ -170,8 +121,8 @@ public final class BinaryHttpMessage {
         agent_category.write(out);                         // 1
         agent_device.write(out);                           // 2
         agent_name.write(out);                             // 3
-        graphql_operation.write(out);                      // 4
-        graphql_operation_name.write(out);                 // 5
+        graphql_operations.write(out);                     // 4 (v3)
+        graphql_operations_count.write(out);               // 5 (v3)
         host.write(out);                                   // 6
         interval_millis.write(out);                        // 7
         request_body.write(out);                           // 8

@@ -36,8 +36,8 @@ public class BinaryHttpMessageTest {
                     expect(m.agent_category.value()).toBeNull();                                                  // 1
                     expect(m.agent_device.value()).toBeNull();                                                    // 2
                     expect(m.agent_name.value()).toBeNull();                                                      // 3
-                    expect(m.graphql_operation.value()).toBeNull();                                               // 4
-                    expect(m.graphql_operation_name.value()).toBeNull();                                          // 5
+                    expect(m.graphql_operations.value()).toBeNull();                                              // 4 (v3)
+                    expect(m.graphql_operations_count.value()).toEqual(0);                                        // 5 (v3)
                     expect(m.host.value()).toBeNull();                                                            // 6
                     expect(m.interval_millis.value()).toEqual(0);                                                 // 7
                     expect(m.request_body.value()).toBeNull();                                                    // 8
@@ -59,7 +59,7 @@ public class BinaryHttpMessageTest {
                     expect(m.custom_fields.value()).toBeNull();                                                   // 24 (v3)
                     expect(m.request_address.value()).toBeNull();                                                 // 25 (v3)
                     expect(m.session_fields.value()).toBeNull();                                                  // 26 (v3)
-                    expect(m.length()).toEqual(28);
+                    expect(m.length()).toEqual(32);
                 }
             }
         }
@@ -75,8 +75,8 @@ public class BinaryHttpMessageTest {
                     m.agent_category.read("agent_category");                                                      // 1
                     m.agent_device.read("agent_device");                                                          // 2
                     m.agent_name.read("agent_name");                                                              // 3
-                    m.graphql_operation.read("graphql_operation");                                                // 4
-                    m.graphql_operation_name.read("graphql_operation_name");                                      // 5
+                    m.graphql_operations.read("graphql_operations");                                              // 4 (v3)
+                    m.graphql_operations_count.read(27);                                                          // 5 (v3)
                     m.host.read("host");                                                                          // 6
                     m.interval_millis.read(123456);                                                               // 7
                     m.request_body.read("request_body");                                                          // 8
@@ -112,8 +112,8 @@ public class BinaryHttpMessageTest {
                     expect(m.agent_category.value()).toEqual("agent_category");                                   // 1
                     expect(m.agent_device.value()).toEqual("agent_device");                                       // 2
                     expect(m.agent_name.value()).toEqual("agent_name");                                           // 3
-                    expect(m.graphql_operation.value()).toEqual("graphql_operation");                             // 4
-                    expect(m.graphql_operation_name.value()).toEqual("graphql_operation_name");                   // 5
+                    expect(m.graphql_operations.value()).toEqual("graphql_operations");                           // 4 (v3)
+                    expect(m.graphql_operations_count.value()).toEqual(27);                                       // 5 (v3)
                     expect(m.host.value()).toEqual("host");                                                       // 6
                     expect(m.interval_millis.value()).toEqual(123456);                                            // 7
                     expect(m.request_body.value()).toEqual("request_body");                                       // 8
@@ -135,7 +135,7 @@ public class BinaryHttpMessageTest {
                     expect(m.custom_fields.value()).toEqual("custom_fields");                                     // 24 (v3)
                     expect(m.request_address.value()).toEqual("request_address");                                 // 25 (v3)
                     expect(m.session_fields.value()).toEqual("session_fields");                                   // 26 (v3)
-                    expect(m.length()).toEqual(353);
+                    expect(m.length()).toEqual(336);
                 }
             }
         }
