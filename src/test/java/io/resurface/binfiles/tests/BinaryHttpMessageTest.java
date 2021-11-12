@@ -59,7 +59,9 @@ public class BinaryHttpMessageTest {
                     expect(m.custom_fields.value()).toBeNull();                                                   // 24 (v3)
                     expect(m.request_address.value()).toBeNull();                                                 // 25 (v3)
                     expect(m.session_fields.value()).toBeNull();                                                  // 26 (v3)
-                    expect(m.length()).toEqual(32);
+                    expect(m.cookies.value()).toBeNull();                                                         // 27 (v3)
+                    expect(m.cookies_count.value()).toEqual(0);                                                   // 28 (v3)
+                    expect(m.length()).toEqual(36);
                 }
             }
         }
@@ -98,6 +100,8 @@ public class BinaryHttpMessageTest {
                     m.custom_fields.read("custom_fields");                                                        // 24 (v3)
                     m.request_address.read("request_address");                                                    // 25 (v3)
                     m.session_fields.read("session_fields");                                                      // 26 (v3)
+                    m.cookies.read("cookies");                                                                    // 27 (v3)
+                    m.cookies_count.read(56);                                                                     // 28 (v3)
                     m.write(so);
                 }
             }
@@ -135,7 +139,9 @@ public class BinaryHttpMessageTest {
                     expect(m.custom_fields.value()).toEqual("custom_fields");                                     // 24 (v3)
                     expect(m.request_address.value()).toEqual("request_address");                                 // 25 (v3)
                     expect(m.session_fields.value()).toEqual("session_fields");                                   // 26 (v3)
-                    expect(m.length()).toEqual(336);
+                    expect(m.cookies.value()).toEqual("cookies");                                                 // 27 (v3)
+                    expect(m.cookies_count.value()).toEqual(56);                                                  // 28 (v3)
+                    expect(m.length()).toEqual(347);
                 }
             }
         }

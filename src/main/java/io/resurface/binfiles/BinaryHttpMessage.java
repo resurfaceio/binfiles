@@ -39,6 +39,8 @@ public final class BinaryHttpMessage {
     public final BinaryHttpMessageString custom_fields = new BinaryHttpMessageString();                      // 24 (v3)
     public final BinaryHttpMessageString request_address = new BinaryHttpMessageString();                    // 25 (v3)
     public final BinaryHttpMessageString session_fields = new BinaryHttpMessageString();                     // 26 (v3)
+    public final BinaryHttpMessageString cookies = new BinaryHttpMessageString();                            // 27 (v3)
+    public final BinaryHttpMessageInteger cookies_count = new BinaryHttpMessageInteger();                    // 28 (v3)
 
     /**
      * Returns the length of this message in bytes.
@@ -72,6 +74,8 @@ public final class BinaryHttpMessage {
         result += custom_fields.length();                  // 24 (v3)
         result += request_address.length();                // 25 (v3)
         result += session_fields.length();                 // 26 (v3)
+        result += cookies.length();                        // 27 (v3)
+        result += cookies_count.length();                  // 28 (v3)
         return result;
     }
 
@@ -108,6 +112,8 @@ public final class BinaryHttpMessage {
             custom_fields.read(in);                        // 24 (v3)
             request_address.read(in);                      // 25 (v3)
             session_fields.read(in);                       // 26 (v3)
+            cookies.read(in);                              // 27 (v3)
+            cookies_count.read(in);                        // 28 (v3)
         } else throw new RuntimeException("Invalid record delimiter");
     }
 
@@ -144,6 +150,8 @@ public final class BinaryHttpMessage {
         custom_fields.write(out);                          // 24 (v3)
         request_address.write(out);                        // 25 (v3)
         session_fields.write(out);                         // 26 (v3)
+        cookies.write(out);                                // 27 (v3)
+        cookies_count.write(out);                          // 28 (v3)
     }
 
 }
