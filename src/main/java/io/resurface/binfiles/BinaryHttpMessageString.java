@@ -2,9 +2,9 @@
 
 package io.resurface.binfiles;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -39,10 +39,10 @@ public final class BinaryHttpMessageString {
     /**
      * Reads field from input stream.
      */
-    public void read(ObjectInput in) throws IOException {
+    public void read(DataInput in) throws IOException {
         len = in.readInt();
         if (len > 0) {
-            if (buf == null || buf.length < len) buf = new byte[len];
+            if (buf == null || buf.length < len) buf = new byte[len];  // todo need guard against huge buffer sizes!
             in.readFully(buf, 0, len);
         }
     }
@@ -64,7 +64,7 @@ public final class BinaryHttpMessageString {
     /**
      * Writes field to output stream.
      */
-    public void write(ObjectOutput out) throws IOException {
+    public void write(DataOutput out) throws IOException {
         out.writeInt(len);
         if (len > 0) out.write(buf, 0, len);
     }

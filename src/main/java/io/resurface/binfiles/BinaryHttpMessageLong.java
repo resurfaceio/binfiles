@@ -2,9 +2,7 @@
 
 package io.resurface.binfiles;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.io.*;
 
 /**
  * Long field used in binary message format.
@@ -30,7 +28,7 @@ public final class BinaryHttpMessageLong {
     /**
      * Reads field from input stream.
      */
-    public void read(ObjectInput in) throws IOException {
+    public void read(DataInput in) throws IOException {
         value = in.readLong();
     }
 
@@ -44,7 +42,7 @@ public final class BinaryHttpMessageLong {
     /**
      * Writes field to output stream.
      */
-    public void write(ObjectOutput out) throws IOException {
+    public void write(DataOutput out) throws IOException {
         out.writeLong(value);
     }
 

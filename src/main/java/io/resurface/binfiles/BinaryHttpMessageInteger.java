@@ -2,9 +2,9 @@
 
 package io.resurface.binfiles;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 
 /**
  * Integer field used in binary message format.
@@ -30,7 +30,7 @@ public final class BinaryHttpMessageInteger {
     /**
      * Reads field from input stream.
      */
-    public void read(ObjectInput in) throws IOException {
+    public void read(DataInput in) throws IOException {
         value = in.readInt();
     }
 
@@ -44,7 +44,7 @@ public final class BinaryHttpMessageInteger {
     /**
      * Writes field to output stream.
      */
-    public void write(ObjectOutput out) throws IOException {
+    public void write(DataOutput out) throws IOException {
         out.writeInt(value);
     }
 

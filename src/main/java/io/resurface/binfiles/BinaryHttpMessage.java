@@ -2,9 +2,9 @@
 
 package io.resurface.binfiles;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 
 /**
  * Binary format for HTTP messages.
@@ -82,7 +82,7 @@ public final class BinaryHttpMessage {
     /**
      * Reads all message fields from input stream.
      */
-    public void read(ObjectInput in) throws IOException {
+    public void read(DataInput in) throws IOException {
         delimiter.read(in);
         if (delimiter.value() == 30) {
             id.read(in);                                   // 0
@@ -120,7 +120,7 @@ public final class BinaryHttpMessage {
     /**
      * Writes all message fields to output stream.
      */
-    public void write(ObjectOutput out) throws IOException {
+    public void write(DataOutput out) throws IOException {
         delimiter.read(30);
         delimiter.write(out);
         id.write(out);                                     // 0

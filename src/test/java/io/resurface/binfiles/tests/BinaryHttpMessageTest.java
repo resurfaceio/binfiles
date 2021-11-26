@@ -20,18 +20,18 @@ public class BinaryHttpMessageTest {
     public void allNullsTest() throws Exception {
         try (FileOutputStream fo = new FileOutputStream(FILE)) {
             try (BufferedOutputStream bos = new BufferedOutputStream(fo)) {
-                try (ObjectOutputStream so = new ObjectOutputStream(bos)) {
+                try (ObjectOutputStream os = new ObjectOutputStream(bos)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
-                    m.write(so);
+                    m.write(os);
                 }
             }
         }
 
         try (FileInputStream fi = new FileInputStream(FILE)) {
             try (BufferedInputStream bis = new BufferedInputStream(fi)) {
-                try (ObjectInputStream si = new ObjectInputStream(bis)) {
+                try (ObjectInputStream is = new ObjectInputStream(bis)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
-                    m.read(si);
+                    m.read(is);
                     expect(m.id.value()).toBeNull();                                                              // 0
                     expect(m.agent_category.value()).toBeNull();                                                  // 1
                     expect(m.agent_device.value()).toBeNull();                                                    // 2
@@ -71,7 +71,7 @@ public class BinaryHttpMessageTest {
     public void roundTripTest() throws Exception {
         try (FileOutputStream fo = new FileOutputStream(FILE)) {
             try (BufferedOutputStream bos = new BufferedOutputStream(fo)) {
-                try (ObjectOutputStream so = new ObjectOutputStream(bos)) {
+                try (ObjectOutputStream os = new ObjectOutputStream(bos)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
                     m.id.read("id");                                                                              // 0
                     m.agent_category.read("agent_category");                                                      // 1
@@ -102,16 +102,18 @@ public class BinaryHttpMessageTest {
                     m.session_fields.read("session_fields");                                                      // 26 (v3)
                     m.cookies.read("cookies");                                                                    // 27 (v3)
                     m.cookies_count.read(56);                                                                     // 28 (v3)
-                    m.write(so);
+                    m.write(os);
+                    m.id.read("id2");
+                    m.write(os);
                 }
             }
         }
 
         try (FileInputStream fi = new FileInputStream(FILE)) {
             try (BufferedInputStream bis = new BufferedInputStream(fi)) {
-                try (ObjectInputStream si = new ObjectInputStream(bis)) {
+                try (ObjectInputStream is = new ObjectInputStream(bis)) {
                     BinaryHttpMessage m = new BinaryHttpMessage();
-                    m.read(si);
+                    m.read(is);
                     expect(m.id.value()).toEqual("id");                                                           // 0
                     expect(m.agent_category.value()).toEqual("agent_category");                                   // 1
                     expect(m.agent_device.value()).toEqual("agent_device");                                       // 2
@@ -142,6 +144,8 @@ public class BinaryHttpMessageTest {
                     expect(m.cookies.value()).toEqual("cookies");                                                 // 27 (v3)
                     expect(m.cookies_count.value()).toEqual(56);                                                  // 28 (v3)
                     expect(m.length()).toEqual(347);
+                    m.read(is);
+                    expect(m.id.value()).toEqual("id2");
                 }
             }
         }
