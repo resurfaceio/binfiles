@@ -17,7 +17,7 @@ public class ReadBenchmark {
      */
     public static void main(String[] args) throws Exception {
         System.out.println("\n>>> Benchmark starting");
-        new ReadBenchmark();
+        for (int i = 0; i < 10; i++) new ReadBenchmark();
         System.out.println(">>> Benchmark finished!\n");
     }
 
