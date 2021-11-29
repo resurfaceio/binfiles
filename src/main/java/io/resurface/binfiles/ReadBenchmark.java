@@ -5,7 +5,6 @@ package io.resurface.binfiles;
 import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 
 /**
  * Transforms messages stored in compressed NDJSON files.
@@ -33,11 +32,10 @@ public class ReadBenchmark {
         // read entire file
         FileInputStream fis = new FileInputStream(file_in);
         BufferedInputStream bis = new BufferedInputStream(fis, 1000000);
-        ObjectInputStream ois = new ObjectInputStream(bis);
         BinaryHttpMessage message = new BinaryHttpMessage();
         while (true) {
             try {
-                message.read(ois);
+                message.read(bis);
                 messages_read++;
             } catch (EOFException eof) {
                 status();

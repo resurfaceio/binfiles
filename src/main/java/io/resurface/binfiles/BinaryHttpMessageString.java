@@ -2,9 +2,9 @@
 
 package io.resurface.binfiles;
 
-import java.io.DataInput;
-import java.io.DataOutput;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -14,6 +14,14 @@ public final class BinaryHttpMessageString {
 
     private byte[] buf;
     private int len;
+    private int offset;
+
+    /**
+     * Returns field size in bytes.
+     */
+    public int bytes() {
+        return len + 4;
+    }
 
     /**
      * Returns internal buffer for this field.
@@ -23,50 +31,81 @@ public final class BinaryHttpMessageString {
     }
 
     /**
-     * Returns field length in bytes.
+     * Sets internal buffer for this field.
+     */
+    public void buffer(byte[] buf) {
+        this.buf = buf;
+    }
+
+    /**
+     * Returns length of this field in bytes.
      */
     public int length() {
         return len;
     }
 
     /**
-     * Returns field as unboxed type, or null if field is empty.
+     * Returns offset to this field in bytes.
      */
-    public String value() {
-        return len == 0 ? null : new String(buf, 0, len);
+    public int offset() {
+        return offset;
     }
 
     /**
-     * Reads field from input stream.
+     * Returns field as primitive type, or null if field is empty.
      */
-    public void read(DataInput in) throws IOException {
+    public String value() {
+        return len == 0 ? null : new String(buf, offset, len);
+    }
+
+    // SERIALIZATION METHODS -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Reads field from object stream. (DEPRECATED)
+     */
+    public void read(ObjectInputStream in) throws IOException {
         len = in.readInt();
         if (len > 0) {
-            if (buf == null || buf.length < len) buf = new byte[len];  // todo need guard against huge buffer sizes!
+            if (buf == null || buf.length < len) buf = new byte[len];
             in.readFully(buf, 0, len);
         }
     }
 
     /**
-     * Reads field from unboxed type.
+     * Reads string position within current buffer.
+     */
+    public int read(int offset, int length) {
+        this.offset = offset;
+        this.len = length;
+        return length;
+    }
+
+    /**
+     * Reads field from primitive type.
      */
     public void read(String s) {
         if (s == null) {
+            offset = 0;
             len = 0;
         } else {
-            byte[] b = s.getBytes(StandardCharsets.UTF_8);
-            len = b.length;
-            if (buf == null || buf.length < len) buf = new byte[len];
-            System.arraycopy(b, 0, buf, 0, len);
+            buf = s.getBytes(StandardCharsets.UTF_8);
+            offset = 0;
+            len = buf.length;
         }
     }
 
     /**
-     * Writes field to output stream.
+     * Writes string length to in-memory buffer.
      */
-    public void write(DataOutput out) throws IOException {
-        out.writeInt(len);
-        if (len > 0) out.write(buf, 0, len);
+    public void write(ByteBuffer out) {
+        out.putInt(len);
+    }
+
+    /**
+     * Writes string contents to in-memory buffer.
+     */
+    public void write2(ByteBuffer out) {
+        if (len > 0) out.put(buf);
     }
 
 }
