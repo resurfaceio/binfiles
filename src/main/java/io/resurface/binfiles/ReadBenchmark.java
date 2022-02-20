@@ -2,7 +2,8 @@
 
 package io.resurface.binfiles;
 
-import java.io.BufferedInputStream;
+import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
+
 import java.io.EOFException;
 import java.io.FileInputStream;
 
@@ -16,22 +17,19 @@ public class ReadBenchmark {
      */
     public static void main(String[] args) throws Exception {
         System.out.println("\n>>> Benchmark starting");
-        for (int i = 0; i < 10; i++) new ReadBenchmark();
+        for (int i = 0; i < 30; i++) new ReadBenchmark(args[0]);
         System.out.println(">>> Benchmark finished!\n");
     }
 
     /**
      * Parses every message and writes a transformed version.
      */
-    public ReadBenchmark() throws Exception {
-        // read configuration
-        String file_in = System.getProperty("FILE_IN");
-        if (file_in == null) throw new IllegalArgumentException("Missing FILE_IN");
+    public ReadBenchmark(String file_in) throws Exception {
         System.out.println("FILE_IN=" + file_in);
 
         // read entire file
         FileInputStream fis = new FileInputStream(file_in);
-        BufferedInputStream bis = new BufferedInputStream(fis, 1000000);
+        FastBufferedInputStream bis = new FastBufferedInputStream(fis, 1000000);
         BinaryHttpMessage message = new BinaryHttpMessage();
         while (true) {
             try {

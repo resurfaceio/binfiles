@@ -8,5 +8,5 @@ Readers &amp; writers for binary files
 
 ## Running read benchmark
 ```
-java -DFILE_IN=/Users/robfromboulder/Downloads/flukeserver.bin -Xmx192M -classpath ./target/classes io.resurface.binfiles.ReadBenchmark
+java -Xmx192M -classpath ./target/classes:./lib/fastutil-8.3.0.jar io.resurface.binfiles.ReadBenchmark $HOME/Downloads/message.blk
 ```

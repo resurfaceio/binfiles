@@ -2,7 +2,11 @@
 
 package io.resurface.binfiles;
 
-import java.io.*;
+import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
+import it.unimi.dsi.fastutil.io.FastBufferedOutputStream;
+
+import java.io.EOFException;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
@@ -40,6 +44,10 @@ public final class BinaryHttpMessage {
     public final BinaryHttpMessageString cookies = new BinaryHttpMessageString();                            // 27 (v3)
     public final BinaryHttpMessageInteger cookies_count = new BinaryHttpMessageInteger();                    // 28 (v3)
 
+    private byte[] buffer;
+    private ByteBuffer bytebuffer;
+    private final byte[] header = new byte[8];
+
     /**
      * Default constructor.
      */
@@ -51,7 +59,8 @@ public final class BinaryHttpMessage {
      * Allocates internal buffer with specified length.
      */
     public void allocate(int length) {
-        buffer = new byte[length];  // todo need guard against huge buffer sizes!
+        this.buffer = new byte[length];  // todo need guard against huge buffer sizes!
+        this.bytebuffer = ByteBuffer.wrap(buffer);
 
         id.buffer(buffer);                                                                                   // 0
         agent_category.buffer(buffer);                                                                       // 1
@@ -83,8 +92,6 @@ public final class BinaryHttpMessage {
         cookies.buffer(buffer);                                                                              // 27 (v3)
         // skip cookies_count                                                                                // 28 (v3)
     }
-
-    private byte[] buffer;
 
     /**
      * Returns the length of this message in bytes.
@@ -124,91 +131,51 @@ public final class BinaryHttpMessage {
     }
 
     /**
-     * Reads all message fields from input stream. (DEPRECATED)
-     */
-    public void read(ObjectInputStream in) throws IOException {
-        int delimiter = in.readInt();
-        if (delimiter == 30) {
-            id.read(in);                                                                                     // 0
-            agent_category.read(in);                                                                         // 1
-            agent_device.read(in);                                                                           // 2
-            agent_name.read(in);                                                                             // 3
-            graphql_operations.read(in);                                                                     // 4 (v3)
-            graphql_operations_count.read(in);                                                               // 5 (v3)
-            host.read(in);                                                                                   // 6
-            interval_millis.read(in);                                                                        // 7
-            request_body.read(in);                                                                           // 8
-            request_content_type.read(in);                                                                   // 9
-            request_headers.read(in);                                                                        // 10
-            request_json_type.read(in);                                                                      // 11
-            request_method.read(in);                                                                         // 12
-            request_params.read(in);                                                                         // 13
-            request_url.read(in);                                                                            // 14
-            request_user_agent.read(in);                                                                     // 15
-            response_body.read(in);                                                                          // 16
-            response_code.read(in);                                                                          // 17
-            response_content_type.read(in);                                                                  // 18
-            response_headers.read(in);                                                                       // 19
-            response_json_type.read(in);                                                                     // 20
-            response_time_millis.read(in);                                                                   // 21
-            size_request_bytes.read(in);                                                                     // 22
-            size_response_bytes.read(in);                                                                    // 23
-            custom_fields.read(in);                                                                          // 24 (v3)
-            request_address.read(in);                                                                        // 25 (v3)
-            session_fields.read(in);                                                                         // 26 (v3)
-            cookies.read(in);                                                                                // 27 (v3)
-            cookies_count.read(in);                                                                          // 28 (v3)
-        } else throw new RuntimeException("Invalid record delimiter");
-    }
-
-    /**
      * Reads all message fields from input stream.
      */
-    public void read(BufferedInputStream in) throws IOException {
-        int delimiter = readInt(in);
-        if (delimiter == 30) {
-            int len = readInt(in);
-            if (buffer.length < len) allocate(len);
-            in.readNBytes(buffer, 0, len);
-            ByteBuffer bb = ByteBuffer.wrap(buffer);
+    public void read(FastBufferedInputStream in) throws IOException {
+        int len = readHeader(in);
 
-            int offset = 124;
-            offset += id.read(offset, bb.getInt());                                                          // 0
-            offset += agent_category.read(offset, bb.getInt());                                              // 1
-            offset += agent_device.read(offset, bb.getInt());                                                // 2
-            offset += agent_name.read(offset, bb.getInt());                                                  // 3
-            offset += graphql_operations.read(offset, bb.getInt());                                          // 4 (v3)
-            graphql_operations_count.read(bb.getInt());                                                      // 5 (v3)
-            offset += host.read(offset, bb.getInt());                                                        // 6
-            interval_millis.read(bb.getLong());                                                              // 7
-            offset += request_body.read(offset, bb.getInt());                                                // 8
-            offset += request_content_type.read(offset, bb.getInt());                                        // 9
-            offset += request_headers.read(offset, bb.getInt());                                             // 10
-            offset += request_json_type.read(offset, bb.getInt());                                           // 11
-            offset += request_method.read(offset, bb.getInt());                                              // 12
-            offset += request_params.read(offset, bb.getInt());                                              // 13
-            offset += request_url.read(offset, bb.getInt());                                                 // 14
-            offset += request_user_agent.read(offset, bb.getInt());                                          // 15
-            offset += response_body.read(offset, bb.getInt());                                               // 16
-            offset += response_code.read(offset, bb.getInt());                                               // 17
-            offset += response_content_type.read(offset, bb.getInt());                                       // 18
-            offset += response_headers.read(offset, bb.getInt());                                            // 19
-            offset += response_json_type.read(offset, bb.getInt());                                          // 20
-            response_time_millis.read(bb.getLong());                                                         // 21
-            size_request_bytes.read(bb.getInt());                                                            // 22
-            size_response_bytes.read(bb.getInt());                                                           // 23
-            offset += custom_fields.read(offset, bb.getInt());                                               // 24 (v3)
-            offset += request_address.read(offset, bb.getInt());                                             // 25 (v3)
-            offset += session_fields.read(offset, bb.getInt());                                              // 26 (v3)
-            cookies.read(offset, bb.getInt());                                                               // 27 (v3)
-            cookies_count.read(bb.getInt());                                                                 // 28 (v3)
-        } else throw new RuntimeException("Invalid record delimiter");
+        if (buffer.length < len) allocate(len);
+        if (in.read(buffer, 0, len) < len) throw new EOFException();
+        ByteBuffer bb = bytebuffer.rewind();
+
+        int offset = 124;
+        offset += id.read(offset, bb.getInt());                                                          // 0
+        offset += agent_category.read(offset, bb.getInt());                                              // 1
+        offset += agent_device.read(offset, bb.getInt());                                                // 2
+        offset += agent_name.read(offset, bb.getInt());                                                  // 3
+        offset += graphql_operations.read(offset, bb.getInt());                                          // 4 (v3)
+        graphql_operations_count.read(bb.getInt());                                                      // 5 (v3)
+        offset += host.read(offset, bb.getInt());                                                        // 6
+        interval_millis.read(bb.getLong());                                                              // 7
+        offset += request_body.read(offset, bb.getInt());                                                // 8
+        offset += request_content_type.read(offset, bb.getInt());                                        // 9
+        offset += request_headers.read(offset, bb.getInt());                                             // 10
+        offset += request_json_type.read(offset, bb.getInt());                                           // 11
+        offset += request_method.read(offset, bb.getInt());                                              // 12
+        offset += request_params.read(offset, bb.getInt());                                              // 13
+        offset += request_url.read(offset, bb.getInt());                                                 // 14
+        offset += request_user_agent.read(offset, bb.getInt());                                          // 15
+        offset += response_body.read(offset, bb.getInt());                                               // 16
+        offset += response_code.read(offset, bb.getInt());                                               // 17
+        offset += response_content_type.read(offset, bb.getInt());                                       // 18
+        offset += response_headers.read(offset, bb.getInt());                                            // 19
+        offset += response_json_type.read(offset, bb.getInt());                                          // 20
+        response_time_millis.read(bb.getLong());                                                         // 21
+        size_request_bytes.read(bb.getInt());                                                            // 22
+        size_response_bytes.read(bb.getInt());                                                           // 23
+        offset += custom_fields.read(offset, bb.getInt());                                               // 24 (v3)
+        offset += request_address.read(offset, bb.getInt());                                             // 25 (v3)
+        offset += session_fields.read(offset, bb.getInt());                                              // 26 (v3)
+        cookies.read(offset, bb.getInt());                                                               // 27 (v3)
+        cookies_count.read(bb.getInt());                                                                 // 28 (v3)
     }
 
     /**
      * Writes all message fields to output stream.
      */
-    public void write(BufferedOutputStream out, byte[] buf) throws IOException {
+    public void write(FastBufferedOutputStream out, byte[] buf) throws IOException {
         ByteBuffer bb = ByteBuffer.wrap(buf);
 
         // write fixed-length data
@@ -281,21 +248,27 @@ public final class BinaryHttpMessage {
     }
 
     /**
-     * Returns next integer read from input stream.
+     * Reads message header, verifies magic values and returns length in bytes for the remainder of the message.
      */
-    private int readInt(BufferedInputStream in) throws IOException {
-        int ch1 = in.read();
-        int ch2 = in.read();
-        int ch3 = in.read();
-        int ch4 = in.read();
-        if ((ch1 | ch2 | ch3 | ch4) < 0) throw new EOFException();
-        return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4));
+    private int readHeader(FastBufferedInputStream in) throws IOException {
+        if (in.read(header, 0, 8) < 8) throw new EOFException();
+        if ((header[0] != 0) || (header[1] != 0) || (header[2] != 0))
+            throw new RuntimeException("Invalid header padding");
+        if (header[3] != 30) throw new RuntimeException("Invalid header version");
+        return fromBytes(header[4], header[5], header[6], header[7]);
+    }
+
+    /**
+     * Returns integer from 4 bytes in big-endian order.
+     */
+    private static int fromBytes(byte b1, byte b2, byte b3, byte b4) {
+        return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
     }
 
     /**
      * Writes integer to output stream.
      */
-    private void writeInt(BufferedOutputStream out, int value) throws IOException {
+    private void writeInt(FastBufferedOutputStream out, int value) throws IOException {
         if (value == 0) {
             out.write(0);
             out.write(0);

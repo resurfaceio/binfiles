@@ -3,10 +3,10 @@
 package io.resurface.binfiles.tests;
 
 import io.resurface.binfiles.BinaryHttpMessage;
+import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
+import it.unimi.dsi.fastutil.io.FastBufferedOutputStream;
 import org.junit.Test;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
@@ -24,14 +24,14 @@ public class BinaryHttpMessageTest {
     @Test
     public void allNullsTest() throws Exception {
         try (FileOutputStream fo = new FileOutputStream(FILE)) {
-            try (BufferedOutputStream bos = new BufferedOutputStream(fo)) {
+            try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
                 BinaryHttpMessage m = new BinaryHttpMessage();
                 m.write(bos, BUFFER);
             }
         }
 
         try (FileInputStream fi = new FileInputStream(FILE)) {
-            try (BufferedInputStream bis = new BufferedInputStream(fi)) {
+            try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
                 BinaryHttpMessage m = new BinaryHttpMessage();
                 m.read(bis);
                 expect(m.id.value()).toBeNull();                                                             // 0
@@ -71,7 +71,7 @@ public class BinaryHttpMessageTest {
     @Test
     public void roundTripTest() throws Exception {
         try (FileOutputStream fo = new FileOutputStream(FILE)) {
-            try (BufferedOutputStream bos = new BufferedOutputStream(fo)) {
+            try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
                 BinaryHttpMessage m = new BinaryHttpMessage();
                 m.id.read("id");                                                                             // 0
                 m.agent_category.read("agent_category");                                                     // 1
@@ -109,7 +109,7 @@ public class BinaryHttpMessageTest {
         }
 
         try (FileInputStream fi = new FileInputStream(FILE)) {
-            try (BufferedInputStream bis = new BufferedInputStream(fi)) {
+            try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
                 BinaryHttpMessage m = new BinaryHttpMessage();
                 m.read(bis);
                 expect(m.id.value()).toEqual("id");                                                          // 0
