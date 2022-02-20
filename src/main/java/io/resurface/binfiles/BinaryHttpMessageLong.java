@@ -2,8 +2,6 @@
 
 package io.resurface.binfiles;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.ByteBuffer;
 
 /**
@@ -28,13 +26,6 @@ public final class BinaryHttpMessageLong {
     }
 
     // SERIALIZATION METHODS -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Reads field from object stream. (DEPRECATED)
-     */
-    public void read(ObjectInputStream in) throws IOException {
-        value = in.readLong();
-    }
 
     /**
      * Reads field from primitive type.

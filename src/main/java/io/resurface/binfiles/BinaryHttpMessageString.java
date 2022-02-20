@@ -2,8 +2,6 @@
 
 package io.resurface.binfiles;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
@@ -59,17 +57,6 @@ public final class BinaryHttpMessageString {
     }
 
     // SERIALIZATION METHODS -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Reads field from object stream. (DEPRECATED)
-     */
-    public void read(ObjectInputStream in) throws IOException {
-        len = in.readInt();
-        if (len > 0) {
-            if (buf == null || buf.length < len) buf = new byte[len];
-            in.readFully(buf, 0, len);
-        }
-    }
 
     /**
      * Reads string position within current buffer.
