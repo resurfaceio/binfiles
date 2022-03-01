@@ -43,6 +43,8 @@ public final class BinaryHttpMessage {
     public final BinaryHttpMessageString session_fields = new BinaryHttpMessageString();                     // 26 (v3)
     public final BinaryHttpMessageString cookies = new BinaryHttpMessageString();                            // 27 (v3)
     public final BinaryHttpMessageInteger cookies_count = new BinaryHttpMessageInteger();                    // 28 (v3)
+    // reserved for response_status                                                                          // 29 (v3.1)
+    // reserved for size_total_bytes                                                                         // 30 (v3.1)
 
     private byte[] buffer;
     private ByteBuffer bytebuffer;
@@ -91,6 +93,8 @@ public final class BinaryHttpMessage {
         session_fields.buffer(buffer);                                                                       // 26 (v3)
         cookies.buffer(buffer);                                                                              // 27 (v3)
         // skip cookies_count                                                                                // 28 (v3)
+        // skip response_status                                                                              // 29 (v3.1)
+        // skip size_total_bytes                                                                             // 30 (v3.1)
     }
 
     /**
@@ -127,6 +131,8 @@ public final class BinaryHttpMessage {
         result += session_fields.bytes();                                                                    // 26 (v3)
         result += cookies.bytes();                                                                           // 27 (v3)
         result += cookies_count.bytes();                                                                     // 28 (v3)
+        // skip response_status                                                                              // 29 (v3.1)
+        // skip size_total_bytes                                                                             // 30 (v3.1)
         return result;
     }
 
@@ -141,35 +147,37 @@ public final class BinaryHttpMessage {
         ByteBuffer bb = bytebuffer.rewind();
 
         int offset = 124;
-        offset += id.read(offset, bb.getInt());                                                          // 0
-        offset += agent_category.read(offset, bb.getInt());                                              // 1
-        offset += agent_device.read(offset, bb.getInt());                                                // 2
-        offset += agent_name.read(offset, bb.getInt());                                                  // 3
-        offset += graphql_operations.read(offset, bb.getInt());                                          // 4 (v3)
-        graphql_operations_count.read(bb.getInt());                                                      // 5 (v3)
-        offset += host.read(offset, bb.getInt());                                                        // 6
-        interval_millis.read(bb.getLong());                                                              // 7
-        offset += request_body.read(offset, bb.getInt());                                                // 8
-        offset += request_content_type.read(offset, bb.getInt());                                        // 9
-        offset += request_headers.read(offset, bb.getInt());                                             // 10
-        offset += request_json_type.read(offset, bb.getInt());                                           // 11
-        offset += request_method.read(offset, bb.getInt());                                              // 12
-        offset += request_params.read(offset, bb.getInt());                                              // 13
-        offset += request_url.read(offset, bb.getInt());                                                 // 14
-        offset += request_user_agent.read(offset, bb.getInt());                                          // 15
-        offset += response_body.read(offset, bb.getInt());                                               // 16
-        offset += response_code.read(offset, bb.getInt());                                               // 17
-        offset += response_content_type.read(offset, bb.getInt());                                       // 18
-        offset += response_headers.read(offset, bb.getInt());                                            // 19
-        offset += response_json_type.read(offset, bb.getInt());                                          // 20
-        response_time_millis.read(bb.getLong());                                                         // 21
-        size_request_bytes.read(bb.getInt());                                                            // 22
-        size_response_bytes.read(bb.getInt());                                                           // 23
-        offset += custom_fields.read(offset, bb.getInt());                                               // 24 (v3)
-        offset += request_address.read(offset, bb.getInt());                                             // 25 (v3)
-        offset += session_fields.read(offset, bb.getInt());                                              // 26 (v3)
-        cookies.read(offset, bb.getInt());                                                               // 27 (v3)
-        cookies_count.read(bb.getInt());                                                                 // 28 (v3)
+        offset += id.read(offset, bb.getInt());                                                              // 0
+        offset += agent_category.read(offset, bb.getInt());                                                  // 1
+        offset += agent_device.read(offset, bb.getInt());                                                    // 2
+        offset += agent_name.read(offset, bb.getInt());                                                      // 3
+        offset += graphql_operations.read(offset, bb.getInt());                                              // 4 (v3)
+        graphql_operations_count.read(bb.getInt());                                                          // 5 (v3)
+        offset += host.read(offset, bb.getInt());                                                            // 6
+        interval_millis.read(bb.getLong());                                                                  // 7
+        offset += request_body.read(offset, bb.getInt());                                                    // 8
+        offset += request_content_type.read(offset, bb.getInt());                                            // 9
+        offset += request_headers.read(offset, bb.getInt());                                                 // 10
+        offset += request_json_type.read(offset, bb.getInt());                                               // 11
+        offset += request_method.read(offset, bb.getInt());                                                  // 12
+        offset += request_params.read(offset, bb.getInt());                                                  // 13
+        offset += request_url.read(offset, bb.getInt());                                                     // 14
+        offset += request_user_agent.read(offset, bb.getInt());                                              // 15
+        offset += response_body.read(offset, bb.getInt());                                                   // 16
+        offset += response_code.read(offset, bb.getInt());                                                   // 17
+        offset += response_content_type.read(offset, bb.getInt());                                           // 18
+        offset += response_headers.read(offset, bb.getInt());                                                // 19
+        offset += response_json_type.read(offset, bb.getInt());                                              // 20
+        response_time_millis.read(bb.getLong());                                                             // 21
+        size_request_bytes.read(bb.getInt());                                                                // 22
+        size_response_bytes.read(bb.getInt());                                                               // 23
+        offset += custom_fields.read(offset, bb.getInt());                                                   // 24 (v3)
+        offset += request_address.read(offset, bb.getInt());                                                 // 25 (v3)
+        offset += session_fields.read(offset, bb.getInt());                                                  // 26 (v3)
+        cookies.read(offset, bb.getInt());                                                                   // 27 (v3)
+        cookies_count.read(bb.getInt());                                                                     // 28 (v3)
+        // skip response_status                                                                              // 29 (v3.1)
+        // skip size_total_bytes                                                                             // 30 (v3.1)
     }
 
     /**
@@ -208,6 +216,8 @@ public final class BinaryHttpMessage {
         session_fields.write(bb);                                                                            // 26 (v3)
         cookies.write(bb);                                                                                   // 27 (v3)
         cookies_count.write(bb);                                                                             // 28 (v3)
+        // skip response_status                                                                              // 29 (v3.1)
+        // skip size_total_bytes                                                                             // 30 (v3.1)
 
         // write variable-length data
         id.write2(bb);                                                                                       // 0
@@ -239,6 +249,8 @@ public final class BinaryHttpMessage {
         session_fields.write2(bb);                                                                           // 26 (v3)
         cookies.write2(bb);                                                                                  // 27 (v3)
         // skip cookies_count                                                                                // 28 (v3)
+        // skip response_status                                                                              // 29 (v3.1)
+        // skip size_total_bytes                                                                             // 30 (v3.1)
 
         // write to stream
         writeInt(out, 30);

@@ -63,6 +63,8 @@ public class BinaryHttpMessageTest {
                 expect(m.session_fields.value()).toBeNull();                                                 // 26 (v3)
                 expect(m.cookies.value()).toBeNull();                                                        // 27 (v3)
                 expect(m.cookies_count.value()).toEqual(0);                                                  // 28 (v3)
+                // skip response_status                                                                      // 29 (v3.1)
+                // skip size_total_bytes                                                                     // 30 (v3.1)
                 expect(m.length()).toEqual(132);
             }
         }
@@ -102,6 +104,8 @@ public class BinaryHttpMessageTest {
                 m.session_fields.read("session_fields");                                                     // 26 (v3)
                 m.cookies.read("cookies");                                                                   // 27 (v3)
                 m.cookies_count.read(56);                                                                    // 28 (v3)
+                // skip response_status                                                                      // 29 (v3.1)
+                // skip size_total_bytes                                                                     // 30 (v3.1)
                 m.write(bos, BUFFER);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
@@ -141,6 +145,8 @@ public class BinaryHttpMessageTest {
                 expect(m.session_fields.value()).toEqual("session_fields");                                  // 26 (v3)
                 expect(m.cookies.value()).toEqual("cookies");                                                // 27 (v3)
                 expect(m.cookies_count.value()).toEqual(56);                                                 // 28 (v3)
+                // skip response_status                                                                      // 29 (v3.1)
+                // skip size_total_bytes                                                                     // 30 (v3.1)
                 expect(m.length()).toEqual(443);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
