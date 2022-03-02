@@ -17,7 +17,7 @@ import static com.mscharhag.oleaster.matcher.Matchers.expect;
  */
 public class BinaryHttpMessageTest {
 
-    public final String FILE = "./target/message.1.blk";
+    public final String FILE = "./target/message-v31.blk";
 
     public final byte[] BUFFER = new byte[10000];
 
@@ -65,7 +65,23 @@ public class BinaryHttpMessageTest {
                 expect(m.cookies_count.value()).toEqual(0);                                                  // 28 (v3)
                 // skip response_status                                                                      // 29 (v3.1)
                 // skip size_total_bytes                                                                     // 30 (v3.1)
-                expect(m.length()).toEqual(132);
+                expect(m.bitmap_categories.value()).toEqual(0);                                              // 31 (v3.1)
+                expect(m.bitmap_request_info.value()).toEqual(0);                                            // 32 (v3.1)
+                expect(m.bitmap_request_json.value()).toEqual(0);                                            // 33 (v3.1)
+                expect(m.bitmap_request_graphql.value()).toEqual(0);                                         // 34 (v3.1)
+                expect(m.bitmap_request_pii.value()).toEqual(0);                                             // 35 (v3.1)
+                expect(m.bitmap_request_quality.value()).toEqual(0);                                         // 36 (v3.1)
+                expect(m.bitmap_response_info.value()).toEqual(0);                                           // 37 (v3.1)
+                expect(m.bitmap_response_json.value()).toEqual(0);                                           // 38 (v3.1)
+                expect(m.bitmap_response_pii.value()).toEqual(0);                                            // 39 (v3.1)
+                expect(m.bitmap_response_quality.value()).toEqual(0);                                        // 40 (v3.1)
+                expect(m.bitmap_attack_request.value()).toEqual(0);                                          // 41 (v3.1)
+                expect(m.bitmap_attack_application.value()).toEqual(0);                                      // 42 (v3.1)
+                expect(m.bitmap_attack_injection.value()).toEqual(0);                                        // 43 (v3.1)
+                expect(m.bitmap_unused1.value()).toEqual(0);                                                 // 44 (v3.1)
+                expect(m.bitmap_unused2.value()).toEqual(0);                                                 // 45 (v3.1)
+                expect(m.bitmap_unused3.value()).toEqual(0);                                                 // 46 (v3.1)
+                expect(m.length()).toEqual(196);
             }
         }
     }
@@ -106,6 +122,22 @@ public class BinaryHttpMessageTest {
                 m.cookies_count.read(56);                                                                    // 28 (v3)
                 // skip response_status                                                                      // 29 (v3.1)
                 // skip size_total_bytes                                                                     // 30 (v3.1)
+                m.bitmap_categories.read(31);                                                                // 31 (v3.1)
+                m.bitmap_request_info.read(32);                                                              // 32 (v3.1)
+                m.bitmap_request_json.read(33);                                                              // 33 (v3.1)
+                m.bitmap_request_graphql.read(34);                                                           // 34 (v3.1)
+                m.bitmap_request_pii.read(35);                                                               // 35 (v3.1)
+                m.bitmap_request_quality.read(36);                                                           // 36 (v3.1)
+                m.bitmap_response_info.read(37);                                                             // 37 (v3.1)
+                m.bitmap_response_json.read(38);                                                             // 38 (v3.1)
+                m.bitmap_response_pii.read(39);                                                              // 39 (v3.1)
+                m.bitmap_response_quality.read(40);                                                          // 40 (v3.1)
+                m.bitmap_attack_request.read(41);                                                            // 41 (v3.1)
+                m.bitmap_attack_application.read(42);                                                        // 42 (v3.1)
+                m.bitmap_attack_injection.read(43);                                                          // 43 (v3.1)
+                m.bitmap_unused1.read(44);                                                                   // 44 (v3.1)
+                m.bitmap_unused2.read(45);                                                                   // 45 (v3.1)
+                m.bitmap_unused3.read(46);                                                                   // 46 (v3.1)
                 m.write(bos, BUFFER);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
@@ -147,7 +179,23 @@ public class BinaryHttpMessageTest {
                 expect(m.cookies_count.value()).toEqual(56);                                                 // 28 (v3)
                 // skip response_status                                                                      // 29 (v3.1)
                 // skip size_total_bytes                                                                     // 30 (v3.1)
-                expect(m.length()).toEqual(443);
+                expect(m.bitmap_categories.value()).toEqual(31);                                             // 31 (v3.1)
+                expect(m.bitmap_request_info.value()).toEqual(32);                                           // 32 (v3.1)
+                expect(m.bitmap_request_json.value()).toEqual(33);                                           // 33 (v3.1)
+                expect(m.bitmap_request_graphql.value()).toEqual(34);                                        // 34 (v3.1)
+                expect(m.bitmap_request_pii.value()).toEqual(35);                                            // 35 (v3.1)
+                expect(m.bitmap_request_quality.value()).toEqual(36);                                        // 36 (v3.1)
+                expect(m.bitmap_response_info.value()).toEqual(37);                                          // 37 (v3.1)
+                expect(m.bitmap_response_json.value()).toEqual(38);                                          // 38 (v3.1)
+                expect(m.bitmap_response_pii.value()).toEqual(39);                                           // 39 (v3.1)
+                expect(m.bitmap_response_quality.value()).toEqual(40);                                       // 40 (v3.1)
+                expect(m.bitmap_attack_request.value()).toEqual(41);                                         // 41 (v3.1)
+                expect(m.bitmap_attack_application.value()).toEqual(42);                                     // 42 (v3.1)
+                expect(m.bitmap_attack_injection.value()).toEqual(43);                                       // 43 (v3.1)
+                expect(m.bitmap_unused1.value()).toEqual(44);                                                // 44 (v3.1)
+                expect(m.bitmap_unused2.value()).toEqual(45);                                                // 45 (v3.1)
+                expect(m.bitmap_unused3.value()).toEqual(46);                                                // 46 (v3.1)
+                expect(m.length()).toEqual(507);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }

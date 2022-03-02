@@ -45,6 +45,22 @@ public final class BinaryHttpMessage {
     public final BinaryHttpMessageInteger cookies_count = new BinaryHttpMessageInteger();                    // 28 (v3)
     // reserved for response_status                                                                          // 29 (v3.1)
     // reserved for size_total_bytes                                                                         // 30 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_categories = new BinaryHttpMessageInteger();                // 31 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_info = new BinaryHttpMessageInteger();              // 32 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_json = new BinaryHttpMessageInteger();              // 33 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_graphql = new BinaryHttpMessageInteger();           // 34 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_pii = new BinaryHttpMessageInteger();               // 35 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_quality = new BinaryHttpMessageInteger();           // 36 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_info = new BinaryHttpMessageInteger();             // 37 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_json = new BinaryHttpMessageInteger();             // 38 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_pii = new BinaryHttpMessageInteger();              // 39 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_quality = new BinaryHttpMessageInteger();          // 40 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_attack_request = new BinaryHttpMessageInteger();            // 41 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_attack_application = new BinaryHttpMessageInteger();        // 42 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_attack_injection = new BinaryHttpMessageInteger();          // 43 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_unused1 = new BinaryHttpMessageInteger();                   // 44 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_unused2 = new BinaryHttpMessageInteger();                   // 45 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_unused3 = new BinaryHttpMessageInteger();                   // 46 (v3.1)
 
     private byte[] buffer;
     private ByteBuffer bytebuffer;
@@ -95,6 +111,22 @@ public final class BinaryHttpMessage {
         // skip cookies_count                                                                                // 28 (v3)
         // skip response_status                                                                              // 29 (v3.1)
         // skip size_total_bytes                                                                             // 30 (v3.1)
+        // skip bitmap_categories                                                                            // 31 (v3.1)
+        // skip bitmap_request_info                                                                          // 32 (v3.1)
+        // skip bitmap_request_json                                                                          // 33 (v3.1)
+        // skip bitmap_request_graphql                                                                       // 34 (v3.1)
+        // skip bitmap_request_pii                                                                           // 35 (v3.1)
+        // skip bitmap_request_quality                                                                       // 36 (v3.1)
+        // skip bitmap_response_info                                                                         // 37 (v3.1)
+        // skip bitmap_response_json                                                                         // 38 (v3.1)
+        // skip bitmap_response_pii                                                                          // 39 (v3.1)
+        // skip bitmap_response_quality                                                                      // 40 (v3.1)
+        // skip bitmap_attack_request                                                                        // 41 (v3.1)
+        // skip bitmap_attack_application                                                                    // 42 (v3.1)
+        // skip bitmap_attack_injection                                                                      // 43 (v3.1)
+        // skip bitmap_unused1                                                                               // 44 (v3.1)
+        // skip bitmap_unused2                                                                               // 45 (v3.1)
+        // skip bitmap_unused3                                                                               // 46 (v3.1)
     }
 
     /**
@@ -133,6 +165,22 @@ public final class BinaryHttpMessage {
         result += cookies_count.bytes();                                                                     // 28 (v3)
         // skip response_status                                                                              // 29 (v3.1)
         // skip size_total_bytes                                                                             // 30 (v3.1)
+        result += bitmap_categories.bytes();                                                                 // 31 (v3.1)
+        result += bitmap_request_info.bytes();                                                               // 32 (v3.1)
+        result += bitmap_request_json.bytes();                                                               // 33 (v3.1)
+        result += bitmap_request_graphql.bytes();                                                            // 34 (v3.1)
+        result += bitmap_request_pii.bytes();                                                                // 35 (v3.1)
+        result += bitmap_request_quality.bytes();                                                            // 36 (v3.1)
+        result += bitmap_response_info.bytes();                                                              // 37 (v3.1)
+        result += bitmap_response_json.bytes();                                                              // 38 (v3.1)
+        result += bitmap_response_pii.bytes();                                                               // 39 (v3.1)
+        result += bitmap_response_quality.bytes();                                                           // 40 (v3.1)
+        result += bitmap_attack_request.bytes();                                                             // 41 (v3.1)
+        result += bitmap_attack_application.bytes();                                                         // 42 (v3.1)
+        result += bitmap_attack_injection.bytes();                                                           // 43 (v3.1)
+        result += bitmap_unused1.bytes();                                                                    // 44 (v3.1)
+        result += bitmap_unused2.bytes();                                                                    // 45 (v3.1)
+        result += bitmap_unused3.bytes();                                                                    // 46 (v3.1)
         return result;
     }
 
@@ -140,13 +188,21 @@ public final class BinaryHttpMessage {
      * Reads all message fields from input stream.
      */
     public void read(FastBufferedInputStream in) throws IOException {
-        int len = readHeader(in);
+        if (in.read(header, 0, 8) < 8) throw new EOFException();
+        if ((header[0] != 0) || (header[1] != 0) || (header[2] != 0))
+            throw new RuntimeException("Invalid header padding");
 
+        int version;
+        if (header[3] == 30) version = 30;
+        else if (header[3] == 31) version = 31;
+        else throw new RuntimeException("Invalid header version");
+
+        int len = fromBytes(header[4], header[5], header[6], header[7]);
         if (buffer.length < len) allocate(len);
         if (in.read(buffer, 0, len) < len) throw new EOFException();
         ByteBuffer bb = bytebuffer.rewind();
 
-        int offset = 124;
+        int offset = (version == 30) ? 124 : 188;
         offset += id.read(offset, bb.getInt());                                                              // 0
         offset += agent_category.read(offset, bb.getInt());                                                  // 1
         offset += agent_device.read(offset, bb.getInt());                                                    // 2
@@ -178,6 +234,41 @@ public final class BinaryHttpMessage {
         cookies_count.read(bb.getInt());                                                                     // 28 (v3)
         // skip response_status                                                                              // 29 (v3.1)
         // skip size_total_bytes                                                                             // 30 (v3.1)
+        if (version == 30) {
+            bitmap_categories.read(0);                                                                       // 31 (v3.1)
+            bitmap_request_info.read(0);                                                                     // 32 (v3.1)
+            bitmap_request_json.read(0);                                                                     // 33 (v3.1)
+            bitmap_request_graphql.read(0);                                                                  // 34 (v3.1)
+            bitmap_request_pii.read(0);                                                                      // 35 (v3.1)
+            bitmap_request_quality.read(0);                                                                  // 36 (v3.1)
+            bitmap_response_info.read(0);                                                                    // 37 (v3.1)
+            bitmap_response_json.read(0);                                                                    // 38 (v3.1)
+            bitmap_response_pii.read(0);                                                                     // 39 (v3.1)
+            bitmap_response_quality.read(0);                                                                 // 40 (v3.1)
+            bitmap_attack_request.read(0);                                                                   // 41 (v3.1)
+            bitmap_attack_application.read(0);                                                               // 42 (v3.1)
+            bitmap_attack_injection.read(0);                                                                 // 43 (v3.1)
+            bitmap_unused1.read(0);                                                                          // 44 (v3.1)
+            bitmap_unused2.read(0);                                                                          // 45 (v3.1)
+            bitmap_unused3.read(0);                                                                          // 46 (v3.1)
+        } else {
+            bitmap_categories.read(bb.getInt());                                                             // 31 (v3.1)
+            bitmap_request_info.read(bb.getInt());                                                           // 32 (v3.1)
+            bitmap_request_json.read(bb.getInt());                                                           // 33 (v3.1)
+            bitmap_request_graphql.read(bb.getInt());                                                        // 34 (v3.1)
+            bitmap_request_pii.read(bb.getInt());                                                            // 35 (v3.1)
+            bitmap_request_quality.read(bb.getInt());                                                        // 36 (v3.1)
+            bitmap_response_info.read(bb.getInt());                                                          // 37 (v3.1)
+            bitmap_response_json.read(bb.getInt());                                                          // 38 (v3.1)
+            bitmap_response_pii.read(bb.getInt());                                                           // 39 (v3.1)
+            bitmap_response_quality.read(bb.getInt());                                                       // 40 (v3.1)
+            bitmap_attack_request.read(bb.getInt());                                                         // 41 (v3.1)
+            bitmap_attack_application.read(bb.getInt());                                                     // 42 (v3.1)
+            bitmap_attack_injection.read(bb.getInt());                                                       // 43 (v3.1)
+            bitmap_unused1.read(bb.getInt());                                                                // 44 (v3.1)
+            bitmap_unused2.read(bb.getInt());                                                                // 45 (v3.1)
+            bitmap_unused3.read(bb.getInt());                                                                // 46 (v3.1)
+        }
     }
 
     /**
@@ -218,6 +309,22 @@ public final class BinaryHttpMessage {
         cookies_count.write(bb);                                                                             // 28 (v3)
         // skip response_status                                                                              // 29 (v3.1)
         // skip size_total_bytes                                                                             // 30 (v3.1)
+        bitmap_categories.write(bb);                                                                         // 31 (v3.1)
+        bitmap_request_info.write(bb);                                                                       // 32 (v3.1)
+        bitmap_request_json.write(bb);                                                                       // 33 (v3.1)
+        bitmap_request_graphql.write(bb);                                                                    // 34 (v3.1)
+        bitmap_request_pii.write(bb);                                                                        // 35 (v3.1)
+        bitmap_request_quality.write(bb);                                                                    // 36 (v3.1)
+        bitmap_response_info.write(bb);                                                                      // 37 (v3.1)
+        bitmap_response_json.write(bb);                                                                      // 38 (v3.1)
+        bitmap_response_pii.write(bb);                                                                       // 39 (v3.1)
+        bitmap_response_quality.write(bb);                                                                   // 40 (v3.1)
+        bitmap_attack_request.write(bb);                                                                     // 41 (v3.1)
+        bitmap_attack_application.write(bb);                                                                 // 42 (v3.1)
+        bitmap_attack_injection.write(bb);                                                                   // 43 (v3.1)
+        bitmap_unused1.write(bb);                                                                            // 44 (v3.1)
+        bitmap_unused2.write(bb);                                                                            // 45 (v3.1)
+        bitmap_unused3.write(bb);                                                                            // 46 (v3.1)
 
         // write variable-length data
         id.write2(bb);                                                                                       // 0
@@ -251,23 +358,28 @@ public final class BinaryHttpMessage {
         // skip cookies_count                                                                                // 28 (v3)
         // skip response_status                                                                              // 29 (v3.1)
         // skip size_total_bytes                                                                             // 30 (v3.1)
+        // skip bitmap_categories                                                                            // 31 (v3.1)
+        // skip bitmap_request_info                                                                          // 32 (v3.1)
+        // skip bitmap_request_json                                                                          // 33 (v3.1)
+        // skip bitmap_request_graphql                                                                       // 34 (v3.1)
+        // skip bitmap_request_pii                                                                           // 35 (v3.1)
+        // skip bitmap_request_quality                                                                       // 36 (v3.1)
+        // skip bitmap_response_info                                                                         // 37 (v3.1)
+        // skip bitmap_response_json                                                                         // 38 (v3.1)
+        // skip bitmap_response_pii                                                                          // 39 (v3.1)
+        // skip bitmap_response_quality                                                                      // 40 (v3.1)
+        // skip bitmap_attack_request                                                                        // 41 (v3.1)
+        // skip bitmap_attack_application                                                                    // 42 (v3.1)
+        // skip bitmap_attack_injection                                                                      // 43 (v3.1)
+        // skip bitmap_unused1                                                                               // 44 (v3.1)
+        // skip bitmap_unused2                                                                               // 45 (v3.1)
+        // skip bitmap_unused3                                                                               // 46 (v3.1)
 
         // write to stream
-        writeInt(out, 30);
+        writeInt(out, 31);
         int position = bb.position();
         writeInt(out, position);
         out.write(buf, 0, position);
-    }
-
-    /**
-     * Reads message header, verifies magic values and returns length in bytes for the remainder of the message.
-     */
-    private int readHeader(FastBufferedInputStream in) throws IOException {
-        if (in.read(header, 0, 8) < 8) throw new EOFException();
-        if ((header[0] != 0) || (header[1] != 0) || (header[2] != 0))
-            throw new RuntimeException("Invalid header padding");
-        if (header[3] != 30) throw new RuntimeException("Invalid header version");
-        return fromBytes(header[4], header[5], header[6], header[7]);
     }
 
     /**
