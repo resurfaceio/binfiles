@@ -2,11 +2,10 @@
 
 package io.resurface.binfiles;
 
-import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
-import it.unimi.dsi.fastutil.io.FastBufferedOutputStream;
-
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 /**
@@ -193,7 +192,7 @@ public final class BinaryHttpMessage {
     /**
      * Reads all message fields from input stream.
      */
-    public void read(FastBufferedInputStream in) throws IOException {
+    public void read(InputStream in) throws IOException {
         if (in.read(header, 0, 8) < 8) throw new EOFException();
         if ((header[0] != 0) || (header[1] != 0) || (header[2] != 0))
             throw new RuntimeException("Invalid header padding");
@@ -284,7 +283,7 @@ public final class BinaryHttpMessage {
     /**
      * Writes all message fields to output stream.
      */
-    public void write(FastBufferedOutputStream out, byte[] buf) throws IOException {
+    public void write(OutputStream out, byte[] buf) throws IOException {
         ByteBuffer bb = ByteBuffer.wrap(buf);
 
         // write fixed-length data
@@ -406,7 +405,7 @@ public final class BinaryHttpMessage {
     /**
      * Writes integer to output stream.
      */
-    private void writeInt(FastBufferedOutputStream out, int value) throws IOException {
+    private void writeInt(OutputStream out, int value) throws IOException {
         if (value == 0) {
             out.write(0);
             out.write(0);
