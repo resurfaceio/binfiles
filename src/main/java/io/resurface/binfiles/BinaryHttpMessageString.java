@@ -15,7 +15,7 @@ public final class BinaryHttpMessageString {
     private int offset;
 
     /**
-     * Returns field size in bytes.
+     * Returns field size in bytes, including all metadata.
      */
     public int bytes() {
         return len + 4;

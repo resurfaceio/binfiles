@@ -12,7 +12,7 @@ public final class BinaryHttpMessageInteger {
     private int value;
 
     /**
-     * Returns field size in bytes.
+     * Returns field size in bytes, including all metadata.
      */
     public int bytes() {
         return 4;

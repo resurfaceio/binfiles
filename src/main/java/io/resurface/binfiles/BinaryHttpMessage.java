@@ -133,9 +133,9 @@ public final class BinaryHttpMessage {
     }
 
     /**
-     * Returns the length of this message in bytes.
+     * Returns message size in bytes, including all metadata.
      */
-    public int length() {
+    public int bytes() {
         int result = 8;
         result += id.bytes();                                                                                // 0
         result += agent_category.bytes();                                                                    // 1
