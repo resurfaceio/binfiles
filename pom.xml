@@ -6,7 +6,7 @@
 
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-binfiles</artifactId>
-    <version>3.2.3</version>
+    <version>3.3.1</version>
     <name>resurfaceio-binfiles</name>
     <description>Readers and writers for binary files</description>
     <url>https://github.com/resurfaceio/binfiles</url>
@@ -29,6 +29,18 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.airlift</groupId>
+            <artifactId>slice</artifactId>
+            <version>0.42</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.lz4</groupId>
+            <artifactId>lz4-java</artifactId>
+            <version>1.8.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.mscharhag.oleaster</groupId>
             <artifactId>oleaster-matcher</artifactId>
             <version>0.2.0</version>
@@ -44,12 +56,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.lz4</groupId>
-            <artifactId>lz4-java</artifactId>
-            <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
