@@ -37,7 +37,7 @@ public final class CompressedHttpMessageString {
      * Constructor with custom compression threshold.
      */
     public CompressedHttpMessageString(int threshold) {
-        this.compressor = LZ4Factory.fastestInstance().fastCompressor();
+        this.compressor = LZ4Factory.fastestInstance().highCompressor();
         this.decompressor = LZ4Factory.fastestInstance().fastDecompressor();
         this.threshold = threshold;
     }

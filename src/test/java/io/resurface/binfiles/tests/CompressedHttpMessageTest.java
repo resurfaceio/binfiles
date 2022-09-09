@@ -271,7 +271,7 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                   // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                   // 48 (v3.1)
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(1619);
+                expect(m.bytes()).toEqual(1597);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -330,7 +330,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                // 48 (v3.1)
-                expect(m.bytes()).toEqual(1619);
+                expect(m.bytes()).toEqual(1597);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
