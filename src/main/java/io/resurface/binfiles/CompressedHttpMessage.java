@@ -23,13 +23,13 @@ public final class CompressedHttpMessage {
     public final BinaryHttpMessageLong interval_millis = new BinaryHttpMessageLong();                        // 7
     public final BinaryHttpMessageString request_body = new BinaryHttpMessageString();                       // 8
     public final BinaryHttpMessageString request_content_type = new BinaryHttpMessageString();               // 9
-    public final BinaryHttpMessageString request_headers = new BinaryHttpMessageString();                    // 10
+    public final CompressedHttpMessageString request_headers = new CompressedHttpMessageString();            // 10
     public final BinaryHttpMessageString request_json_type = new BinaryHttpMessageString();                  // 11
     public final BinaryHttpMessageString request_method = new BinaryHttpMessageString();                     // 12
     public final BinaryHttpMessageString request_params = new BinaryHttpMessageString();                     // 13
     public final BinaryHttpMessageString request_url = new BinaryHttpMessageString();                        // 14
     public final BinaryHttpMessageString request_user_agent = new BinaryHttpMessageString();                 // 15
-    public CompressedHttpMessageString response_body;                                                        // 16
+    public final CompressedHttpMessageString response_body = new CompressedHttpMessageString();              // 16
     public final BinaryHttpMessageString response_code = new BinaryHttpMessageString();                      // 17
     public final BinaryHttpMessageString response_content_type = new BinaryHttpMessageString();              // 18
     public final BinaryHttpMessageString response_headers = new BinaryHttpMessageString();                   // 19
@@ -68,17 +68,10 @@ public final class CompressedHttpMessage {
     private final byte[] header = new byte[8];
 
     /**
-     * Default constructor.
-     */
-    public CompressedHttpMessage(int max_length) {
-        allocate(max_length);
-    }
-
-    /**
      * Allocates internal buffer with specified length.
      */
-    public void allocate(int length) {
-        this.buffer = new byte[length];  // todo need guard against huge buffer sizes!
+    private void allocate(int length) {
+        this.buffer = new byte[length]; // todo guard against huge buffer sizes
         this.bytebuffer = ByteBuffer.wrap(buffer);
 
         id.buffer(buffer);                                                                                   // 0
@@ -97,7 +90,7 @@ public final class CompressedHttpMessage {
         request_params.buffer(buffer);                                                                       // 13
         request_url.buffer(buffer);                                                                          // 14
         request_user_agent.buffer(buffer);                                                                   // 15
-        response_body = new CompressedHttpMessageString(buffer);                                             // 16
+        response_body.buffer(buffer);                                                                        // 16
         response_code.buffer(buffer);                                                                        // 17
         response_content_type.buffer(buffer);                                                                // 18
         response_headers.buffer(buffer);                                                                     // 19
@@ -197,16 +190,14 @@ public final class CompressedHttpMessage {
         if ((header[0] != 0) || (header[1] != 0) || (header[2] != 0))
             throw new RuntimeException("Invalid header padding");
 
-        int version;
-        if (header[3] == 33) version = 33;
-        else throw new RuntimeException("Invalid header version");
+        if (header[3] != 33) throw new RuntimeException("Invalid header version");
 
         int len = fromBytes(header[4], header[5], header[6], header[7]);
-        if (buffer.length < len) allocate(len);
+        if (buffer == null || buffer.length < len) allocate(len);
         if (in.read(buffer, 0, len) < len) throw new EOFException();
         ByteBuffer bb = bytebuffer.rewind();
 
-        int offset = 200;
+        int offset = 204;
         offset += id.read(offset, bb.getInt());                                                              // 0
         offset += agent_category.read(offset, bb.getInt());                                                  // 1
         offset += agent_device.read(offset, bb.getInt());                                                    // 2
@@ -217,7 +208,7 @@ public final class CompressedHttpMessage {
         interval_millis.read(bb.getLong());                                                                  // 7
         offset += request_body.read(offset, bb.getInt());                                                    // 8
         offset += request_content_type.read(offset, bb.getInt());                                            // 9
-        offset += request_headers.read(offset, bb.getInt());                                                 // 10
+        offset += request_headers.read(offset, bb.getInt(), bb.getInt());                                    // 10
         offset += request_json_type.read(offset, bb.getInt());                                               // 11
         offset += request_method.read(offset, bb.getInt());                                                  // 12
         offset += request_params.read(offset, bb.getInt());                                                  // 13
@@ -259,10 +250,10 @@ public final class CompressedHttpMessage {
     }
 
     /**
-     * Writes all message fields to output stream.
+     * Writes all message fields to output stream, using reusable temporary buffer.
      */
-    public void write(OutputStream out, byte[] buf) throws IOException {
-        ByteBuffer bb = ByteBuffer.wrap(buf);
+    public void write(OutputStream out, byte[] temp) throws IOException {
+        ByteBuffer bb = ByteBuffer.wrap(temp);
 
         // write fixed-length data
         id.write(bb);                                                                                        // 0
@@ -370,7 +361,7 @@ public final class CompressedHttpMessage {
         writeInt(out, 33);
         int position = bb.position();
         writeInt(out, position);
-        out.write(buf, 0, position);
+        out.write(temp, 0, position);
     }
 
     /**

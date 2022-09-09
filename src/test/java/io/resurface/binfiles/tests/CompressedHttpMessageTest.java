@@ -2,7 +2,6 @@
 
 package io.resurface.binfiles.tests;
 
-import io.resurface.binfiles.BinaryHttpMessage;
 import io.resurface.binfiles.CompressedHttpMessage;
 import it.unimi.dsi.fastutil.io.FastBufferedInputStream;
 import it.unimi.dsi.fastutil.io.FastBufferedOutputStream;
@@ -19,22 +18,24 @@ import static com.mscharhag.oleaster.matcher.Matchers.expect;
  */
 public class CompressedHttpMessageTest {
 
-    public final String FILE = "./target/message-v33.blz";
+    public final String FILE1 = "./target/message.1.blz";
+    public final String FILE2 = "./target/message.2.blz";
 
     public final byte[] BUFFER = new byte[10000];
 
     @Test
     public void allNullsTest() throws Exception {
-        try (FileOutputStream fo = new FileOutputStream(FILE)) {
+        try (FileOutputStream fo = new FileOutputStream(FILE1)) {
             try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
-                CompressedHttpMessage m = new CompressedHttpMessage(BUFFER.length);
+                CompressedHttpMessage m = new CompressedHttpMessage();
                 m.write(bos, BUFFER);
+                expect(m.bytes()).toEqual(212);
             }
         }
 
-        try (FileInputStream fi = new FileInputStream(FILE)) {
+        try (FileInputStream fi = new FileInputStream(FILE1)) {
             try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
-                CompressedHttpMessage m = new CompressedHttpMessage(BUFFER.length);
+                CompressedHttpMessage m = new CompressedHttpMessage();
                 m.read(bis);
                 expect(m.id.value()).toBeNull();                                                             // 0
                 expect(m.agent_category.value()).toBeNull();                                                 // 1
@@ -86,16 +87,16 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(0);                                                 // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(0);                                                 // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(0);                                                 // 48 (v3.1)
-                expect(m.bytes()).toEqual(208);
+                expect(m.bytes()).toEqual(212);
             }
         }
     }
 
     @Test
     public void roundTripTest() throws Exception {
-        try (FileOutputStream fo = new FileOutputStream(FILE)) {
+        try (FileOutputStream fo = new FileOutputStream(FILE1)) {
             try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
-                CompressedHttpMessage m = new CompressedHttpMessage(BUFFER.length);
+                CompressedHttpMessage m = new CompressedHttpMessage();
                 m.id.read("id");                                                                             // 0
                 m.agent_category.read("agent_category");                                                     // 1
                 m.agent_device.read("agent_device");                                                         // 2
@@ -146,14 +147,15 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                   // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                   // 48 (v3.1)
                 m.write(bos, BUFFER);
+                expect(m.bytes()).toEqual(523);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
         }
 
-        try (FileInputStream fi = new FileInputStream(FILE)) {
+        try (FileInputStream fi = new FileInputStream(FILE1)) {
             try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
-                CompressedHttpMessage m = new CompressedHttpMessage(BUFFER.length);
+                CompressedHttpMessage m = new CompressedHttpMessage();
                 m.read(bis);
                 expect(m.id.value()).toEqual("id");                                                          // 0
                 expect(m.agent_category.value()).toEqual("agent_category");                                  // 1
@@ -165,7 +167,7 @@ public class CompressedHttpMessageTest {
                 expect(m.interval_millis.value()).toEqual(123456);                                           // 7
                 expect(m.request_body.value()).toEqual("request_body");                                      // 8
                 expect(m.request_content_type.value()).toEqual("request_content_type");                      // 9
-                expect(m.request_headers.value()).toEqual("request_headers");                                // 10
+                expect(Objects.requireNonNull(m.request_headers.value()).toStringUtf8()).toEqual("request_headers"); // 10
                 expect(m.request_json_type.value()).toEqual("request_json_type");                            // 11
                 expect(m.request_method.value()).toEqual("request_method");                                  // 12
                 expect(m.request_params.value()).toEqual("request_params");                                  // 13
@@ -204,7 +206,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                // 48 (v3.1)
-                expect(m.bytes()).toEqual(519);
+                expect(m.bytes()).toEqual(523);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
@@ -212,12 +214,13 @@ public class CompressedHttpMessageTest {
     }
 
     public static String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend, magna a placerat rutrum, nunc diam volutpat nisl, sed mattis velit justo non enim. Mauris nec fringilla tellus. In laoreet lacinia nibh, non maximus ante sollicitudin et. In sodales vitae est vitae vestibulum. Nunc ornare erat dui, vitae aliquet arcu sollicitudin id. Duis arcu ipsum, pretium sed faucibus eget, egestas a est. Donec nec dolor at arcu pretium tincidunt eu ac tortor. Vestibulum ante ipsum primis in faucibus orci luctus ex.";
+    public static String LOREM_IPSUM2 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus est ac mollis suscipit. Morbi non interdum elit. Nulla ac porta sem, ut lobortis nibh. Morbi volutpat vitae metus nec blandit. Mauris nisl sapien, facilisis nec placerat et, vehicula eget mi. Nunc ac augue cursus, faucibus sem ut, porta dolor. Sed varius viverra massa. Donec fermentum, velit at molestie semper, mauris felis tempor est, egestas ultricies lacus ipsum eget nunc. Donec ultrices viverra tortor, iaculis auctor dolor convallis vel. Maecenas turpis libero, pretium at pretium sed, dictum ut purus. Donec ac maximus enim. Aliquam porttitor lorem ut nibh pellentesque ultrices. Quisque ut ipsum dapibus arcu tincidunt ullamcorper eu sed nisi. Suspendisse ut urna non nunc fringilla ac.";
 
     @Test
     public void largeRoundTripTest() throws Exception {
-        try (FileOutputStream fo = new FileOutputStream(FILE)) {
+        try (FileOutputStream fo = new FileOutputStream(FILE2)) {
             try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
-                CompressedHttpMessage m = new CompressedHttpMessage(BUFFER.length);
+                CompressedHttpMessage m = new CompressedHttpMessage();
                 m.id.read("id");                                                                             // 0
                 m.agent_category.read("agent_category");                                                     // 1
                 m.agent_device.read("agent_device");                                                         // 2
@@ -228,13 +231,13 @@ public class CompressedHttpMessageTest {
                 m.interval_millis.read(123456);                                                              // 7
                 m.request_body.read("request_body");                                                         // 8
                 m.request_content_type.read("request_content_type");                                         // 9
-                m.request_headers.read("request_headers");                                                   // 10
+                m.request_headers.read(LOREM_IPSUM);                                                         // 10
                 m.request_json_type.read("request_json_type");                                               // 11
                 m.request_method.read("request_method");                                                     // 12
                 m.request_params.read("request_params");                                                     // 13
                 m.request_url.read("request_url");                                                           // 14
                 m.request_user_agent.read("request_user_agent");                                             // 15
-                m.response_body.read(LOREM_IPSUM);                                                           // 16
+                m.response_body.read(LOREM_IPSUM2);                                                          // 16
                 m.response_code.read("response_code");                                                       // 17
                 m.response_content_type.read("response_content_type");                                       // 18
                 m.response_headers.read("response_headers");                                                 // 19
@@ -268,14 +271,15 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                   // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                   // 48 (v3.1)
                 m.write(bos, BUFFER);
+                expect(m.bytes()).toEqual(1619);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
         }
 
-        try (FileInputStream fi = new FileInputStream(FILE)) {
+        try (FileInputStream fi = new FileInputStream(FILE2)) {
             try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
-                CompressedHttpMessage m = new CompressedHttpMessage(BUFFER.length);
+                CompressedHttpMessage m = new CompressedHttpMessage();
                 m.read(bis);
                 expect(m.id.value()).toEqual("id");                                                          // 0
                 expect(m.agent_category.value()).toEqual("agent_category");                                  // 1
@@ -287,13 +291,13 @@ public class CompressedHttpMessageTest {
                 expect(m.interval_millis.value()).toEqual(123456);                                           // 7
                 expect(m.request_body.value()).toEqual("request_body");                                      // 8
                 expect(m.request_content_type.value()).toEqual("request_content_type");                      // 9
-                expect(m.request_headers.value()).toEqual("request_headers");                                // 10
+                expect(Objects.requireNonNull(m.request_headers.value()).toStringUtf8()).toEqual(LOREM_IPSUM);  // 10
                 expect(m.request_json_type.value()).toEqual("request_json_type");                            // 11
                 expect(m.request_method.value()).toEqual("request_method");                                  // 12
                 expect(m.request_params.value()).toEqual("request_params");                                  // 13
                 expect(m.request_url.value()).toEqual("request_url");                                        // 14
                 expect(m.request_user_agent.value()).toEqual("request_user_agent");                          // 15
-                expect(Objects.requireNonNull(m.response_body.value()).toStringUtf8()).toEqual(LOREM_IPSUM);    // 16
+                expect(Objects.requireNonNull(m.response_body.value()).toStringUtf8()).toEqual(LOREM_IPSUM2);   // 16
                 expect(m.response_code.value()).toEqual("response_code");                                    // 17
                 expect(m.response_content_type.value()).toEqual("response_content_type");                    // 18
                 expect(m.response_headers.value()).toEqual("response_headers");                              // 19
@@ -326,7 +330,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                // 48 (v3.1)
-                expect(m.bytes()).toEqual(961);
+                expect(m.bytes()).toEqual(1619);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }

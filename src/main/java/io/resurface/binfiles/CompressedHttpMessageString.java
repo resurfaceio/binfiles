@@ -16,31 +16,40 @@ import java.nio.charset.StandardCharsets;
  */
 public final class CompressedHttpMessageString {
 
-    private byte[] buf;
     private final LZ4Compressor compressor;
     private final LZ4FastDecompressor decompressor;
+    private final int threshold;
+
+    private byte[] buf;
     private int len;
     private int offset;
     private int stored;
-    private final byte[] temp;
-    private final int threshold;
+    private byte[] temp;
 
     /**
-     * Constructor with external message buffer and default compression threshold.
+     * Constructor with default compression threshold.
      */
-    public CompressedHttpMessageString(byte[] buf) {
-        this(buf, 256);  // todo is this the right default?
+    public CompressedHttpMessageString() {
+        this(256);
     }
 
     /**
-     * Constructor with external message buffer and custom compression threshold.
+     * Constructor with custom compression threshold.
      */
-    public CompressedHttpMessageString(byte[] buf, int threshold) {
-        this.buf = buf;
+    public CompressedHttpMessageString(int threshold) {
         this.compressor = LZ4Factory.fastestInstance().fastCompressor();
         this.decompressor = LZ4Factory.fastestInstance().fastDecompressor();
-        this.temp = new byte[compressor.maxCompressedLength(buf.length)];
         this.threshold = threshold;
+    }
+
+    /**
+     * Sets read buffer for this field and resets internal state.
+     */
+    public void buffer(byte[] buf) {
+        this.buf = buf;
+        this.len = 0;
+        this.offset = 0;
+        this.stored = 0;
     }
 
     /**
@@ -58,14 +67,29 @@ public final class CompressedHttpMessageString {
     }
 
     /**
+     * Returns offset to this field in bytes.
+     */
+    public int offset() {  // todo add test coverage
+        return offset;
+    }
+
+    /**
+     * Returns length of this field in bytes, with any compression applied.
+     */
+    public int stored() {  // todo add test coverage
+        return stored;
+    }
+
+    /**
      * Returns field as slice, or null if field is empty.
      */
     public Slice value() {
-        if (len == 0) {
+        if (buf == null || len == 0) {
             return null;
         } else if (len < threshold) {
             return Slices.wrappedBuffer(buf, offset, len);
         } else {
+            if (temp == null || temp.length < len) temp = new byte[len];
             decompressor.decompress(buf, offset, temp, 0, len);
             return Slices.wrappedBuffer(temp, 0, len);  // todo throw exception if wrong number of bytes after decompression?
         }
@@ -99,6 +123,8 @@ public final class CompressedHttpMessageString {
             if (len < threshold) {
                 stored = buf.length;
             } else {
+                int max_length = compressor.maxCompressedLength(buf.length);
+                if (temp == null || temp.length < max_length) temp = new byte[max_length];
                 stored = compressor.compress(buf, 0, len, temp, 0, temp.length);
                 buf = temp;
             }
