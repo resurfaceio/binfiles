@@ -12,9 +12,9 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 /**
- * String field with automatic compression, used in binary message format.
+ * String field used in compressed message format.
  */
-public final class CompressedHttpMessageString {
+public final class CompressedHttpMessageString extends PersistentHttpMessageString {
 
     private final LZ4Compressor compressor;
     private final LZ4FastDecompressor decompressor;
@@ -83,7 +83,7 @@ public final class CompressedHttpMessageString {
     /**
      * Returns field as slice, or null if field is empty.
      */
-    public Slice value() {
+    public Slice toSlice() {
         if (buf == null || len == 0) {
             return null;
         } else if (len < threshold) {
@@ -95,16 +95,14 @@ public final class CompressedHttpMessageString {
         }
     }
 
-    // SERIALIZATION METHODS -----------------------------------------------------------------------------------------------------
-
     /**
      * Reads string position within external message buffer.
      */
-    public int read(int offset, int length, int stored) {
+    public int read(int offset, ByteBuffer in) {
         // todo check values for out of range?
         this.offset = offset;
-        this.len = length;
-        this.stored = stored;
+        this.len = in.getInt();
+        this.stored = in.getInt();
         return stored;
     }
 

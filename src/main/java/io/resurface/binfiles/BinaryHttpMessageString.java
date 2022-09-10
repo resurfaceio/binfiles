@@ -2,41 +2,37 @@
 
 package io.resurface.binfiles;
 
+import io.airlift.slice.Slice;
+import io.airlift.slice.Slices;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 /**
  * String field used in binary message format.
  */
-public final class BinaryHttpMessageString {
+public final class BinaryHttpMessageString extends PersistentHttpMessageString {
 
     private byte[] buf;
     private int len;
     private int offset;
 
     /**
-     * Returns field size in bytes, including all metadata.
+     * Returns field storage in bytes, including all metadata and with compression.
      */
     public int bytes() {
         return len + 4;
     }
 
     /**
-     * Returns internal buffer for this field.
-     */
-    public byte[] buffer() {
-        return buf;
-    }
-
-    /**
-     * Sets internal buffer for this field.
+     * Sets read buffer for this field and resets internal state.
      */
     public void buffer(byte[] buf) {
         this.buf = buf;
     }
 
     /**
-     * Returns length of this field in bytes.
+     * Returns decompressed length of this field in bytes.
      */
     public int length() {
         return len;
@@ -50,21 +46,26 @@ public final class BinaryHttpMessageString {
     }
 
     /**
-     * Returns field as primitive type, or null if field is empty.
+     * Returns length of this field in bytes, with any compression applied.
      */
-    public String value() {
-        return len == 0 ? null : new String(buf, offset, len);
+    public int stored() {
+        return len;
     }
 
-    // SERIALIZATION METHODS -----------------------------------------------------------------------------------------------------
+    /**
+     * Returns field as primitive type, or null if field is empty.
+     */
+    public Slice toSlice() {
+        return len == 0 ? null : Slices.wrappedBuffer(buf, offset, len);
+    }
 
     /**
      * Reads string position within current buffer.
      */
-    public int read(int offset, int length) {
+    public int read(int offset, ByteBuffer in) {
         this.offset = offset;
-        this.len = length;
-        return length;
+        this.len = in.getInt();
+        return len;
     }
 
     /**

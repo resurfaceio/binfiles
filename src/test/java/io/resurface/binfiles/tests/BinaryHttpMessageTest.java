@@ -17,7 +17,7 @@ import static com.mscharhag.oleaster.matcher.Matchers.expect;
  */
 public class BinaryHttpMessageTest {
 
-    public final String FILE = "./target/message-v31.blk";
+    public final String FILE = "./target/message.1.blk";
 
     public final byte[] BUFFER = new byte[10000];
 

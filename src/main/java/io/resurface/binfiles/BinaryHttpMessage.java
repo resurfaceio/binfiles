@@ -9,70 +9,68 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 /**
- * Binary format for HTTP messages.
+ * Legacy persistent binary format for HTTP messages.
  */
-public final class BinaryHttpMessage {
-
-    public final BinaryHttpMessageString id = new BinaryHttpMessageString();                                 // 0
-    public final BinaryHttpMessageString agent_category = new BinaryHttpMessageString();                     // 1
-    public final BinaryHttpMessageString agent_device = new BinaryHttpMessageString();                       // 2
-    public final BinaryHttpMessageString agent_name = new BinaryHttpMessageString();                         // 3
-    public final BinaryHttpMessageString graphql_operations = new BinaryHttpMessageString();                 // 4 (v3)
-    public final BinaryHttpMessageInteger graphql_operations_count = new BinaryHttpMessageInteger();         // 5 (v3)
-    public final BinaryHttpMessageString host = new BinaryHttpMessageString();                               // 6
-    public final BinaryHttpMessageLong interval_millis = new BinaryHttpMessageLong();                        // 7
-    public final BinaryHttpMessageString request_body = new BinaryHttpMessageString();                       // 8
-    public final BinaryHttpMessageString request_content_type = new BinaryHttpMessageString();               // 9
-    public final BinaryHttpMessageString request_headers = new BinaryHttpMessageString();                    // 10
-    public final BinaryHttpMessageString request_json_type = new BinaryHttpMessageString();                  // 11
-    public final BinaryHttpMessageString request_method = new BinaryHttpMessageString();                     // 12
-    public final BinaryHttpMessageString request_params = new BinaryHttpMessageString();                     // 13
-    public final BinaryHttpMessageString request_url = new BinaryHttpMessageString();                        // 14
-    public final BinaryHttpMessageString request_user_agent = new BinaryHttpMessageString();                 // 15
-    public final BinaryHttpMessageString response_body = new BinaryHttpMessageString();                      // 16
-    public final BinaryHttpMessageString response_code = new BinaryHttpMessageString();                      // 17
-    public final BinaryHttpMessageString response_content_type = new BinaryHttpMessageString();              // 18
-    public final BinaryHttpMessageString response_headers = new BinaryHttpMessageString();                   // 19
-    public final BinaryHttpMessageString response_json_type = new BinaryHttpMessageString();                 // 20
-    public final BinaryHttpMessageLong response_time_millis = new BinaryHttpMessageLong();                   // 21
-    public final BinaryHttpMessageInteger size_request_bytes = new BinaryHttpMessageInteger();               // 22
-    public final BinaryHttpMessageInteger size_response_bytes = new BinaryHttpMessageInteger();              // 23
-    public final BinaryHttpMessageString custom_fields = new BinaryHttpMessageString();                      // 24 (v3)
-    public final BinaryHttpMessageString request_address = new BinaryHttpMessageString();                    // 25 (v3)
-    public final BinaryHttpMessageString session_fields = new BinaryHttpMessageString();                     // 26 (v3)
-    public final BinaryHttpMessageString cookies = new BinaryHttpMessageString();                            // 27 (v3)
-    public final BinaryHttpMessageInteger cookies_count = new BinaryHttpMessageInteger();                    // 28 (v3)
-    // reserved for response_status                                                                          // 29 (v3.1)
-    // reserved for size_total_bytes                                                                         // 30 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_versioning = new BinaryHttpMessageInteger();                // 31 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_request_info = new BinaryHttpMessageInteger();              // 32 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_request_json = new BinaryHttpMessageInteger();              // 33 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_request_graphql = new BinaryHttpMessageInteger();           // 34 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_request_pii = new BinaryHttpMessageInteger();               // 35 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_request_threat = new BinaryHttpMessageInteger();            // 36 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_response_info = new BinaryHttpMessageInteger();             // 37 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_response_json = new BinaryHttpMessageInteger();             // 38 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_response_pii = new BinaryHttpMessageInteger();              // 39 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_response_threat = new BinaryHttpMessageInteger();           // 40 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_attack_request = new BinaryHttpMessageInteger();            // 41 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_attack_application = new BinaryHttpMessageInteger();        // 42 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_attack_injection = new BinaryHttpMessageInteger();          // 43 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_response_leak = new BinaryHttpMessageInteger();             // 44 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_unused2 = new BinaryHttpMessageInteger();                   // 45 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_unused3 = new BinaryHttpMessageInteger();                   // 46 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_unused4 = new BinaryHttpMessageInteger();                   // 47 (v3.1)
-    public final BinaryHttpMessageInteger bitmap_unused5 = new BinaryHttpMessageInteger();                   // 48 (v3.1)
-
-    private byte[] buffer;
-    private ByteBuffer bytebuffer;
-    private final byte[] header = new byte[8];
+public final class BinaryHttpMessage extends PersistentHttpMessage {
 
     /**
      * Default constructor.
      */
     public BinaryHttpMessage() {
-        allocate(8);
+        this.id = new BinaryHttpMessageString();                                 // 0
+        this.agent_category = new BinaryHttpMessageString();                     // 1
+        this.agent_device = new BinaryHttpMessageString();                       // 2
+        this.agent_name = new BinaryHttpMessageString();                         // 3
+        this.graphql_operations = new BinaryHttpMessageString();                 // 4 (v3)
+        this.graphql_operations_count = new BinaryHttpMessageInteger();         // 5 (v3)
+        this.host = new BinaryHttpMessageString();                               // 6
+        this.interval_millis = new BinaryHttpMessageLong();                        // 7
+        this.request_body = new BinaryHttpMessageString();                       // 8
+        this.request_content_type = new BinaryHttpMessageString();               // 9
+        this.request_headers = new BinaryHttpMessageString();                    // 10
+        this.request_json_type = new BinaryHttpMessageString();                  // 11
+        this.request_method = new BinaryHttpMessageString();                     // 12
+        this.request_params = new BinaryHttpMessageString();                     // 13
+        this.request_url = new BinaryHttpMessageString();                        // 14
+        this.request_user_agent = new BinaryHttpMessageString();                 // 15
+        this.response_body = new BinaryHttpMessageString();                      // 16
+        this.response_code = new BinaryHttpMessageString();                      // 17
+        this.response_content_type = new BinaryHttpMessageString();              // 18
+        this.response_headers = new BinaryHttpMessageString();                   // 19
+        this.response_json_type = new BinaryHttpMessageString();                 // 20
+        this.response_time_millis = new BinaryHttpMessageLong();                   // 21
+        this.size_request_bytes = new BinaryHttpMessageInteger();               // 22
+        this.size_response_bytes = new BinaryHttpMessageInteger();              // 23
+        this.custom_fields = new BinaryHttpMessageString();                      // 24 (v3)
+        this.request_address = new BinaryHttpMessageString();                    // 25 (v3)
+        this.session_fields = new BinaryHttpMessageString();                     // 26 (v3)
+        this.cookies = new BinaryHttpMessageString();                            // 27 (v3)
+        this.cookies_count = new BinaryHttpMessageInteger();                    // 28 (v3)
+        // reserved for response_status                                                                          // 29 (v3.1)
+        // reserved for size_total_bytes                                                                         // 30 (v3.1)
+        this.bitmap_versioning = new BinaryHttpMessageInteger();                // 31 (v3.1)
+        this.bitmap_request_info = new BinaryHttpMessageInteger();              // 32 (v3.1)
+        this.bitmap_request_json = new BinaryHttpMessageInteger();              // 33 (v3.1)
+        this.bitmap_request_graphql = new BinaryHttpMessageInteger();           // 34 (v3.1)
+        this.bitmap_request_pii = new BinaryHttpMessageInteger();               // 35 (v3.1)
+        this.bitmap_request_threat = new BinaryHttpMessageInteger();            // 36 (v3.1)
+        this.bitmap_response_info = new BinaryHttpMessageInteger();             // 37 (v3.1)
+        this.bitmap_response_json = new BinaryHttpMessageInteger();             // 38 (v3.1)
+        this.bitmap_response_pii = new BinaryHttpMessageInteger();              // 39 (v3.1)
+        this.bitmap_response_threat = new BinaryHttpMessageInteger();           // 40 (v3.1)
+        this.bitmap_attack_request = new BinaryHttpMessageInteger();            // 41 (v3.1)
+        this.bitmap_attack_application = new BinaryHttpMessageInteger();        // 42 (v3.1)
+        this.bitmap_attack_injection = new BinaryHttpMessageInteger();          // 43 (v3.1)
+        this.bitmap_response_leak = new BinaryHttpMessageInteger();             // 44 (v3.1)
+        this.bitmap_unused2 = new BinaryHttpMessageInteger();                   // 45 (v3.1)
+        this.bitmap_unused3 = new BinaryHttpMessageInteger();                   // 46 (v3.1)
+        this.bitmap_unused4 = new BinaryHttpMessageInteger();                   // 47 (v3.1)
+        this.bitmap_unused5 = new BinaryHttpMessageInteger();                   // 48 (v3.1)
     }
+
+    private byte[] buffer;
+    private ByteBuffer bytebuffer;
+    private final byte[] header = new byte[8];
 
     /**
      * Allocates internal buffer with specified length.
@@ -202,40 +200,40 @@ public final class BinaryHttpMessage {
         else if (header[3] == 31) version = 31;
         else throw new RuntimeException("Invalid header version");
 
-        int len = fromBytes(header[4], header[5], header[6], header[7]);
-        if (buffer.length < len) allocate(len);
+        int len = readInt(header[4], header[5], header[6], header[7]);
+        if (buffer == null || buffer.length < len) allocate(len);
         if (in.read(buffer, 0, len) < len) throw new EOFException();
         ByteBuffer bb = bytebuffer.rewind();
 
         int offset = (version == 30) ? 124 : 196;
-        offset += id.read(offset, bb.getInt());                                                              // 0
-        offset += agent_category.read(offset, bb.getInt());                                                  // 1
-        offset += agent_device.read(offset, bb.getInt());                                                    // 2
-        offset += agent_name.read(offset, bb.getInt());                                                      // 3
-        offset += graphql_operations.read(offset, bb.getInt());                                              // 4 (v3)
+        offset += id.read(offset, bb);                                                              // 0
+        offset += agent_category.read(offset, bb);                                                  // 1
+        offset += agent_device.read(offset, bb);                                                    // 2
+        offset += agent_name.read(offset, bb);                                                      // 3
+        offset += graphql_operations.read(offset, bb);                                              // 4 (v3)
         graphql_operations_count.read(bb.getInt());                                                          // 5 (v3)
-        offset += host.read(offset, bb.getInt());                                                            // 6
+        offset += host.read(offset, bb);                                                            // 6
         interval_millis.read(bb.getLong());                                                                  // 7
-        offset += request_body.read(offset, bb.getInt());                                                    // 8
-        offset += request_content_type.read(offset, bb.getInt());                                            // 9
-        offset += request_headers.read(offset, bb.getInt());                                                 // 10
-        offset += request_json_type.read(offset, bb.getInt());                                               // 11
-        offset += request_method.read(offset, bb.getInt());                                                  // 12
-        offset += request_params.read(offset, bb.getInt());                                                  // 13
-        offset += request_url.read(offset, bb.getInt());                                                     // 14
-        offset += request_user_agent.read(offset, bb.getInt());                                              // 15
-        offset += response_body.read(offset, bb.getInt());                                                   // 16
-        offset += response_code.read(offset, bb.getInt());                                                   // 17
-        offset += response_content_type.read(offset, bb.getInt());                                           // 18
-        offset += response_headers.read(offset, bb.getInt());                                                // 19
-        offset += response_json_type.read(offset, bb.getInt());                                              // 20
+        offset += request_body.read(offset, bb);                                                    // 8
+        offset += request_content_type.read(offset, bb);                                            // 9
+        offset += request_headers.read(offset, bb);                                                 // 10
+        offset += request_json_type.read(offset, bb);                                               // 11
+        offset += request_method.read(offset, bb);                                                  // 12
+        offset += request_params.read(offset, bb);                                                  // 13
+        offset += request_url.read(offset, bb);                                                     // 14
+        offset += request_user_agent.read(offset, bb);                                              // 15
+        offset += response_body.read(offset, bb);                                                   // 16
+        offset += response_code.read(offset, bb);                                                   // 17
+        offset += response_content_type.read(offset, bb);                                           // 18
+        offset += response_headers.read(offset, bb);                                                // 19
+        offset += response_json_type.read(offset, bb);                                              // 20
         response_time_millis.read(bb.getLong());                                                             // 21
         size_request_bytes.read(bb.getInt());                                                                // 22
         size_response_bytes.read(bb.getInt());                                                               // 23
-        offset += custom_fields.read(offset, bb.getInt());                                                   // 24 (v3)
-        offset += request_address.read(offset, bb.getInt());                                                 // 25 (v3)
-        offset += session_fields.read(offset, bb.getInt());                                                  // 26 (v3)
-        cookies.read(offset, bb.getInt());                                                                   // 27 (v3)
+        offset += custom_fields.read(offset, bb);                                                   // 24 (v3)
+        offset += request_address.read(offset, bb);                                                 // 25 (v3)
+        offset += session_fields.read(offset, bb);                                                  // 26 (v3)
+        cookies.read(offset, bb);                                                                   // 27 (v3)
         cookies_count.read(bb.getInt());                                                                     // 28 (v3)
         // skip response_status                                                                              // 29 (v3.1)
         // skip size_total_bytes                                                                             // 30 (v3.1)
@@ -393,30 +391,6 @@ public final class BinaryHttpMessage {
         int position = bb.position();
         writeInt(out, position);
         out.write(buf, 0, position);
-    }
-
-    /**
-     * Returns integer from 4 bytes in big-endian order.
-     */
-    private static int fromBytes(byte b1, byte b2, byte b3, byte b4) {
-        return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
-    }
-
-    /**
-     * Writes integer to output stream.
-     */
-    private void writeInt(OutputStream out, int value) throws IOException {
-        if (value == 0) {
-            out.write(0);
-            out.write(0);
-            out.write(0);
-            out.write(0);
-        } else {
-            out.write((value >>> 24) & 0xFF);
-            out.write((value >>> 16) & 0xFF);
-            out.write((value >>> 8) & 0xFF);
-            out.write((value) & 0xFF);
-        }
     }
 
 }
