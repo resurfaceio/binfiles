@@ -17,8 +17,8 @@ import static com.mscharhag.oleaster.matcher.Matchers.expect;
  */
 public class CompressedHttpMessageTest {
 
-    public final String FILE1 = "./target/message.1.blz";
-    public final String FILE2 = "./target/message.2.blz";
+    public final String FILE1 = "./target/message.1.blkc";
+    public final String FILE2 = "./target/message.2.blkc";
 
     public final byte[] BUFFER = new byte[10000];
 
@@ -123,7 +123,7 @@ public class CompressedHttpMessageTest {
                 m.custom_fields.read("custom_fields 😀");                                                       // 24 (v3)
                 m.request_address.read("request_address 😀");                                                   // 25 (v3)
                 m.session_fields.read("session_fields 😀");                                                     // 26 (v3)
-                m.cookies.read("cookies");                                                                   // 27 (v3)
+                m.cookies.read("cookies 😀");                                                                   // 27 (v3)
                 m.cookies_count.read(56);                                                                    // 28 (v3)
                 // skip response_status                                                                      // 29 (v3.1)
                 // skip size_total_bytes                                                                     // 30 (v3.1)
@@ -146,7 +146,7 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                   // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                   // 48 (v3.1)
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(633);
+                expect(m.bytes()).toEqual(638);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -183,7 +183,7 @@ public class CompressedHttpMessageTest {
                 expect(m.custom_fields.value()).toEqual("custom_fields 😀");                                    // 24 (v3)
                 expect(m.request_address.value()).toEqual("request_address 😀");                                // 25 (v3)
                 expect(m.session_fields.value()).toEqual("session_fields 😀");                                  // 26 (v3)
-                expect(m.cookies.value()).toEqual("cookies");                                                // 27 (v3)
+                expect(m.cookies.value()).toEqual("cookies 😀");                                               // 27 (v3)
                 expect(m.cookies_count.value()).toEqual(56);                                                 // 28 (v3)
                 // skip response_status                                                                      // 29 (v3.1)
                 // skip size_total_bytes                                                                     // 30 (v3.1)
@@ -205,7 +205,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                // 48 (v3.1)
-                expect(m.bytes()).toEqual(633);
+                expect(m.bytes()).toEqual(638);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
@@ -270,7 +270,7 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                   // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                   // 48 (v3.1)
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(1597);
+                expect(m.bytes()).toEqual(1619);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -329,7 +329,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                // 48 (v3.1)
-                expect(m.bytes()).toEqual(1597);
+                expect(m.bytes()).toEqual(1619);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
