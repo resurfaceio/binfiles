@@ -69,14 +69,14 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
     /**
      * Returns offset to this field in bytes.
      */
-    public int offset() {  // todo add test coverage
+    public int offset() {
         return offset;
     }
 
     /**
      * Returns length of this field in bytes, with any compression applied.
      */
-    public int stored() {  // todo add test coverage
+    public int stored() {
         return stored;
     }
 
@@ -90,8 +90,9 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
             return Slices.wrappedBuffer(buf, offset, len);
         } else {
             if (temp == null || temp.length < len) temp = new byte[len];
-            decompressor.decompress(buf, offset, temp, 0, len);
-            return Slices.wrappedBuffer(temp, 0, len);  // todo throw exception if wrong number of bytes after decompression?
+            int read = decompressor.decompress(buf, offset, temp, 0, len);
+            if (read != stored) throw new IllegalStateException("Decompression failed: read=" + read + ", stored=" + stored);
+            return Slices.wrappedBuffer(temp, 0, len);
         }
     }
 
@@ -99,7 +100,6 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
      * Reads string position within external message buffer.
      */
     public int read(int offset, ByteBuffer in) {
-        // todo check values for out of range?
         this.offset = offset;
         this.len = in.getInt();
         this.stored = in.getInt();

@@ -76,7 +76,7 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
      * Allocates internal buffer with specified length.
      */
     private void allocate(int length) {
-        this.buffer = new byte[length]; // todo guard against huge buffer sizes
+        this.buffer = new byte[length];
         this.bytebuffer = ByteBuffer.wrap(buffer);
 
         id.buffer(buffer);                                                                                   // 0

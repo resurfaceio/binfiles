@@ -75,8 +75,8 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
     /**
      * Allocates internal buffer with specified length.
      */
-    public void allocate(int length) {
-        this.buffer = new byte[length];  // todo need guard against huge buffer sizes!
+    private void allocate(int length) {
+        this.buffer = new byte[length];
         this.bytebuffer = ByteBuffer.wrap(buffer);
 
         id.buffer(buffer);                                                                                   // 0
