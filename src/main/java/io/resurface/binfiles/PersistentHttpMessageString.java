@@ -66,6 +66,6 @@ public abstract class PersistentHttpMessageString {
     /**
      * Writes string contents to in-memory buffer.
      */
-    public abstract void write2(ByteBuffer out);
+    public abstract void writeContents(ByteBuffer out);
 
 }

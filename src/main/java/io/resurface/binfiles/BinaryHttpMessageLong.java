@@ -19,19 +19,17 @@ public final class BinaryHttpMessageLong {
     }
 
     /**
-     * Returns field as primitive type.
-     */
-    public long value() {
-        return value;
-    }
-
-    // SERIALIZATION METHODS -----------------------------------------------------------------------------------------------------
-
-    /**
      * Reads field from primitive type.
      */
     public void read(long value) {
         this.value = value;
+    }
+
+    /**
+     * Returns field as primitive type.
+     */
+    public long value() {
+        return value;
     }
 
     /**

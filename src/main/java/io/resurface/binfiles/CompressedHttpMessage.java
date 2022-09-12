@@ -312,34 +312,34 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         bitmap_unused5.write(bb);                                                                            // 48 (v3.1)
 
         // write variable-length data
-        id.write2(bb);                                                                                       // 0
-        agent_category.write2(bb);                                                                           // 1
-        agent_device.write2(bb);                                                                             // 2
-        agent_name.write2(bb);                                                                               // 3
-        graphql_operations.write2(bb);                                                                       // 4 (v3)
+        id.writeContents(bb);                                                                                       // 0
+        agent_category.writeContents(bb);                                                                           // 1
+        agent_device.writeContents(bb);                                                                             // 2
+        agent_name.writeContents(bb);                                                                               // 3
+        graphql_operations.writeContents(bb);                                                                       // 4 (v3)
         // skip graphql_operations_count                                                                     // 5 (v3)
-        host.write2(bb);                                                                                     // 6
+        host.writeContents(bb);                                                                                     // 6
         // skip interval_millis                                                                              // 7
-        request_body.write2(bb);                                                                             // 8
-        request_content_type.write2(bb);                                                                     // 9
-        request_headers.write2(bb);                                                                          // 10
-        request_json_type.write2(bb);                                                                        // 11
-        request_method.write2(bb);                                                                           // 12
-        request_params.write2(bb);                                                                           // 13
-        request_url.write2(bb);                                                                              // 14
-        request_user_agent.write2(bb);                                                                       // 15
-        response_body.write2(bb);                                                                            // 16
-        response_code.write2(bb);                                                                            // 17
-        response_content_type.write2(bb);                                                                    // 18
-        response_headers.write2(bb);                                                                         // 19
-        response_json_type.write2(bb);                                                                       // 20
+        request_body.writeContents(bb);                                                                             // 8
+        request_content_type.writeContents(bb);                                                                     // 9
+        request_headers.writeContents(bb);                                                                          // 10
+        request_json_type.writeContents(bb);                                                                        // 11
+        request_method.writeContents(bb);                                                                           // 12
+        request_params.writeContents(bb);                                                                           // 13
+        request_url.writeContents(bb);                                                                              // 14
+        request_user_agent.writeContents(bb);                                                                       // 15
+        response_body.writeContents(bb);                                                                            // 16
+        response_code.writeContents(bb);                                                                            // 17
+        response_content_type.writeContents(bb);                                                                    // 18
+        response_headers.writeContents(bb);                                                                         // 19
+        response_json_type.writeContents(bb);                                                                       // 20
         // skip response_time_millis                                                                         // 21
         // skip size_request_bytes                                                                           // 22
         // skip size_response_bytes                                                                          // 23
-        custom_fields.write2(bb);                                                                            // 24 (v3)
-        request_address.write2(bb);                                                                          // 25 (v3)
-        session_fields.write2(bb);                                                                           // 26 (v3)
-        cookies.write2(bb);                                                                                  // 27 (v3)
+        custom_fields.writeContents(bb);                                                                            // 24 (v3)
+        request_address.writeContents(bb);                                                                          // 25 (v3)
+        session_fields.writeContents(bb);                                                                           // 26 (v3)
+        cookies.writeContents(bb);                                                                                  // 27 (v3)
         // skip cookies_count                                                                                // 28 (v3)
         // skip response_status                                                                              // 29 (v3.1)
         // skip size_total_bytes                                                                             // 30 (v3.1)

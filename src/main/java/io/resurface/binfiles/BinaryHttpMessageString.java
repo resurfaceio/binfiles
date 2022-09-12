@@ -18,17 +18,17 @@ public final class BinaryHttpMessageString extends PersistentHttpMessageString {
     private int offset;
 
     /**
-     * Returns field storage in bytes, including all metadata and with compression.
-     */
-    public int bytes() {
-        return len + 4;
-    }
-
-    /**
      * Sets read buffer for this field and resets internal state.
      */
     public void buffer(byte[] buf) {
         this.buf = buf;
+    }
+
+    /**
+     * Returns field storage in bytes, including all metadata and with compression.
+     */
+    public int bytes() {
+        return len + 4;
     }
 
     /**
@@ -43,20 +43,6 @@ public final class BinaryHttpMessageString extends PersistentHttpMessageString {
      */
     public int offset() {
         return offset;
-    }
-
-    /**
-     * Returns length of this field in bytes, with any compression applied.
-     */
-    public int stored() {
-        return len;
-    }
-
-    /**
-     * Returns field as primitive type, or null if field is empty.
-     */
-    public Slice toSlice() {
-        return len == 0 ? null : Slices.wrappedBuffer(buf, offset, len);
     }
 
     /**
@@ -83,6 +69,20 @@ public final class BinaryHttpMessageString extends PersistentHttpMessageString {
     }
 
     /**
+     * Returns length of this field in bytes, with any compression applied.
+     */
+    public int stored() {
+        return len;
+    }
+
+    /**
+     * Returns field as primitive type, or null if field is empty.
+     */
+    public Slice toSlice() {
+        return len == 0 ? null : Slices.wrappedBuffer(buf, offset, len);
+    }
+
+    /**
      * Writes string length to in-memory buffer.
      */
     public void write(ByteBuffer out) {
@@ -92,7 +92,7 @@ public final class BinaryHttpMessageString extends PersistentHttpMessageString {
     /**
      * Writes string contents to in-memory buffer.
      */
-    public void write2(ByteBuffer out) {
+    public void writeContents(ByteBuffer out) {
         if (len > 0) out.put(buf);
     }
 

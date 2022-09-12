@@ -74,29 +74,6 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
     }
 
     /**
-     * Returns length of this field in bytes, with any compression applied.
-     */
-    public int stored() {
-        return stored;
-    }
-
-    /**
-     * Returns field as slice, or null if field is empty.
-     */
-    public Slice toSlice() {
-        if (buf == null || len == 0) {
-            return null;
-        } else if (len < threshold) {
-            return Slices.wrappedBuffer(buf, offset, len);
-        } else {
-            if (temp == null || temp.length < len) temp = new byte[len];
-            int read = decompressor.decompress(buf, offset, temp, 0, len);
-            if (read != stored) throw new IllegalStateException("Decompression failed: read=" + read + ", stored=" + stored);
-            return Slices.wrappedBuffer(temp, 0, len);
-        }
-    }
-
-    /**
      * Reads string position within external message buffer.
      */
     public int read(int offset, ByteBuffer in) {
@@ -130,6 +107,29 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
     }
 
     /**
+     * Returns length of this field in bytes, with any compression applied.
+     */
+    public int stored() {
+        return stored;
+    }
+
+    /**
+     * Returns field as slice, or null if field is empty.
+     */
+    public Slice toSlice() {
+        if (buf == null || len == 0) {
+            return null;
+        } else if (len < threshold) {
+            return Slices.wrappedBuffer(buf, offset, len);
+        } else {
+            if (temp == null || temp.length < len) temp = new byte[len];
+            int read = decompressor.decompress(buf, offset, temp, 0, len);
+            if (read != stored) throw new IllegalStateException("Decompression failed: read=" + read + ", stored=" + stored);
+            return Slices.wrappedBuffer(temp, 0, len);
+        }
+    }
+
+    /**
      * Writes string metadata to in-memory buffer.
      */
     public void write(ByteBuffer out) {
@@ -140,7 +140,7 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
     /**
      * Writes string contents to in-memory buffer.
      */
-    public void write2(ByteBuffer out) {
+    public void writeContents(ByteBuffer out) {
         if (len > 0) out.put(buf, offset, stored);
     }
 

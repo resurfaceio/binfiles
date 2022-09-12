@@ -19,19 +19,17 @@ public final class BinaryHttpMessageInteger {
     }
 
     /**
-     * Returns field as primitive type.
-     */
-    public int value() {
-        return value;
-    }
-
-    // SERIALIZATION METHODS -----------------------------------------------------------------------------------------------------
-
-    /**
      * Reads field from primitive type.
      */
     public void read(int value) {
         this.value = value;
+    }
+
+    /**
+     * Returns field as primitive type.
+     */
+    public int value() {
+        return value;
     }
 
     /**
