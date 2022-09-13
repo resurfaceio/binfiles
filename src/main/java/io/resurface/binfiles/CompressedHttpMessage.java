@@ -21,30 +21,30 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         this.agent_category = new BinaryHttpMessageString();                                                                       // 1
         this.agent_device = new BinaryHttpMessageString();                                                                         // 2
         this.agent_name = new BinaryHttpMessageString();                                                                           // 3
-        this.graphql_operations = new BinaryHttpMessageString();                                                                   // 4 (v3)
+        this.graphql_operations = new CompressedHttpMessageString();                                                               // 4 (v3)
         this.graphql_operations_count = new BinaryHttpMessageInteger();                                                            // 5 (v3)
         this.host = new BinaryHttpMessageString();                                                                                 // 6
         this.interval_millis = new BinaryHttpMessageLong();                                                                        // 7
-        this.request_body = new BinaryHttpMessageString();                                                                         // 8
+        this.request_body = new CompressedHttpMessageString();                                                                     // 8
         this.request_content_type = new BinaryHttpMessageString();                                                                 // 9
         this.request_headers = new CompressedHttpMessageString();                                                                  // 10
         this.request_json_type = new BinaryHttpMessageString();                                                                    // 11
         this.request_method = new BinaryHttpMessageString();                                                                       // 12
-        this.request_params = new BinaryHttpMessageString();                                                                       // 13
-        this.request_url = new BinaryHttpMessageString();                                                                          // 14
+        this.request_params = new CompressedHttpMessageString();                                                                   // 13
+        this.request_url = new CompressedHttpMessageString();                                                                      // 14
         this.request_user_agent = new BinaryHttpMessageString();                                                                   // 15
         this.response_body = new CompressedHttpMessageString();                                                                    // 16
         this.response_code = new BinaryHttpMessageString();                                                                        // 17
         this.response_content_type = new BinaryHttpMessageString();                                                                // 18
-        this.response_headers = new BinaryHttpMessageString();                                                                     // 19
+        this.response_headers = new CompressedHttpMessageString();                                                                 // 19
         this.response_json_type = new BinaryHttpMessageString();                                                                   // 20
         this.response_time_millis = new BinaryHttpMessageLong();                                                                   // 21
         this.size_request_bytes = new BinaryHttpMessageInteger();                                                                  // 22
         this.size_response_bytes = new BinaryHttpMessageInteger();                                                                 // 23
         this.custom_fields = new BinaryHttpMessageString();                                                                        // 24 (v3)
         this.request_address = new BinaryHttpMessageString();                                                                      // 25 (v3)
-        this.session_fields = new BinaryHttpMessageString();                                                                       // 26 (v3)
-        this.cookies = new BinaryHttpMessageString();                                                                              // 27 (v3)
+        this.session_fields = new CompressedHttpMessageString();                                                                   // 26 (v3)
+        this.cookies = new CompressedHttpMessageString();                                                                          // 27 (v3)
         this.cookies_count = new BinaryHttpMessageInteger();                                                                       // 28 (v3)
         // reserved for response_status                                                                                            // 29 (v3.1)
         // reserved for size_total_bytes                                                                                           // 30 (v3.1)
@@ -202,7 +202,7 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         if (in.read(buffer, 0, len) < len) throw new EOFException();
         ByteBuffer bb = bytebuffer.rewind();
 
-        int offset = 204;
+        int offset = 232;
         offset += id.read(offset, bb);                                                                                             // 0
         offset += agent_category.read(offset, bb);                                                                                 // 1
         offset += agent_device.read(offset, bb);                                                                                   // 2

@@ -28,7 +28,7 @@ public class CompressedHttpMessageTest {
             try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
                 CompressedHttpMessage m = new CompressedHttpMessage();
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(212);
+                expect(m.bytes()).toEqual(240);
             }
         }
 
@@ -86,7 +86,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(0);                                                                       // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(0);                                                                       // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(0);                                                                       // 48 (v3.1)
-                expect(m.bytes()).toEqual(212);
+                expect(m.bytes()).toEqual(240);
             }
         }
     }
@@ -146,7 +146,7 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(638);
+                expect(m.bytes()).toEqual(666);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -205,15 +205,17 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                                      // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                                      // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
-                expect(m.bytes()).toEqual(638);
+                expect(m.bytes()).toEqual(666);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
         }
     }
 
-    public static String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend, magna a placerat rutrum, nunc diam volutpat nisl, sed mattis velit justo non enim. Mauris nec fringilla tellus. In laoreet lacinia nibh, non maximus ante sollicitudin et. In sodales vitae est vitae vestibulum. Nunc ornare erat dui, vitae aliquet arcu sollicitudin id. Duis arcu ipsum, pretium sed faucibus eget, egestas a est. Donec nec dolor at arcu pretium tincidunt eu ac tortor. Vestibulum ante ipsum primis in faucibus orci luctus ex.";
-    public static String LOREM_IPSUM2 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus est ac mollis suscipit. Morbi non interdum elit. Nulla ac porta sem, ut lobortis nibh. Morbi volutpat vitae metus nec blandit. Mauris nisl sapien, facilisis nec placerat et, vehicula eget mi. Nunc ac augue cursus, faucibus sem ut, porta dolor. Sed varius viverra massa. Donec fermentum, velit at molestie semper, mauris felis tempor est, egestas ultricies lacus ipsum eget nunc. Donec ultrices viverra tortor, iaculis auctor dolor convallis vel. Maecenas turpis libero, pretium at pretium sed, dictum ut purus. Donec ac maximus enim. Aliquam porttitor lorem ut nibh pellentesque ultrices. Quisque ut ipsum dapibus arcu tincidunt ullamcorper eu sed nisi. Suspendisse ut urna non nunc fringilla ac.";
+    public static String LOREM_IPSUM_255 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed eros augue. Nunc in mi consequat, convallis elit ut, vestibulum arcu. Pellentesque ultricies orci et tempus porta. Morbi congue iaculis tortor, nec maximus nisi facilisis sit amet placerat.";
+    public static String LOREM_IPSUM_256 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut viverra nulla. Etiam porttitor dignissim finibus. Fusce porttitor, eros a condimentum efficitur, justo ligula finibus mauris, et pretium nunc diam id sapien. Curabitur mattis porta ante.";
+    public static String LOREM_IPSUM_512 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend, magna a placerat rutrum, nunc diam volutpat nisl, sed mattis velit justo non enim. Mauris nec fringilla tellus. In laoreet lacinia nibh, non maximus ante sollicitudin et. In sodales vitae est vitae vestibulum. Nunc ornare erat dui, vitae aliquet arcu sollicitudin id. Duis arcu ipsum, pretium sed faucibus eget, egestas a est. Donec nec dolor at arcu pretium tincidunt eu ac tortor. Vestibulum ante ipsum primis in faucibus orci luctus ex.";
+    public static String LOREM_IPSUM_768 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dapibus est ac mollis suscipit. Morbi non interdum elit. Nulla ac porta sem, ut lobortis nibh. Morbi volutpat vitae metus nec blandit. Mauris nisl sapien, facilisis nec placerat et, vehicula eget mi. Nunc ac augue cursus, faucibus sem ut, porta dolor. Sed varius viverra massa. Donec fermentum, velit at molestie semper, mauris felis tempor est, egestas ultricies lacus ipsum eget nunc. Donec ultrices viverra tortor, iaculis auctor dolor convallis vel. Maecenas turpis libero, pretium at pretium sed, dictum ut purus. Donec ac maximus enim. Aliquam porttitor lorem ut nibh pellentesque ultrices. Quisque ut ipsum dapibus arcu tincidunt ullamcorper eu sed nisi. Suspendisse ut urna non nunc fringilla ac.";
 
     @Test
     public void largeRoundTripTest() throws Exception {
@@ -228,18 +230,18 @@ public class CompressedHttpMessageTest {
                 m.graphql_operations_count.read(27);                                                                               // 5 (v3)
                 m.host.read("host");                                                                                               // 6
                 m.interval_millis.read(123456);                                                                                    // 7
-                m.request_body.read("request_body");                                                                               // 8
+                m.request_body.read(LOREM_IPSUM_255);                                                                              // 8
                 m.request_content_type.read("request_content_type");                                                               // 9
-                m.request_headers.read(LOREM_IPSUM);                                                                               // 10
+                m.request_headers.read(LOREM_IPSUM_512);                                                                           // 10
                 m.request_json_type.read("request_json_type");                                                                     // 11
                 m.request_method.read("request_method");                                                                           // 12
                 m.request_params.read("request_params");                                                                           // 13
                 m.request_url.read("request_url");                                                                                 // 14
                 m.request_user_agent.read("request_user_agent");                                                                   // 15
-                m.response_body.read(LOREM_IPSUM2);                                                                                // 16
+                m.response_body.read(LOREM_IPSUM_768);                                                                             // 16
                 m.response_code.read("response_code");                                                                             // 17
                 m.response_content_type.read("response_content_type");                                                             // 18
-                m.response_headers.read("response_headers");                                                                       // 19
+                m.response_headers.read(LOREM_IPSUM_256);                                                                          // 19
                 m.response_json_type.read("response_json_type");                                                                   // 20
                 m.response_time_millis.read(1234);                                                                                 // 21
                 m.size_request_bytes.read(23);                                                                                     // 22
@@ -270,7 +272,7 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(1619);
+                expect(m.bytes()).toEqual(2132);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -288,18 +290,18 @@ public class CompressedHttpMessageTest {
                 expect(m.graphql_operations_count.value()).toEqual(27);                                                            // 5 (v3)
                 expect(m.host.value()).toEqual("host");                                                                            // 6
                 expect(m.interval_millis.value()).toEqual(123456);                                                                 // 7
-                expect(m.request_body.value()).toEqual("request_body");                                                            // 8
+                expect(m.request_body.value()).toEqual(LOREM_IPSUM_255);                                                           // 8
                 expect(m.request_content_type.value()).toEqual("request_content_type");                                            // 9
-                expect(m.request_headers.value()).toEqual(LOREM_IPSUM);                                                            // 10
+                expect(m.request_headers.value()).toEqual(LOREM_IPSUM_512);                                                        // 10
                 expect(m.request_json_type.value()).toEqual("request_json_type");                                                  // 11
                 expect(m.request_method.value()).toEqual("request_method");                                                        // 12
                 expect(m.request_params.value()).toEqual("request_params");                                                        // 13
                 expect(m.request_url.value()).toEqual("request_url");                                                              // 14
                 expect(m.request_user_agent.value()).toEqual("request_user_agent");                                                // 15
-                expect(m.response_body.value()).toEqual(LOREM_IPSUM2);                                                             // 16
+                expect(m.response_body.value()).toEqual(LOREM_IPSUM_768);                                                          // 16
                 expect(m.response_code.value()).toEqual("response_code");                                                          // 17
                 expect(m.response_content_type.value()).toEqual("response_content_type");                                          // 18
-                expect(m.response_headers.value()).toEqual("response_headers");                                                    // 19
+                expect(m.response_headers.value()).toEqual(LOREM_IPSUM_256);                                                       // 19
                 expect(m.response_json_type.value()).toEqual("response_json_type");                                                // 20
                 expect(m.response_time_millis.value()).toEqual(1234);                                                              // 21
                 expect(m.size_request_bytes.value()).toEqual(23);                                                                  // 22
@@ -329,7 +331,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                                      // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                                      // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
-                expect(m.bytes()).toEqual(1619);
+                expect(m.bytes()).toEqual(2132);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
