@@ -3,5 +3,5 @@ Readers &amp; writers for binary files
 
 ## System requirements
 
-* Java 17
+* Java 11
 * Maven
