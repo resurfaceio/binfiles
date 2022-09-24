@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
+import static io.resurface.binfiles.HashedDictionaries.*;
+
 /**
  * Persistent binary format for HTTP messages with automatic field-level compression.
  */
@@ -18,26 +20,26 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
      */
     public CompressedHttpMessage() {
         this.id = new BinaryHttpMessageString();                                                                                   // 0
-        this.agent_category = new BinaryHttpMessageString();                                                                       // 1
-        this.agent_device = new BinaryHttpMessageString();                                                                         // 2
-        this.agent_name = new BinaryHttpMessageString();                                                                           // 3
+        this.agent_category = new HashedHttpMessageString(AGENT_CATEGORIES);                                                       // 1
+        this.agent_device = new HashedHttpMessageString(AGENT_DEVICES);                                                            // 2
+        this.agent_name = new HashedHttpMessageString(AGENT_NAMES);                                                                // 3
         this.graphql_operations = new CompressedHttpMessageString();                                                               // 4 (v3)
         this.graphql_operations_count = new BinaryHttpMessageInteger();                                                            // 5 (v3)
         this.host = new BinaryHttpMessageString();                                                                                 // 6
         this.interval_millis = new BinaryHttpMessageLong();                                                                        // 7
         this.request_body = new CompressedHttpMessageString();                                                                     // 8
-        this.request_content_type = new BinaryHttpMessageString();                                                                 // 9
+        this.request_content_type = new HashedHttpMessageString(CONTENT_TYPES);                                                    // 9
         this.request_headers = new CompressedHttpMessageString();                                                                  // 10
-        this.request_json_type = new BinaryHttpMessageString();                                                                    // 11
-        this.request_method = new BinaryHttpMessageString();                                                                       // 12
+        this.request_json_type = new HashedHttpMessageString(JSON_TYPES);                                                          // 11
+        this.request_method = new HashedHttpMessageString(REQUEST_METHODS);                                                        // 12
         this.request_params = new CompressedHttpMessageString();                                                                   // 13
         this.request_url = new CompressedHttpMessageString();                                                                      // 14
         this.request_user_agent = new BinaryHttpMessageString();                                                                   // 15
         this.response_body = new CompressedHttpMessageString();                                                                    // 16
-        this.response_code = new BinaryHttpMessageString();                                                                        // 17
-        this.response_content_type = new BinaryHttpMessageString();                                                                // 18
+        this.response_code = new HashedHttpMessageString(RESPONSE_CODES);                                                          // 17
+        this.response_content_type = new HashedHttpMessageString(CONTENT_TYPES);                                                   // 18
         this.response_headers = new CompressedHttpMessageString();                                                                 // 19
-        this.response_json_type = new BinaryHttpMessageString();                                                                   // 20
+        this.response_json_type = new HashedHttpMessageString(JSON_TYPES);                                                         // 20
         this.response_time_millis = new BinaryHttpMessageLong();                                                                   // 21
         this.size_request_bytes = new BinaryHttpMessageInteger();                                                                  // 22
         this.size_response_bytes = new BinaryHttpMessageInteger();                                                                 // 23
