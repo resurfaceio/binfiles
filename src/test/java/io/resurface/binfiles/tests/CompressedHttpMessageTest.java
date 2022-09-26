@@ -307,7 +307,7 @@ public class CompressedHttpMessageTest {
                 m.request_url.read("request_url");                                                                                 // 14
                 m.request_user_agent.read("request_user_agent");                                                                   // 15
                 m.response_body.read(LOREM_IPSUM_768);                                                                             // 16
-                m.response_code.read("response_code");                                                                             // 17
+                m.response_code.read("200");                                                                                       // 17
                 m.response_content_type.read("response_content_type");                                                             // 18
                 m.response_headers.read(LOREM_IPSUM_256);                                                                          // 19
                 m.response_json_type.read("response_json_type");                                                                   // 20
@@ -340,7 +340,7 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(2132);
+                expect(m.bytes()).toEqual(2119);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -367,7 +367,7 @@ public class CompressedHttpMessageTest {
                 expect(m.request_url.value()).toEqual("request_url");                                                              // 14
                 expect(m.request_user_agent.value()).toEqual("request_user_agent");                                                // 15
                 expect(m.response_body.value()).toEqual(LOREM_IPSUM_768);                                                          // 16
-                expect(m.response_code.value()).toEqual("response_code");                                                          // 17
+                expect(m.response_code.value()).toEqual("200");                                                                    // 17
                 expect(m.response_content_type.value()).toEqual("response_content_type");                                          // 18
                 expect(m.response_headers.value()).toEqual(LOREM_IPSUM_256);                                                       // 19
                 expect(m.response_json_type.value()).toEqual("response_json_type");                                                // 20
@@ -399,7 +399,7 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                                      // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                                      // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
-                expect(m.bytes()).toEqual(2132);
+                expect(m.bytes()).toEqual(2119);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }

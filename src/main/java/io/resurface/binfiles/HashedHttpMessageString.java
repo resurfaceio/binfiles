@@ -121,18 +121,10 @@ public final class HashedHttpMessageString extends PersistentHttpMessageString {
     }
 
     /**
-     * Returns field as literal String, or null if field is empty.
-     */
-    public String value() {
-        Slice slice = toSlice();
-        return (slice == null) ? null : slice.toStringUtf8();
-    }
-
-    /**
      * Writes string length to in-memory buffer.
      */
     public void write(ByteBuffer out) {
-        out.putInt(len);
+        out.putInt(hash != 0 ? hash : len);
     }
 
     /**

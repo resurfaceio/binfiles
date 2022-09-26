@@ -60,7 +60,8 @@ public abstract class PersistentHttpMessageString {
      * Returns field as literal String, or null if field is empty.
      */
     public String value() {
-        return (length() == 0) ? null : toSlice().toStringUtf8();
+        Slice slice = toSlice();
+        return (slice != null) ? slice.toStringUtf8() : null;
     }
 
     /**
