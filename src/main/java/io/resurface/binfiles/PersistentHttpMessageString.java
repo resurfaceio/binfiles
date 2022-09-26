@@ -22,6 +22,11 @@ public abstract class PersistentHttpMessageString {
     public abstract int bytes();
 
     /**
+     * Returns true if string is null.
+     */
+    public abstract boolean isNull();
+
+    /**
      * Returns decompressed length of this field in bytes.
      */
     public abstract int length();

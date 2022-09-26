@@ -41,6 +41,13 @@ public final class HashedHttpMessageString extends PersistentHttpMessageString {
     }
 
     /**
+     * Returns true if string is null.
+     */
+    public boolean isNull() {
+        return (hash == 0) && (len == 0);
+    }
+
+    /**
      * Returns decompressed length of this field in bytes.
      */
     public int length() {

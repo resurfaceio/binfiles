@@ -60,6 +60,13 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
     }
 
     /**
+     * Returns true if string is null.
+     */
+    public boolean isNull() {
+        return len == 0;
+    }
+
+    /**
      * Returns decompressed length of this field in bytes.
      */
     public int length() {

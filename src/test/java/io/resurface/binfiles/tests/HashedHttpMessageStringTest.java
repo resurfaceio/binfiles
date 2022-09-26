@@ -23,16 +23,19 @@ public class HashedHttpMessageStringTest {
 
         HashedHttpMessageString string = new HashedHttpMessageString(dictionary);
         expect(string.bytes()).toEqual(4);
+        expect(string.isNull()).toBeTrue();
         expect(string.length()).toEqual(0);
         expect(string.value()).toBeNull();
 
         string.read("pear");
         expect(string.bytes()).toEqual(8);
+        expect(string.isNull()).toBeFalse();
         expect(string.length()).toEqual(4);
         expect(string.value()).toEqual("pear");
 
         string.read("bleep");
         expect(string.bytes()).toEqual(4);
+        expect(string.isNull()).toBeFalse();
         expect(string.length()).toEqual(0);
         expect(string.value()).toEqual("bleep");
     }
