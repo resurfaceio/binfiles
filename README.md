@@ -75,7 +75,7 @@ Why is this format needed, when open standards like JSON, CSV, and Avro are popu
   Trino-specific types.
 * Deciding to use Avro or Iceberg or any other format is only part of the challenge. You still have to implement a schema
   for the data being stored, and this is a significant task. Our file format is built around an opinionated schema
-  for storing API call data, including request/response attributes, dimensional fields, and bitmap indexes.
+  for API call data, with request/response attributes, dimensional fields, and bitmap indexes.
 * Like Avro and Iceberg, our format and implementation is 100% open source, so you aren't locked into any proprietary bits.
 
 ---
