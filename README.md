@@ -13,8 +13,8 @@ provides compression based on LZ4 and field-specific dictionaries. All out-of-th
 ## Dependencies
 
 * Java 11
-* Airlift slice (not included)
-* lz4-java (not included)
+* Airlift slice
+* lz4-java
 
 ## Installing with Maven
 
