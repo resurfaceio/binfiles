@@ -1,7 +1,7 @@
 # resurfaceio-binfiles
 Readers &amp; writers for binary files
 
-This Java library implements a fast, efficient, and nicely opinionated file format, which is purpose-built for API
+This open source Java library implements a fast, efficient, and nicely opinionated file format, which is purpose-built for API
 observability and security. This binary format is designed for fast queries from [Trino](https://trino.io), including the use of
 native Trino/Airlift types. This library handles file versioning, supports incremental flushing and bitmap indexing, and
 provides compression based on LZ4 and field-specific dictionaries. All out-of-the-box without any configuration.
