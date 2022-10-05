@@ -79,15 +79,24 @@
     </developers>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>cloudsmith</id>
-            <url>https://maven.cloudsmith.io/resurfacelabs/internal/</url>
-        </snapshotRepository>
         <repository>
             <id>cloudsmith</id>
-            <url>https://maven.cloudsmith.io/resurfacelabs/internal/</url>
+            <url>https://maven.cloudsmith.io/resurfacelabs/public/</url>
         </repository>
     </distributionManagement>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/resurfaceio/binfiles/issues</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -97,6 +106,17 @@
         <name>resurface.io</name>
         <url>https://resurface.io</url>
     </organization>
+
+    <repositories>
+        <repository>
+            <id>resurfacelabs-public</id>
+            <url>https://dl.cloudsmith.io/public/resurfacelabs/public/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
 
     <scm>
         <connection>scm:git:git@github.com:resurfaceio/binfiles.git</connection>
