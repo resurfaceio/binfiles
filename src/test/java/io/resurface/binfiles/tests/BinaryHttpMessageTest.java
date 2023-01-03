@@ -106,6 +106,7 @@ public class BinaryHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(0);                                                                       // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(0);                                                                       // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(0);                                                                       // 48 (v3.1)
+                // skip shard_file                                                                                                 // 49 (v3.5)
                 expect(m.bytes()).toEqual(204);
             }
         }
@@ -188,6 +189,7 @@ public class BinaryHttpMessageTest {
                 m.bitmap_unused3.read(46);                                                                                         // 46 (v3.1)
                 m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
+                // skip shard_file                                                                                                 // 49 (v3.5)
                 m.write(bos, BUFFER);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
@@ -247,6 +249,7 @@ public class BinaryHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(46);                                                                      // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                                      // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
+                // skip shard_file                                                                                                 // 49 (v3.5)
                 expect(m.bytes()).toEqual(515);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
@@ -309,6 +312,7 @@ public class BinaryHttpMessageTest {
                 expect(m.bitmap_unused3.value()).toEqual(0);                                                                       // 46 (v3.1)
                 expect(m.bitmap_unused4.value()).toEqual(0);                                                                       // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(0);                                                                       // 48 (v3.1)
+                // skip shard_file                                                                                                 // 49 (v3.5)
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }

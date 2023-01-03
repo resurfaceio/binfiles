@@ -66,6 +66,7 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
         this.bitmap_unused3 = new BinaryHttpMessageInteger();                                                                      // 46 (v3.1)
         this.bitmap_unused4 = new BinaryHttpMessageInteger();                                                                      // 47 (v3.1)
         this.bitmap_unused5 = new BinaryHttpMessageInteger();                                                                      // 48 (v3.1)
+        // reserved for shard_file                                                                                                 // 49 (v3.5)
     }
 
     private byte[] buffer;
@@ -128,6 +129,7 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
         // skip bitmap_unused3                                                                                                     // 46 (v3.1)
         // skip bitmap_unused4                                                                                                     // 47 (v3.1)
         // skip bitmap_unused5                                                                                                     // 48 (v3.1)
+        // skip shard_file                                                                                                         // 49 (v3.5)
     }
 
     /**
@@ -184,6 +186,7 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
         result += bitmap_unused3.bytes();                                                                                          // 46 (v3.1)
         result += bitmap_unused4.bytes();                                                                                          // 47 (v3.1)
         result += bitmap_unused5.bytes();                                                                                          // 48 (v3.1)
+        // skip shard_file                                                                                                         // 49 (v3.5)
         return result;
     }
 
@@ -256,6 +259,7 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
             bitmap_unused3.read(0);                                                                                                // 46 (v3.1)
             bitmap_unused4.read(0);                                                                                                // 47 (v3.1)
             bitmap_unused5.read(0);                                                                                                // 48 (v3.1)
+            // skip shard_file                                                                                                     // 49 (v3.5)
         } else {
             bitmap_versioning.read(bb.getInt());                                                                                   // 31 (v3.1)
             bitmap_request_info.read(bb.getInt());                                                                                 // 32 (v3.1)
@@ -275,6 +279,7 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
             bitmap_unused3.read(bb.getInt());                                                                                      // 46 (v3.1)
             bitmap_unused4.read(bb.getInt());                                                                                      // 47 (v3.1)
             bitmap_unused5.read(bb.getInt());                                                                                      // 48 (v3.1)
+            // skip shard_file                                                                                                     // 49 (v3.5)
         }
     }
 
@@ -334,6 +339,7 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
         bitmap_unused3.write(bb);                                                                                                  // 46 (v3.1)
         bitmap_unused4.write(bb);                                                                                                  // 47 (v3.1)
         bitmap_unused5.write(bb);                                                                                                  // 48 (v3.1)
+        // skip shard_file                                                                                                         // 49 (v3.5)
 
         // write variable-length data
         id.writeContents(bb);                                                                                                      // 0
@@ -385,6 +391,7 @@ public final class BinaryHttpMessage extends PersistentHttpMessage {
         // skip bitmap_unused3                                                                                                     // 46 (v3.1)
         // skip bitmap_unused4                                                                                                     // 47 (v3.1)
         // skip bitmap_unused5                                                                                                     // 48 (v3.1)
+        // skip shard_file                                                                                                         // 49 (v3.5)
 
         // write to stream
         writeInt(out, 31);

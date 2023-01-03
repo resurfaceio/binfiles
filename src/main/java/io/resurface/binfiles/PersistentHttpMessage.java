@@ -60,6 +60,7 @@ public abstract class PersistentHttpMessage {
     public BinaryHttpMessageInteger bitmap_unused3;                                                                                // 46 (v3.1)
     public BinaryHttpMessageInteger bitmap_unused4;                                                                                // 47 (v3.1)
     public BinaryHttpMessageInteger bitmap_unused5;                                                                                // 48 (v3.1)
+    // reserved for shard_file                                                                                                     // 49 (v3.5)
 
     /**
      * Returns message size in bytes, including all metadata.
