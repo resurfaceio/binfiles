@@ -7,8 +7,8 @@ native Trino/Airlift types. This library handles file versioning, supports incre
 provides compression based on LZ4 and field-specific dictionaries. All out-of-the-box, without any configuration.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/resurfaceio/binfiles/badge)](https://www.codefactor.io/repository/github/resurfaceio/binfiles)
-[![License](https://img.shields.io/github/license/resurfaceio/binfiles)](https://github.com/resurfaceio/binfiles/blob/v3.3.x/LICENSE)
-[![Contributing](https://img.shields.io/badge/contributions-welcome-green.svg)](https://github.com/resurfaceio/binfiles/blob/v3.3.x/CONTRIBUTING.md)
+[![License](https://img.shields.io/github/license/resurfaceio/binfiles)](https://github.com/resurfaceio/binfiles/blob/v3.5.x/LICENSE)
+[![Contributing](https://img.shields.io/badge/contributions-welcome-green.svg)](https://github.com/resurfaceio/binfiles/blob/v3.5.x/CONTRIBUTING.md)
 
 ## Usage
 
@@ -51,7 +51,7 @@ Simply add these sections to `pom.xml` to install:
 <dependency>
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-binfiles</artifactId>
-    <version>3.3.12</version>
+    <version>3.5.1</version>
 </dependency>
 <dependency>
     <groupId>io.airlift</groupId>
