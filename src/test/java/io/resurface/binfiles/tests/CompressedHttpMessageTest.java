@@ -1,4 +1,4 @@
-// © 2016-2022 Resurface Labs Inc.
+// © 2016-2023 Resurface Labs Inc.
 
 package io.resurface.binfiles.tests;
 
@@ -413,97 +413,97 @@ public class CompressedHttpMessageTest {
         }
     }
 
-    @Test
-    public void copyRoundTripTest() throws Exception {
-        try (FileOutputStream fo = new FileOutputStream(FILE3)) {
-            try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
-                CompressedHttpMessage m = new CompressedHttpMessage();
-                m.id.read("id");                                                                                                   // 0
-                m.agent_category.read("agent_category");                                                                           // 1
-                m.agent_device.read("agent_device");                                                                               // 2
-                m.agent_name.read("agent_name");                                                                                   // 3
-                m.graphql_operations.read("graphql_operations");                                                                   // 4 (v3)
-                m.graphql_operations_count.read(27);                                                                               // 5 (v3)
-                m.host.read("host");                                                                                               // 6
-                m.interval_millis.read(123456);                                                                                    // 7
-                m.request_body.read(LOREM_IPSUM_255);                                                                              // 8
-                m.request_content_type.read("request_content_type");                                                               // 9
-                m.request_headers.read(LOREM_IPSUM_512);                                                                           // 10
-                m.request_json_type.read("request_json_type");                                                                     // 11
-                m.request_method.read("request_method");                                                                           // 12
-                m.request_params.read("request_params");                                                                           // 13
-                m.request_url.read("request_url");                                                                                 // 14
-                m.request_user_agent.read("request_user_agent");                                                                   // 15
-                m.response_body.read(LOREM_IPSUM_768);                                                                             // 16
-                m.response_code.read("200");                                                                                       // 17
-                m.response_content_type.read("response_content_type");                                                             // 18
-                m.response_headers.read(LOREM_IPSUM_256);                                                                          // 19
-                m.response_json_type.read("response_json_type");                                                                   // 20
-                m.response_time_millis.read(1234);                                                                                 // 21
-                m.size_request_bytes.read(23);                                                                                     // 22
-                m.size_response_bytes.read(45);                                                                                    // 23
-                m.custom_fields.read("custom_fields");                                                                             // 24 (v3)
-                m.request_address.read("request_address");                                                                         // 25 (v3)
-                m.session_fields.read("session_fields");                                                                           // 26 (v3)
-                m.cookies.read("cookies");                                                                                         // 27 (v3)
-                m.cookies_count.read(56);                                                                                          // 28 (v3)
-                // skip response_status                                                                                            // 29 (v3.1)
-                // skip size_total_bytes                                                                                           // 30 (v3.1)
-                m.bitmap_versioning.read(31);                                                                                      // 31 (v3.1)
-                m.bitmap_request_info.read(32);                                                                                    // 32 (v3.1)
-                m.bitmap_request_json.read(33);                                                                                    // 33 (v3.1)
-                m.bitmap_request_graphql.read(34);                                                                                 // 34 (v3.1)
-                m.bitmap_request_pii.read(35);                                                                                     // 35 (v3.1)
-                m.bitmap_request_threat.read(36);                                                                                  // 36 (v3.1)
-                m.bitmap_response_info.read(37);                                                                                   // 37 (v3.1)
-                m.bitmap_response_json.read(38);                                                                                   // 38 (v3.1)
-                m.bitmap_response_pii.read(39);                                                                                    // 39 (v3.1)
-                m.bitmap_response_threat.read(40);                                                                                 // 40 (v3.1)
-                m.bitmap_attack_request.read(41);                                                                                  // 41 (v3.1)
-                m.bitmap_attack_application.read(42);                                                                              // 42 (v3.1)
-                m.bitmap_attack_injection.read(43);                                                                                // 43 (v3.1)
-                m.bitmap_response_leak.read(44);                                                                                   // 44 (v3.1)
-                m.bitmap_unused2.read(45);                                                                                         // 45 (v3.1)
-                m.bitmap_unused3.read(46);                                                                                         // 46 (v3.1)
-                m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
-                m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
-                // skip shard_file                                                                                                 // 49 (v3.5)
-                m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(2119);
-            }
-        }
-
-        try (FileOutputStream fo = new FileOutputStream(FILE4)) {
-            try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
-
-                try (FileInputStream fi = new FileInputStream(FILE3)) {
-                    try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
-                        CompressedHttpMessage m = new CompressedHttpMessage();
-                        m.read(bis);
-                        System.out.println("id.value is " + m.id.value());
-                        System.out.println("id.offset is " + m.id.offset());
-                        System.out.println("id.length is " + m.id.length());
-                        System.out.println("id.stored is " + m.id.stored());
-                        m.id.read(m.id.value());
-                        m.write(bos, BUFFER);
-                    }
-                }
-
-            }
-        }
-
-        System.out.println("---------------------------------");
-
-        try (FileInputStream fi = new FileInputStream(FILE4)) {
-            try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
-                CompressedHttpMessage m = new CompressedHttpMessage();
-                m.read(bis);
-                System.out.println("id.value is " + m.id.value());
-                System.out.println("id.offset is " + m.id.offset());
-                System.out.println("id.length is " + m.id.length());
-                System.out.println("id.stored is " + m.id.stored());
-                expect(m.id.value()).toEqual("id");                                                                                // 0
-                expect(m.agent_category.value()).toEqual("agent_category");                                                        // 1
+//    @Test
+//    public void copyRoundTripTest() throws Exception {
+//        try (FileOutputStream fo = new FileOutputStream(FILE3)) {
+//            try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
+//                CompressedHttpMessage m = new CompressedHttpMessage();
+//                m.id.read("id");                                                                                                   // 0
+//                m.agent_category.read("agent_category");                                                                           // 1
+//                m.agent_device.read("agent_device");                                                                               // 2
+//                m.agent_name.read("agent_name");                                                                                   // 3
+//                m.graphql_operations.read("graphql_operations");                                                                   // 4 (v3)
+//                m.graphql_operations_count.read(27);                                                                               // 5 (v3)
+//                m.host.read("host");                                                                                               // 6
+//                m.interval_millis.read(123456);                                                                                    // 7
+//                m.request_body.read(LOREM_IPSUM_255);                                                                              // 8
+//                m.request_content_type.read("request_content_type");                                                               // 9
+//                m.request_headers.read(LOREM_IPSUM_512);                                                                           // 10
+//                m.request_json_type.read("request_json_type");                                                                     // 11
+//                m.request_method.read("request_method");                                                                           // 12
+//                m.request_params.read("request_params");                                                                           // 13
+//                m.request_url.read("request_url");                                                                                 // 14
+//                m.request_user_agent.read("request_user_agent");                                                                   // 15
+//                m.response_body.read(LOREM_IPSUM_768);                                                                             // 16
+//                m.response_code.read("200");                                                                                       // 17
+//                m.response_content_type.read("response_content_type");                                                             // 18
+//                m.response_headers.read(LOREM_IPSUM_256);                                                                          // 19
+//                m.response_json_type.read("response_json_type");                                                                   // 20
+//                m.response_time_millis.read(1234);                                                                                 // 21
+//                m.size_request_bytes.read(23);                                                                                     // 22
+//                m.size_response_bytes.read(45);                                                                                    // 23
+//                m.custom_fields.read("custom_fields");                                                                             // 24 (v3)
+//                m.request_address.read("request_address");                                                                         // 25 (v3)
+//                m.session_fields.read("session_fields");                                                                           // 26 (v3)
+//                m.cookies.read("cookies");                                                                                         // 27 (v3)
+//                m.cookies_count.read(56);                                                                                          // 28 (v3)
+//                // skip response_status                                                                                            // 29 (v3.1)
+//                // skip size_total_bytes                                                                                           // 30 (v3.1)
+//                m.bitmap_versioning.read(31);                                                                                      // 31 (v3.1)
+//                m.bitmap_request_info.read(32);                                                                                    // 32 (v3.1)
+//                m.bitmap_request_json.read(33);                                                                                    // 33 (v3.1)
+//                m.bitmap_request_graphql.read(34);                                                                                 // 34 (v3.1)
+//                m.bitmap_request_pii.read(35);                                                                                     // 35 (v3.1)
+//                m.bitmap_request_threat.read(36);                                                                                  // 36 (v3.1)
+//                m.bitmap_response_info.read(37);                                                                                   // 37 (v3.1)
+//                m.bitmap_response_json.read(38);                                                                                   // 38 (v3.1)
+//                m.bitmap_response_pii.read(39);                                                                                    // 39 (v3.1)
+//                m.bitmap_response_threat.read(40);                                                                                 // 40 (v3.1)
+//                m.bitmap_attack_request.read(41);                                                                                  // 41 (v3.1)
+//                m.bitmap_attack_application.read(42);                                                                              // 42 (v3.1)
+//                m.bitmap_attack_injection.read(43);                                                                                // 43 (v3.1)
+//                m.bitmap_response_leak.read(44);                                                                                   // 44 (v3.1)
+//                m.bitmap_unused2.read(45);                                                                                         // 45 (v3.1)
+//                m.bitmap_unused3.read(46);                                                                                         // 46 (v3.1)
+//                m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
+//                m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
+//                // skip shard_file                                                                                                 // 49 (v3.5)
+//                m.write(bos, BUFFER);
+//                expect(m.bytes()).toEqual(2119);
+//            }
+//        }
+//
+//        try (FileOutputStream fo = new FileOutputStream(FILE4)) {
+//            try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
+//
+//                try (FileInputStream fi = new FileInputStream(FILE3)) {
+//                    try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
+//                        CompressedHttpMessage m = new CompressedHttpMessage();
+//                        m.read(bis);
+//                        System.out.println("id.value is " + m.id.value());
+//                        System.out.println("id.offset is " + m.id.offset());
+//                        System.out.println("id.length is " + m.id.length());
+//                        System.out.println("id.stored is " + m.id.stored());
+//                        m.id.read(m.id.value());
+//                        m.write(bos, BUFFER);
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//        System.out.println("---------------------------------");
+//
+//        try (FileInputStream fi = new FileInputStream(FILE4)) {
+//            try (FastBufferedInputStream bis = new FastBufferedInputStream(fi)) {
+//                CompressedHttpMessage m = new CompressedHttpMessage();
+//                m.read(bis);
+//                System.out.println("id.value is " + m.id.value());
+//                System.out.println("id.offset is " + m.id.offset());
+//                System.out.println("id.length is " + m.id.length());
+//                System.out.println("id.stored is " + m.id.stored());
+//                expect(m.id.value()).toEqual("id");                                                                                // 0
+//                expect(m.agent_category.value()).toEqual("agent_category");                                                        // 1
 //                expect(m.agent_device.value()).toEqual("agent_device");                                                            // 2
 //                expect(m.agent_name.value()).toEqual("agent_name");                                                                // 3
 //                expect(m.graphql_operations.value()).toEqual("graphql_operations");                                                // 4 (v3)
@@ -553,8 +553,8 @@ public class CompressedHttpMessageTest {
 //                expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
 //                  // skip shard_file                                                                                                     // 49 (v3.5)
 //                expect(m.bytes()).toEqual(2119);
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
 }

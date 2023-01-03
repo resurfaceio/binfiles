@@ -1,5 +1,5 @@
 # Contributing to resurfaceio-binfiles
-&copy; 2016-2022 Resurface Labs Inc.
+&copy; 2016-2023 Resurface Labs Inc.
 
 ## Coding Conventions
 
