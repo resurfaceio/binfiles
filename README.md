@@ -36,7 +36,7 @@ Why is this format needed, when open standards like JSON, CSV, and Avro are popu
 
 ## Dependencies
 
-* Java 11
+* Java 17
 * [airlift/slice](https://github.com/airlift/slice)
 * [lz4/lz4-java](https://github.com/lz4/lz4-java)
 
