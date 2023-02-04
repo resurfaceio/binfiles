@@ -6,7 +6,7 @@
 
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-binfiles</artifactId>
-    <version>3.5.2</version>
+    <version>3.5.3</version>
     <name>resurfaceio-binfiles</name>
     <description>Readers and writers for binary files</description>
     <url>https://github.com/resurfaceio/binfiles</url>
