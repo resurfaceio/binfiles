@@ -68,8 +68,8 @@ Simply add these sections to `pom.xml` to install:
 ```xml
 <repositories>
     <repository>
-        <id>resurfacelabs-public</id>
-        <url>https://dl.cloudsmith.io/public/resurfacelabs/public/maven/</url>
+        <id>resurfaceio-public</id>
+        <url>https://dl.cloudsmith.io/public/resurfaceio/public/maven/</url>
         <releases>
             <enabled>true</enabled>
             <updatePolicy>always</updatePolicy>

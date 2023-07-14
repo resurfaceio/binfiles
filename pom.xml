@@ -60,28 +60,10 @@
         </dependency>
     </dependencies>
 
-    <developers>
-        <developer>
-            <id>RobDickinson</id>
-            <name>Rob Dickinson</name>
-            <url>https://github.com/RobDickinson</url>
-            <organization>resurface.io</organization>
-            <organizationUrl>https://resurface.io</organizationUrl>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <timezone>America/Denver</timezone>
-            <properties>
-                <picUrl>https://resurface.io/headshot_rob_128.jpg</picUrl>
-            </properties>
-        </developer>
-    </developers>
-
     <distributionManagement>
         <repository>
             <id>cloudsmith</id>
-            <url>https://maven.cloudsmith.io/resurfacelabs/public/</url>
+            <url>https://maven.cloudsmith.io/resurfaceio/public/</url>
         </repository>
     </distributionManagement>
 
@@ -109,8 +91,8 @@
 
     <repositories>
         <repository>
-            <id>resurfacelabs-public</id>
-            <url>https://dl.cloudsmith.io/public/resurfacelabs/public/maven/</url>
+            <id>resurfaceio-public</id>
+            <url>https://dl.cloudsmith.io/public/resurfaceio/public/maven/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
