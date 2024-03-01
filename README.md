@@ -56,7 +56,7 @@ Simply add these sections to `pom.xml` to install:
 <dependency>
     <groupId>io.airlift</groupId>
     <artifactId>slice</artifactId>
-    <version>0.44</version>
+    <version>2.2</version>
 </dependency>
 <dependency>
     <groupId>org.lz4</groupId>
