@@ -7,8 +7,9 @@ native Trino/Airlift types. This library handles file versioning, supports incre
 provides compression based on LZ4 and field-specific dictionaries. All out-of-the-box, without any configuration.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/resurfaceio/binfiles/badge)](https://www.codefactor.io/repository/github/resurfaceio/binfiles)
-[![License](https://img.shields.io/github/license/resurfaceio/binfiles)](https://github.com/resurfaceio/binfiles/blob/v3.5.x/LICENSE)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-green.svg)](https://github.com/resurfaceio/binfiles/blob/v3.5.x/CONTRIBUTING.md)
+[![License](https://img.shields.io/github/license/resurfaceio/binfiles)](https://github.com/resurfaceio/binfiles/blob/v3.5.x/LICENSE)
+[![Hosted By: Cloudsmith](https://img.shields.io/badge/OSS%20hosting%20by-cloudsmith-blue?logo=cloudsmith&style=flat-square)](https://cloudsmith.io/~resurfaceio/repos/public/packages/)
 
 ## Usage
 
@@ -42,8 +43,8 @@ Why is this format needed, when open standards like JSON, CSV, and Avro are popu
 
 ## Installing with Maven
 
-⚠️ We publish our official binaries on [CloudSmith](https://cloudsmith.com) rather than Maven Central,
-because CloudSmith is awesome.
+⚠️ We publish our official binaries on [CloudSmith](https://cloudsmith.io/~resurfaceio/repos/public/packages/) rather than Maven Central,
+because CloudSmith is awesome and **free** for open-source projects.
 
 Simply add these sections to `pom.xml` to install:
 
