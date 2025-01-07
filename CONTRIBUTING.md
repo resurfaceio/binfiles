@@ -1,5 +1,5 @@
 # Contributing to resurfaceio-binfiles
-&copy; 2016-2024 Graylog, Inc.
+&copy; 2016-2025 Graylog, Inc.
 
 ## Coding Conventions
 
