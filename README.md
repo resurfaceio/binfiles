@@ -80,4 +80,4 @@ Simply add these sections to `pom.xml` to install:
 ```
 
 ---
-<small>&copy; 2016-2025 <a href="https://resurface.io">Graylog, Inc.</a></small>
+<small>&copy; 2016-2025 <a href="https://graylog.org">Graylog, Inc.</a></small>
