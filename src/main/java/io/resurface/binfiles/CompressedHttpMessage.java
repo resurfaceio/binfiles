@@ -13,63 +13,60 @@ import static io.resurface.binfiles.HashedDictionaries.*;
 /**
  * Persistent binary format for HTTP messages with automatic field-level compression.
  */
-public final class CompressedHttpMessage extends PersistentHttpMessage {
+public final class CompressedHttpMessage {
 
-    /**
-     * Default constructor.
-     */
-    public CompressedHttpMessage() {
-        this.id = new BinaryHttpMessageString();                                                                                   // 0
-        this.agent_category = new HashedHttpMessageString(AGENT_CATEGORIES);                                                       // 1
-        this.agent_device = new HashedHttpMessageString(AGENT_DEVICES);                                                            // 2
-        this.agent_name = new HashedHttpMessageString(AGENT_NAMES);                                                                // 3
-        this.graphql_operations = new CompressedHttpMessageString();                                                               // 4 (v3)
-        this.graphql_operations_count = new BinaryHttpMessageInteger();                                                            // 5 (v3)
-        this.host = new BinaryHttpMessageString();                                                                                 // 6
-        this.interval_millis = new BinaryHttpMessageLong();                                                                        // 7
-        this.request_body = new CompressedHttpMessageString();                                                                     // 8
-        this.request_content_type = new HashedHttpMessageString(CONTENT_TYPES);                                                    // 9
-        this.request_headers = new CompressedHttpMessageString();                                                                  // 10
-        this.request_json_type = new HashedHttpMessageString(JSON_TYPES);                                                          // 11
-        this.request_method = new HashedHttpMessageString(REQUEST_METHODS);                                                        // 12
-        this.request_params = new CompressedHttpMessageString();                                                                   // 13
-        this.request_url = new CompressedHttpMessageString();                                                                      // 14
-        this.request_user_agent = new BinaryHttpMessageString();                                                                   // 15
-        this.response_body = new CompressedHttpMessageString();                                                                    // 16
-        this.response_code = new HashedHttpMessageString(RESPONSE_CODES);                                                          // 17
-        this.response_content_type = new HashedHttpMessageString(CONTENT_TYPES);                                                   // 18
-        this.response_headers = new CompressedHttpMessageString();                                                                 // 19
-        this.response_json_type = new HashedHttpMessageString(JSON_TYPES);                                                         // 20
-        this.response_time_millis = new BinaryHttpMessageLong();                                                                   // 21
-        this.size_request_bytes = new BinaryHttpMessageInteger();                                                                  // 22
-        this.size_response_bytes = new BinaryHttpMessageInteger();                                                                 // 23
-        this.custom_fields = new BinaryHttpMessageString();                                                                        // 24 (v3)
-        this.request_address = new BinaryHttpMessageString();                                                                      // 25 (v3)
-        this.session_fields = new CompressedHttpMessageString();                                                                   // 26 (v3)
-        this.cookies = new CompressedHttpMessageString();                                                                          // 27 (v3)
-        this.cookies_count = new BinaryHttpMessageInteger();                                                                       // 28 (v3)
-        // reserved for response_status                                                                                            // 29 (v3.1)
-        // reserved for size_total_bytes                                                                                           // 30 (v3.1)
-        this.bitmap_versioning = new BinaryHttpMessageInteger();                                                                   // 31 (v3.1)
-        this.bitmap_request_info = new BinaryHttpMessageInteger();                                                                 // 32 (v3.1)
-        this.bitmap_request_json = new BinaryHttpMessageInteger();                                                                 // 33 (v3.1)
-        this.bitmap_request_graphql = new BinaryHttpMessageInteger();                                                              // 34 (v3.1)
-        this.bitmap_request_pii = new BinaryHttpMessageInteger();                                                                  // 35 (v3.1)
-        this.bitmap_request_threat = new BinaryHttpMessageInteger();                                                               // 36 (v3.1)
-        this.bitmap_response_info = new BinaryHttpMessageInteger();                                                                // 37 (v3.1)
-        this.bitmap_response_json = new BinaryHttpMessageInteger();                                                                // 38 (v3.1)
-        this.bitmap_response_pii = new BinaryHttpMessageInteger();                                                                 // 39 (v3.1)
-        this.bitmap_response_threat = new BinaryHttpMessageInteger();                                                              // 40 (v3.1)
-        this.bitmap_attack_request = new BinaryHttpMessageInteger();                                                               // 41 (v3.1)
-        this.bitmap_attack_application = new BinaryHttpMessageInteger();                                                           // 42 (v3.1)
-        this.bitmap_attack_injection = new BinaryHttpMessageInteger();                                                             // 43 (v3.1)
-        this.bitmap_response_leak = new BinaryHttpMessageInteger();                                                                // 44 (v3.1)
-        this.bitmap_unused2 = new BinaryHttpMessageInteger();                                                                      // 45 (v3.1)
-        this.bitmap_unused3 = new BinaryHttpMessageInteger();                                                                      // 46 (v3.1)
-        this.bitmap_unused4 = new BinaryHttpMessageInteger();                                                                      // 47 (v3.1)
-        this.bitmap_unused5 = new BinaryHttpMessageInteger();                                                                      // 48 (v3.1)
-        // reserved for shard_file                                                                                                 // 49 (v3.5)
-    }
+    public final BinaryHttpMessageString id = new BinaryHttpMessageString();                                                       // 0
+    public final HashedHttpMessageString agent_category = new HashedHttpMessageString(AGENT_CATEGORIES);                           // 1
+    public final HashedHttpMessageString agent_device = new HashedHttpMessageString(AGENT_DEVICES);                                // 2
+    public final HashedHttpMessageString agent_name = new HashedHttpMessageString(AGENT_NAMES);                                    // 3
+    public final CompressedHttpMessageString graphql_operations = new CompressedHttpMessageString();                               // 4 (v3)
+    public final BinaryHttpMessageInteger graphql_operations_count = new BinaryHttpMessageInteger();                               // 5 (v3)
+    public final BinaryHttpMessageString host = new BinaryHttpMessageString();                                                     // 6
+    public final BinaryHttpMessageLong interval_millis = new BinaryHttpMessageLong();                                              // 7
+    public final CompressedHttpMessageString request_body = new CompressedHttpMessageString();                                     // 8
+    public final HashedHttpMessageString request_content_type = new HashedHttpMessageString(CONTENT_TYPES);                        // 9
+    public final CompressedHttpMessageString request_headers = new CompressedHttpMessageString();                                  // 10
+    public final HashedHttpMessageString request_json_type = new HashedHttpMessageString(JSON_TYPES);                              // 11
+    public final HashedHttpMessageString request_method = new HashedHttpMessageString(REQUEST_METHODS);                            // 12
+    public final CompressedHttpMessageString request_params = new CompressedHttpMessageString();                                   // 13
+    public final CompressedHttpMessageString request_url = new CompressedHttpMessageString();                                      // 14
+    public final BinaryHttpMessageString request_user_agent = new BinaryHttpMessageString();                                       // 15
+    public final CompressedHttpMessageString response_body = new CompressedHttpMessageString();                                    // 16
+    public final HashedHttpMessageString response_code = new HashedHttpMessageString(RESPONSE_CODES);                              // 17
+    public final HashedHttpMessageString response_content_type = new HashedHttpMessageString(CONTENT_TYPES);                       // 18
+    public final CompressedHttpMessageString response_headers = new CompressedHttpMessageString();                                 // 19
+    public final HashedHttpMessageString response_json_type = new HashedHttpMessageString(JSON_TYPES);                             // 20
+    public final BinaryHttpMessageLong response_time_millis = new BinaryHttpMessageLong();                                         // 21
+    public final BinaryHttpMessageInteger size_request_bytes = new BinaryHttpMessageInteger();                                     // 22
+    public final BinaryHttpMessageInteger size_response_bytes = new BinaryHttpMessageInteger();                                    // 23
+    public final BinaryHttpMessageString custom_fields = new BinaryHttpMessageString();                                            // 24 (v3)
+    public final BinaryHttpMessageString request_address = new BinaryHttpMessageString();                                          // 25 (v3)
+    public final CompressedHttpMessageString session_fields = new CompressedHttpMessageString();                                   // 26 (v3)
+    public final CompressedHttpMessageString cookies = new CompressedHttpMessageString();                                          // 27 (v3)
+    public final BinaryHttpMessageInteger cookies_count = new BinaryHttpMessageInteger();                                          // 28 (v3)
+    // reserved for response_status                                                                                                // 29 (v3.1)
+    // reserved for size_total_bytes                                                                                               // 30 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_versioning = new BinaryHttpMessageInteger();                                      // 31 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_info = new BinaryHttpMessageInteger();                                    // 32 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_json = new BinaryHttpMessageInteger();                                    // 33 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_graphql = new BinaryHttpMessageInteger();                                 // 34 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_pii = new BinaryHttpMessageInteger();                                     // 35 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_request_threat = new BinaryHttpMessageInteger();                                  // 36 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_info = new BinaryHttpMessageInteger();                                   // 37 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_json = new BinaryHttpMessageInteger();                                   // 38 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_pii = new BinaryHttpMessageInteger();                                    // 39 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_threat = new BinaryHttpMessageInteger();                                 // 40 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_attack_request = new BinaryHttpMessageInteger();                                  // 41 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_attack_application = new BinaryHttpMessageInteger();                              // 42 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_attack_injection = new BinaryHttpMessageInteger();                                // 43 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_response_leak = new BinaryHttpMessageInteger();                                   // 44 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_unused2 = new BinaryHttpMessageInteger();                                         // 45 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_unused3 = new BinaryHttpMessageInteger();                                         // 46 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_unused4 = new BinaryHttpMessageInteger();                                         // 47 (v3.1)
+    public final BinaryHttpMessageInteger bitmap_unused5 = new BinaryHttpMessageInteger();                                         // 48 (v3.1)
+    // reserved for shard_file                                                                                                     // 49 (v3.5)
+    public final CompressedHttpMessageString pii_tokens = new CompressedHttpMessageString();                                       // 50 (v3.7)
+    public final BinaryHttpMessageInteger pii_tokens_count = new BinaryHttpMessageInteger();                                       // 51 (v3.7)
 
     private byte[] buffer;
     private ByteBuffer bytebuffer;
@@ -132,6 +129,8 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         // skip bitmap_unused4                                                                                                     // 47 (v3.1)
         // skip bitmap_unused5                                                                                                     // 48 (v3.1)
         // skip shard_file                                                                                                         // 49 (v3.5)
+        pii_tokens.buffer(buffer);                                                                                                 // 50 (v3.7)
+        // skip pii_tokens_count                                                                                                   // 51 (v3.7)
     }
 
     /**
@@ -189,6 +188,8 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         result += bitmap_unused4.bytes();                                                                                          // 47 (v3.1)
         result += bitmap_unused5.bytes();                                                                                          // 48 (v3.1)
         // skip shard_file                                                                                                         // 49 (v3.5)
+        result += pii_tokens.bytes();                                                                                              // 50 (v3.7)
+        result += pii_tokens_count.bytes();                                                                                        // 51 (v3.7)
         return result;
     }
 
@@ -200,14 +201,17 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         if ((header[0] != 0) || (header[1] != 0) || (header[2] != 0))
             throw new RuntimeException("Invalid header padding");
 
-        if (header[3] != 33) throw new RuntimeException("Invalid header version");
+        int version;
+        if (header[3] == 33) version = 33;
+        else if (header[3] == 37) version = 37;
+        else throw new RuntimeException("Invalid header version");
 
         int len = readInt(header[4], header[5], header[6], header[7]);
         if (buffer == null || buffer.length < len) allocate(len);
         if (in.read(buffer, 0, len) < len) throw new EOFException();
         ByteBuffer bb = bytebuffer.rewind();
 
-        int offset = 232;
+        int offset = (version == 33) ? 232 : 244;
         offset += id.read(offset, bb);                                                                                             // 0
         offset += agent_category.read(offset, bb);                                                                                 // 1
         offset += agent_device.read(offset, bb);                                                                                   // 2
@@ -235,7 +239,7 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         offset += custom_fields.read(offset, bb);                                                                                  // 24 (v3)
         offset += request_address.read(offset, bb);                                                                                // 25 (v3)
         offset += session_fields.read(offset, bb);                                                                                 // 26 (v3)
-        cookies.read(offset, bb);                                                                                                  // 27 (v3)
+        offset += cookies.read(offset, bb);                                                                                        // 27 (v3)
         cookies_count.read(bb.getInt());                                                                                           // 28 (v3)
         // skip response_status                                                                                                    // 29 (v3.1)
         // skip size_total_bytes                                                                                                   // 30 (v3.1)
@@ -258,6 +262,10 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         bitmap_unused4.read(bb.getInt());                                                                                          // 47 (v3.1)
         bitmap_unused5.read(bb.getInt());                                                                                          // 48 (v3.1)
         // skip shard_file                                                                                                         // 49 (v3.5)
+        if (version == 37) {
+            offset += pii_tokens.read(offset, bb);                                                                                 // 50 (v3.7)
+            pii_tokens_count.read(bb.getInt());                                                                                    // 51 (v3.7)
+        }
     }
 
     /**
@@ -317,6 +325,8 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         bitmap_unused4.write(bb);                                                                                                  // 47 (v3.1)
         bitmap_unused5.write(bb);                                                                                                  // 48 (v3.1)
         // skip shard_file                                                                                                         // 49 (v3.5)
+        pii_tokens.write(bb);                                                                                                      // 50 (v3.7)
+        pii_tokens_count.write(bb);                                                                                                // 51 (v3.7)
 
         // write variable-length data
         id.writeContents(bb);                                                                                                      // 0
@@ -369,12 +379,38 @@ public final class CompressedHttpMessage extends PersistentHttpMessage {
         // skip bitmap_unused4                                                                                                     // 47 (v3.1)
         // skip bitmap_unused5                                                                                                     // 48 (v3.1)
         // skip shard_file                                                                                                         // 49 (v3.5)
+        pii_tokens.writeContents(bb);                                                                                              // 50 (v3.7)
+        // skip pii_tokens_count                                                                                                   // 51 (v3.7)
 
         // write to stream
-        writeInt(out, 33);
+        writeInt(out, 37);
         int position = bb.position();
         writeInt(out, position);
         out.write(temp, 0, position);
+    }
+
+    /**
+     * Returns integer from 4 bytes in big-endian order.
+     */
+    private int readInt(byte b1, byte b2, byte b3, byte b4) {
+        return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
+    }
+
+    /**
+     * Writes integer to output stream.
+     */
+    private void writeInt(OutputStream out, int value) throws IOException {
+        if (value == 0) {
+            out.write(0);
+            out.write(0);
+            out.write(0);
+            out.write(0);
+        } else {
+            out.write((value >>> 24) & 0xFF);
+            out.write((value >>> 16) & 0xFF);
+            out.write((value >>> 8) & 0xFF);
+            out.write((value) & 0xFF);
+        }
     }
 
 }
