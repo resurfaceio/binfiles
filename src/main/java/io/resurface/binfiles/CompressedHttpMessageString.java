@@ -16,10 +16,10 @@ import java.nio.charset.StandardCharsets;
  */
 public final class CompressedHttpMessageString extends PersistentHttpMessageString {
 
-    private final LZ4Compressor compressor;
-    private final LZ4FastDecompressor decompressor;
-    private final int threshold;
+    public static final LZ4Compressor COMPRESSOR = LZ4Factory.fastestInstance().fastCompressor();
+    public static final LZ4FastDecompressor DECOMPRESSOR = LZ4Factory.fastestInstance().fastDecompressor();
 
+    private final int threshold;
     private byte[] buf;
     private int len;
     private int offset;
@@ -37,8 +37,6 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
      * Constructor with custom compression threshold.
      */
     public CompressedHttpMessageString(int threshold) {
-        this.compressor = LZ4Factory.fastestInstance().fastCompressor();
-        this.decompressor = LZ4Factory.fastestInstance().fastDecompressor();
         this.threshold = threshold;
     }
 
@@ -105,9 +103,9 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
             if (len < threshold) {
                 stored = buf.length;
             } else {
-                int max_length = compressor.maxCompressedLength(buf.length);
+                int max_length = COMPRESSOR.maxCompressedLength(buf.length);
                 if (temp == null || temp.length < max_length) temp = new byte[max_length];
-                stored = compressor.compress(buf, 0, len, temp, 0, temp.length);
+                stored = COMPRESSOR.compress(buf, 0, len, temp, 0, temp.length);
                 buf = temp;
             }
         }
@@ -130,7 +128,7 @@ public final class CompressedHttpMessageString extends PersistentHttpMessageStri
             return Slices.wrappedBuffer(buf, offset, len);
         } else {
             if (temp == null || temp.length < len) temp = new byte[len];
-            int read = decompressor.decompress(buf, offset, temp, 0, len);
+            int read = DECOMPRESSOR.decompress(buf, offset, temp, 0, len);
             if (read != stored) throw new IllegalStateException("Decompression failed: read=" + read + ", stored=" + stored);
             return Slices.wrappedBuffer(temp, 0, len);
         }
