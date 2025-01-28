@@ -52,7 +52,7 @@ Simply add these sections to `pom.xml` to install:
 <dependency>
     <groupId>io.resurface</groupId>
     <artifactId>resurfaceio-binfiles</artifactId>
-    <version>3.7.2</version>
+    <version>3.7.3</version>
 </dependency>
 <dependency>
     <groupId>io.airlift</groupId>
