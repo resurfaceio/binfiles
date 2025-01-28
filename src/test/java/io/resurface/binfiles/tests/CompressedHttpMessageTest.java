@@ -28,7 +28,7 @@ public class CompressedHttpMessageTest {
             try (FastBufferedOutputStream bos = new FastBufferedOutputStream(fo)) {
                 CompressedHttpMessage m = new CompressedHttpMessage();
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(252);
+                expect(m.bytes()).toEqual(264);
             }
         }
 
@@ -109,9 +109,18 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused4.value()).toEqual(0);                                                                       // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(0);                                                                       // 48 (v3.1)
                 // skip shard_file                                                                                                 // 49 (v3.5)
-                expect(m.pii_tokens.isNull()).toBeTrue();                                                                          // 50 (v3.7)
-                expect(m.pii_tokens_count.value()).toEqual(0);                                                                     // 51 (v3.7)
-                expect(m.bytes()).toEqual(252);
+                // skip size_host_bytes                                                                                            // 50 (v3.6)
+                // skip size_request_body_bytes                                                                                    // 51 (v3.6)
+                // skip size_request_headers_bytes                                                                                 // 52 (v3.6)
+                // skip size_request_params_bytes                                                                                  // 53 (v3.6)
+                // skip size_request_url_bytes                                                                                     // 54 (v3.6)
+                // skip size_response_body_bytes                                                                                   // 55 (v3.6)
+                // skip size_response_headers_bytes                                                                                // 56 (v3.6)
+                expect(m.request_pii_tokens.isNull()).toBeTrue();                                                                  // 57 (v3.7)
+                expect(m.request_pii_tokens_count.value()).toEqual(0);                                                             // 58 (v3.7)
+                expect(m.response_pii_tokens.isNull()).toBeTrue();                                                                 // 59 (v3.7)
+                expect(m.response_pii_tokens_count.value()).toEqual(0);                                                            // 60 (v3.7)
+                expect(m.bytes()).toEqual(264);
             }
         }
     }
@@ -194,11 +203,21 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
                 // skip shard_file                                                                                                 // 49 (v3.5)
-                m.pii_tokens.read("pii_tokens 😀");                                                                                // 50 (v3.7)
-                expect(m.pii_tokens.isNull()).toBeFalse();
-                m.pii_tokens_count.read(78);                                                                                       // 51 (v3.7)
+                // skip size_host_bytes                                                                                            // 50 (v3.6)
+                // skip size_request_body_bytes                                                                                    // 51 (v3.6)
+                // skip size_request_headers_bytes                                                                                 // 52 (v3.6)
+                // skip size_request_params_bytes                                                                                  // 53 (v3.6)
+                // skip size_request_url_bytes                                                                                     // 54 (v3.6)
+                // skip size_response_body_bytes                                                                                   // 55 (v3.6)
+                // skip size_response_headers_bytes                                                                                // 56 (v3.6)
+                m.request_pii_tokens.read("request_pii_tokens 😀");                                                                // 57 (v3.7)
+                expect(m.request_pii_tokens.isNull()).toBeFalse();
+                m.request_pii_tokens_count.read(78);                                                                               // 58 (v3.7)
+                m.response_pii_tokens.read("response_pii_tokens 😀");                                                              // 59 (v3.7)
+                expect(m.response_pii_tokens.isNull()).toBeFalse();
+                m.response_pii_tokens_count.read(89);                                                                              // 60 (v3.7)
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(693);
+                expect(m.bytes()).toEqual(737);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -281,10 +300,20 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                                      // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
                 // skip shard_file                                                                                                 // 49 (v3.5)
-                expect(m.pii_tokens.value()).toEqual("pii_tokens 😀");                                                             // 50 (v3.7)
-                expect(m.pii_tokens.isNull()).toBeFalse();
-                expect(m.pii_tokens_count.value()).toEqual(78);                                                                    // 51 (v3.7)
-                expect(m.bytes()).toEqual(693);
+                // skip size_host_bytes                                                                                            // 50 (v3.6)
+                // skip size_request_body_bytes                                                                                    // 51 (v3.6)
+                // skip size_request_headers_bytes                                                                                 // 52 (v3.6)
+                // skip size_request_params_bytes                                                                                  // 53 (v3.6)
+                // skip size_request_url_bytes                                                                                     // 54 (v3.6)
+                // skip size_response_body_bytes                                                                                   // 55 (v3.6)
+                // skip size_response_headers_bytes                                                                                // 56 (v3.6)
+                expect(m.request_pii_tokens.value()).toEqual("request_pii_tokens 😀");                                             // 57 (v3.7)
+                expect(m.request_pii_tokens.isNull()).toBeFalse();
+                expect(m.request_pii_tokens_count.value()).toEqual(78);                                                            // 58 (v3.7)
+                expect(m.response_pii_tokens.value()).toEqual("response_pii_tokens 😀");                                           // 59 (v3.7)
+                expect(m.response_pii_tokens.isNull()).toBeFalse();
+                expect(m.response_pii_tokens_count.value()).toEqual(89);                                                           // 60 (v3.7)
+                expect(m.bytes()).toEqual(737);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
@@ -351,8 +380,20 @@ public class CompressedHttpMessageTest {
                 m.bitmap_unused4.read(47);                                                                                         // 47 (v3.1)
                 m.bitmap_unused5.read(48);                                                                                         // 48 (v3.1)
                 // skip shard_file                                                                                                 // 49 (v3.5)
+                // skip size_host_bytes                                                                                            // 50 (v3.6)
+                // skip size_request_body_bytes                                                                                    // 51 (v3.6)
+                // skip size_request_headers_bytes                                                                                 // 52 (v3.6)
+                // skip size_request_params_bytes                                                                                  // 53 (v3.6)
+                // skip size_request_url_bytes                                                                                     // 54 (v3.6)
+                // skip size_response_body_bytes                                                                                   // 55 (v3.6)
+                // skip size_response_headers_bytes                                                                                // 56 (v3.6)
+                m.request_pii_tokens.read("request_pii_tokens");                                                                   // 57 (v3.7)
+                m.request_pii_tokens_count.read(58);                                                                               // 58 (v3.7)
+                m.response_pii_tokens.read("response_pii_tokens");                                                                 // 59 (v3.7)
+                m.response_pii_tokens_count.read(60);                                                                              // 60 (v3.7)
+
                 m.write(bos, BUFFER);
-                expect(m.bytes()).toEqual(2131);
+                expect(m.bytes()).toEqual(2180);
                 m.id.read("id2");
                 m.write(bos, BUFFER);
             }
@@ -412,7 +453,18 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                                      // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
                 // skip shard_file                                                                                                 // 49 (v3.5)
-                expect(m.bytes()).toEqual(2131);
+                // skip size_host_bytes                                                                                            // 50 (v3.6)
+                // skip size_request_body_bytes                                                                                    // 51 (v3.6)
+                // skip size_request_headers_bytes                                                                                 // 52 (v3.6)
+                // skip size_request_params_bytes                                                                                  // 53 (v3.6)
+                // skip size_request_url_bytes                                                                                     // 54 (v3.6)
+                // skip size_response_body_bytes                                                                                   // 55 (v3.6)
+                // skip size_response_headers_bytes                                                                                // 56 (v3.6)
+                expect(m.request_pii_tokens.value()).toEqual("request_pii_tokens");                                                // 57 (v3.7)
+                expect(m.request_pii_tokens_count.value()).toEqual(58);                                                            // 58 (v3.7)
+                expect(m.response_pii_tokens.value()).toEqual("response_pii_tokens");                                              // 59 (v3.7)
+                expect(m.response_pii_tokens_count.value()).toEqual(60);                                                           // 60 (v3.7)
+                expect(m.bytes()).toEqual(2180);
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }
@@ -475,8 +527,17 @@ public class CompressedHttpMessageTest {
                 expect(m.bitmap_unused4.value()).toEqual(47);                                                                      // 47 (v3.1)
                 expect(m.bitmap_unused5.value()).toEqual(48);                                                                      // 48 (v3.1)
                 // skip shard_file                                                                                                 // 49 (v3.5)
-                expect(m.pii_tokens.isNull()).toBeTrue();                                                                          // 50 (v3.7)
-                expect(m.pii_tokens_count.value()).toEqual(0);                                                                     // 51 (v3.7)
+                // skip size_host_bytes                                                                                            // 50 (v3.6)
+                // skip size_request_body_bytes                                                                                    // 51 (v3.6)
+                // skip size_request_headers_bytes                                                                                 // 52 (v3.6)
+                // skip size_request_params_bytes                                                                                  // 53 (v3.6)
+                // skip size_request_url_bytes                                                                                     // 54 (v3.6)
+                // skip size_response_body_bytes                                                                                   // 55 (v3.6)
+                // skip size_response_headers_bytes                                                                                // 56 (v3.6)
+                expect(m.request_pii_tokens.isNull()).toBeTrue();                                                                  // 57 (v3.7)
+                expect(m.request_pii_tokens_count.value()).toEqual(0);                                                             // 58 (v3.7)
+                expect(m.response_pii_tokens.isNull()).toBeTrue();                                                                 // 59 (v3.7)
+                expect(m.response_pii_tokens_count.value()).toEqual(0);                                                            // 60 (v3.7)
                 m.read(bis);
                 expect(m.id.value()).toEqual("id2");
             }

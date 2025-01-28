@@ -72,8 +72,10 @@ public final class CompressedHttpMessage {
     // reserved for size_request_url_bytes                                                                                         // 54 (v3.6)
     // reserved for size_response_body_bytes                                                                                       // 55 (v3.6)
     // reserved for size_response_headers_bytes                                                                                    // 56 (v3.6)
-    public final CompressedHttpMessageString pii_tokens = new CompressedHttpMessageString();                                       // 57 (v3.7)
-    public final BinaryHttpMessageInteger pii_tokens_count = new BinaryHttpMessageInteger();                                       // 58 (v3.7)
+    public final CompressedHttpMessageString request_pii_tokens = new CompressedHttpMessageString();                               // 57 (v3.7)
+    public final BinaryHttpMessageInteger request_pii_tokens_count = new BinaryHttpMessageInteger();                               // 58 (v3.7)
+    public final CompressedHttpMessageString response_pii_tokens = new CompressedHttpMessageString();                              // 59 (v3.7)
+    public final BinaryHttpMessageInteger response_pii_tokens_count = new BinaryHttpMessageInteger();                              // 60 (v3.7)
 
     private byte[] buffer;
     private ByteBuffer bytebuffer;
@@ -143,8 +145,10 @@ public final class CompressedHttpMessage {
         // skip size_request_url_bytes                                                                                             // 54 (v3.6)
         // skip size_response_body_bytes                                                                                           // 55 (v3.6)
         // skip size_response_headers_bytes                                                                                        // 56 (v3.6)
-        pii_tokens.buffer(buffer);                                                                                                 // 57 (v3.7)
-        // skip pii_tokens_count                                                                                                   // 58 (v3.7)
+        request_pii_tokens.buffer(buffer);                                                                                         // 57 (v3.7)
+        // skip request_pii_tokens_count                                                                                           // 58 (v3.7)
+        response_pii_tokens.buffer(buffer);                                                                                        // 59 (v3.7)
+        // skip response_pii_tokens_count                                                                                          // 60 (v3.7)
     }
 
     /**
@@ -209,8 +213,10 @@ public final class CompressedHttpMessage {
         // skip size_request_url_bytes                                                                                             // 54 (v3.6)
         // skip size_response_body_bytes                                                                                           // 55 (v3.6)
         // skip size_response_headers_bytes                                                                                        // 56 (v3.6)
-        result += pii_tokens.bytes();                                                                                              // 57 (v3.7)
-        result += pii_tokens_count.bytes();                                                                                        // 58 (v3.7)
+        result += request_pii_tokens.bytes();                                                                                      // 57 (v3.7)
+        result += request_pii_tokens_count.bytes();                                                                                // 58 (v3.7)
+        result += response_pii_tokens.bytes();                                                                                     // 59 (v3.7)
+        result += response_pii_tokens_count.bytes();                                                                               // 60 (v3.7)
         return result;
     }
 
@@ -232,7 +238,7 @@ public final class CompressedHttpMessage {
         if (in.read(buffer, 0, len) < len) throw new EOFException();
         ByteBuffer bb = bytebuffer.rewind();
 
-        int offset = (version == 33) ? 232 : 244;
+        int offset = (version == 33) ? 232 : 256;
         offset += id.read(offset, bb);                                                                                             // 0
         offset += agent_category.read(offset, bb);                                                                                 // 1
         offset += agent_device.read(offset, bb);                                                                                   // 2
@@ -291,8 +297,10 @@ public final class CompressedHttpMessage {
         // skip size_response_body_bytes                                                                                           // 55 (v3.6)
         // skip size_response_headers_bytes                                                                                        // 56 (v3.6)
         if (version == 37) {
-            offset += pii_tokens.read(offset, bb);                                                                                 // 57 (v3.7)
-            pii_tokens_count.read(bb.getInt());                                                                                    // 58 (v3.7)
+            offset += request_pii_tokens.read(offset, bb);                                                                         // 57 (v3.7)
+            request_pii_tokens_count.read(bb.getInt());                                                                            // 58 (v3.7)
+            offset += response_pii_tokens.read(offset, bb);                                                                        // 59 (v3.7)
+            response_pii_tokens_count.read(bb.getInt());                                                                           // 60 (v3.7)
         }
     }
 
@@ -360,8 +368,10 @@ public final class CompressedHttpMessage {
         // skip size_request_url_bytes                                                                                             // 54 (v3.6)
         // skip size_response_body_bytes                                                                                           // 55 (v3.6)
         // skip size_response_headers_bytes                                                                                        // 56 (v3.6)
-        pii_tokens.write(bb);                                                                                                      // 57 (v3.7)
-        pii_tokens_count.write(bb);                                                                                                // 58 (v3.7)
+        request_pii_tokens.write(bb);                                                                                              // 57 (v3.7)
+        request_pii_tokens_count.write(bb);                                                                                        // 58 (v3.7)
+        response_pii_tokens.write(bb);                                                                                             // 59 (v3.7)
+        response_pii_tokens_count.write(bb);                                                                                       // 60 (v3.7)
 
         // write variable-length data
         id.writeContents(bb);                                                                                                      // 0
@@ -421,8 +431,10 @@ public final class CompressedHttpMessage {
         // skip size_request_url_bytes                                                                                             // 54 (v3.6)
         // skip size_response_body_bytes                                                                                           // 55 (v3.6)
         // skip size_response_headers_bytes                                                                                        // 56 (v3.6)
-        pii_tokens.writeContents(bb);                                                                                              // 57 (v3.7)
-        // skip pii_tokens_count                                                                                                   // 58 (v3.7)
+        request_pii_tokens.writeContents(bb);                                                                                      // 57 (v3.7)
+        // skip request_pii_tokens_count                                                                                           // 58 (v3.7)
+        response_pii_tokens.writeContents(bb);                                                                                     // 59 (v3.7)
+        // skip response_pii_tokens_count                                                                                          // 60 (v3.7)
 
         // write to stream
         writeInt(out, 37);
